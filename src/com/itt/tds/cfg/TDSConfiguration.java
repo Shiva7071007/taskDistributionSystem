@@ -1,6 +1,8 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
+import java.net.URL;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -41,8 +43,8 @@ public class TDSConfiguration {
 
 		String dbConnectionString = null;
 		try {
-			String configFilePath = "F:\\workingCode\\taskdistributionsystem\\src\\com\\itt\\tds\\cfg\\TDS.xml";
-			File configFile = new File(configFilePath);
+			URL configFilePath = getClass().getResource("TDS.xml");
+			File configFile = new File(configFilePath.getPath());
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document configXML = documentBuilder.parse(configFile);
