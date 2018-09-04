@@ -10,8 +10,9 @@ import java.util.*;
  *   </database>
  * </tds>
  */
-private class TDSConfiguration {
-
+public class TDSConfiguration {
+	XMLConfiguration configRead = new XMLConfiguration("TDS.xml");
+	
     /**
      * Default constructor
      */
@@ -19,7 +20,9 @@ private class TDSConfiguration {
     }
 
     /**
-     * Should return the instance of TDSConfiguration object, the code should make sure only one instance of the object in the application regardless of the number of times the getInstance() method is called on the object.
+     * Should return the instance of TDSConfiguration object, 
+     * the code should make sure only one instance of the object in the application 
+     * regardless of the number of times the getInstance() method is called on the object.
      * @return
      */
     public static synchronized TDSConfiguration getInstance() {
@@ -32,7 +35,13 @@ private class TDSConfiguration {
      */
     public String getDBConnectionString() {
         // TODO implement here
-        return "";
+    	String settingValue = configRead.getString("tds");
+        //return "";
+    	return settingValue;
+    }
+    
+    public static void main(String args[]) {
+    	System.out.println("hello");
     }
 
 }
