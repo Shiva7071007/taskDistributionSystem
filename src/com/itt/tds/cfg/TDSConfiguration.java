@@ -49,13 +49,10 @@ public class TDSConfiguration {
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document configXML = documentBuilder.parse(configFile);
 			configXML.getDocumentElement().normalize();
-			// System.out.println("Root element :" +
-			// doc.getDocumentElement().getNodeName());
+
 			NodeList databaseList = configXML.getElementsByTagName("database");
 
-			// System.out.println(nList.getLength());
 			Node nNode = databaseList.item(databaseList.getLength() - 1);
-			// System.out.println("\nCurrent Element :" + nNode.getNodeName());
 
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) nNode;
@@ -64,7 +61,6 @@ public class TDSConfiguration {
 				String userName = element.getElementsByTagName("db-user-name").item(0).getTextContent();
 				String userPassword = element.getElementsByTagName("db-user-password").item(0).getTextContent();
 
-				// jdbc:mysql://localhost/testing?user=uname&password=pwd"
 				dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
 			}
 
