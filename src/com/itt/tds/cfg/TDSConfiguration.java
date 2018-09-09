@@ -22,9 +22,9 @@ public class TDSConfiguration {
 	 * Default constructor
 	 */
 	private TDSConfiguration() {
-		if (TDSConfigurationInstance != null){
-            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-        }
+		if (TDSConfigurationInstance != null) {
+			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+		}
 	}
 
 	/**
@@ -35,19 +35,37 @@ public class TDSConfiguration {
 	 * @return
 	 */
 	// removed synchronized and using volatile keyword
-	// Without volatile modifier, it’s possible for another thread in Java to see 
+	// Without volatile modifier, itï¿½s possible for another thread in Java to see
 	// half initialized state of TDSConfigurationInstance variable
 	public static TDSConfiguration getInstance() {
-		//Double check locking pattern
-        if (TDSConfigurationInstance == null) { //Check for the first time
-          
-            synchronized (TDSConfiguration.class) {   //Check for the second time.
-              //if there is no instance available... create new one
-              if (TDSConfigurationInstance == null) TDSConfigurationInstance = new TDSConfiguration();
-            }
-        }
+		// Double check locking pattern
+		if (TDSConfigurationInstance == null) { // Check for the first time
 
-        return TDSConfigurationInstance;
+			synchronized (TDSConfiguration.class) { // Check for the second time.
+				// if there is no instance available... create new one
+				if (TDSConfigurationInstance == null)
+					TDSConfigurationInstance = new TDSConfiguration();
+			}
+		}
+
+		return TDSConfigurationInstance;
+	}
+
+	private NodeList getElementsByTagName(String tagName) {
+		NodeList tagNameList = null;
+		String configFileName = "TDS.xml";
+		try {
+			URL configFilePath = getClass().getResource(configFileName);
+			File configFile = new File(configFilePath.getPath());
+			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document configXML = documentBuilder.parse(configFile);
+			configXML.getDocumentElement().normalize();
+			tagNameList = configXML.getElementsByTagName(tagName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tagNameList;
 	}
 
 	/**
@@ -57,16 +75,9 @@ public class TDSConfiguration {
 
 		String dbConnectionString = null;
 		try {
-			String configFileName = "TDS.xml";
-			URL configFilePath = getClass().getResource(configFileName);
-			File configFile = new File(configFilePath.getPath());
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document configXML = documentBuilder.parse(configFile);
-			configXML.getDocumentElement().normalize();
+			String tagName = "database";
 
-			NodeList databaseList = configXML.getElementsByTagName("database");
-
+			NodeList databaseList = getElementsByTagName(tagName);
 			Node nNode = databaseList.item(databaseList.getLength() - 1);
 
 			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
@@ -78,7 +89,6 @@ public class TDSConfiguration {
 
 				dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
