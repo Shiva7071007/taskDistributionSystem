@@ -39,34 +39,30 @@ public class TDSDatabaseManager implements DBManager {
 	}
 
 	@Override
-	public int executeDMLQuery(String query) {
+	public int executeDMLQuery(Connection conn, String query) {
 		PreparedStatement pstmt = null;
 		int rowsAffected = 0;
-		Connection dbConnection = null;
 		try {
-			dbConnection = getConnection();
-			dbConnection.setAutoCommit(false);
-			pstmt = dbConnection.prepareStatement(query);
+			conn.setAutoCommit(false);
+			pstmt = conn.prepareStatement(query);
 			rowsAffected = pstmt.executeUpdate();
-			dbConnection.commit();
+			conn.commit();
 		} catch (SQLException e) {
 			try {
 				System.out.println("Transaction Failed");
-				dbConnection.rollback();
+				conn.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
 		}
-		closeConnection(dbConnection);
 		return rowsAffected;
 	}
 
 	@Override
-	public ResultSet executeSelectQuery(String query) {
+	public ResultSet executeSelectQuery(Connection conn, String query) {
 		ResultSet result = null;
 		try {
-			Connection dbConnection = getConnection();
-			Statement stmt = dbConnection.createStatement();
+			Statement stmt = conn.createStatement();
 			result = stmt.executeQuery(query);
 		} catch (SQLException e) {
 			e.printStackTrace();

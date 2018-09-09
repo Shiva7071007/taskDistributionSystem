@@ -16,12 +16,15 @@ import org.w3c.dom.Element;
  * <db-connection-string></db-connection-string> </database> </tds>
  */
 public class TDSConfiguration {
-	// XMLConfiguration configRead = new XMLConfiguration("TDS.xml");
+	private static volatile TDSConfiguration TDSConfigurationInstance;
 
 	/**
 	 * Default constructor
 	 */
-	public TDSConfiguration() {
+	private TDSConfiguration() {
+		if (TDSConfigurationInstance != null){
+            throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+        }
 	}
 
 	/**
@@ -31,9 +34,20 @@ public class TDSConfiguration {
 	 * 
 	 * @return
 	 */
-	public static synchronized TDSConfiguration getInstance() {
-		TDSConfiguration tdsConfiguration = new TDSConfiguration();
-		return tdsConfiguration;
+	// removed synchronized and using volatile keyword
+	// Without volatile modifier, it’s possible for another thread in Java to see 
+	// half initialized state of TDSConfigurationInstance variable
+	public static TDSConfiguration getInstance() {
+		//Double check locking pattern
+        if (TDSConfigurationInstance == null) { //Check for the first time
+          
+            synchronized (TDSConfiguration.class) {   //Check for the second time.
+              //if there is no instance available... create new one
+              if (TDSConfigurationInstance == null) TDSConfigurationInstance = new TDSConfiguration();
+            }
+        }
+
+        return TDSConfigurationInstance;
 	}
 
 	/**
@@ -43,7 +57,8 @@ public class TDSConfiguration {
 
 		String dbConnectionString = null;
 		try {
-			URL configFilePath = getClass().getResource("TDS.xml");
+			String configFileName = "TDS.xml";
+			URL configFilePath = getClass().getResource(configFileName);
 			File configFile = new File(configFilePath.getPath());
 			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
