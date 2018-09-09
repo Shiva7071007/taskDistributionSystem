@@ -8,9 +8,10 @@ import java.util.*;
 public interface NodeRepository {
 
     /**
-     * @param node
+     * @param node 
+     * @return
      */
-    public void Add(Node node);
+    public int Add(Node node);
 
     /**
      * @param node

@@ -8,9 +8,10 @@ import java.util.*;
 public interface ClientRepository {
 
     /**
-     * @param client
+     * @param client 
+     * @return
      */
-    public void Add(Client client);
+    public int Add(Client client);
 
     /**
      * @param client

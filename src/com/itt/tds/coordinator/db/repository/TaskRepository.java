@@ -7,11 +7,11 @@ import java.util.*;
  */
 public interface TaskRepository {
 
-
     /**
-     * @param taskInstance
+     * @param taskInstance 
+     * @return
      */
-    public void Add(Task taskInstance);
+    public int Add(Task taskInstance);
 
     /**
      * @param taskInstance
@@ -46,17 +46,5 @@ public interface TaskRepository {
      * @return
      */
     public List<Task> GetTasksByStatus(int taskStatus);
-
-    /**
-     * @param nodeId 
-     * @return
-     */
-    public List<Task> GetTasksByNodeId(int nodeId);
-
-    /**
-     * @param node 
-     * @param taskInstance
-     */
-    public void assignNode(Node node, Task taskInstance);
 
 }

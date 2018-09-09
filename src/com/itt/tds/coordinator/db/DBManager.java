@@ -1,6 +1,7 @@
 package com.itt.tds.coordinator.db;
 
-import java.util.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
 
 /**
  * 
@@ -20,15 +21,17 @@ public interface DBManager {
 
     /**
      * Should return the number of affected records due to the DML operation.
+     * @param conn 
      * @param query 
      * @return
      */
-    public int executeDMLQuery(String query);
+    public int executeDMLQuery(Connection conn, String query);
 
     /**
-     * @param query Should return either DataSet(.NET C#) or a ResultSet(Java)
+     * @param conn Should return either DataSet(.NET C#) or a ResultSet(Java)
+     * @param query 
      * @return
      */
-    public ResultSet executeSelectQuery(String query);
+    public ResultSet executeSelectQuery(Connection conn, String query);
 
 }
