@@ -5,12 +5,12 @@ import java.util.*;
 /**
  * 
  */
-public class CoOrdinator {
+public class Coordinator {
 
     /**
      * Default constructor
      */
-    public CoOrdinator() {
+    public Coordinator() {
     }
 
     /**

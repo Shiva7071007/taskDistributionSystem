@@ -9,32 +9,30 @@ import java.util.*;
  */
 public interface DBManager {
 
-	/**
-	 * This function should create the instance of Connection object based on the
-	 * Database connection parameters.
-	 * 
-	 * @return
-	 */
-	public Connection getConnection();
+    /**
+     * This function should create the instance of Connection object based on the Database connection parameters.
+     * @return
+     */
+    public Connection getConnection();
 
-	/**
-	 * @param conn
-	 */
-	public void closeConnection(Connection conn);
+    /**
+     * @param conn
+     */
+    public void closeConnection(Connection conn);
 
-	/**
-	 * Should return the number of affected records due to the DML operation.
-	 * 
-	 * @param query
-	 * @return
-	 */
-	public int executeDMLQuery(String query);
+    /**
+     * Should return the number of affected records due to the DML operation.
+     * @param conn 
+     * @param query 
+     * @return
+     */
+    public int executeDMLQuery(Connection conn, String query);
 
-	/**
-	 * @param query
-	 *            Should return either DataSet(.NET C#) or a ResultSet(Java)
-	 * @return
-	 */
-	public ResultSet executeSelectQuery(String query);
+    /**
+     * @param conn Should return either DataSet(.NET C#) or a ResultSet(Java)
+     * @param query 
+     * @return
+     */
+    public ResultSet executeSelectQuery(Connection conn, String query);
 
 }
