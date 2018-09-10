@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import com.itt.tds.cfg.TDSConfiguration;
 
-class TDSConfigurationTEST {
+class TDSConfigurationTest {
 
 	@Test
 	void testGetInstance() {
