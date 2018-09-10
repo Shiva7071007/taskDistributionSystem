@@ -39,7 +39,7 @@ public class Client {
      * @param taskId 
      * @return
      */
-    public TaskResult fetchResult(string taskId) {
+    public TaskResult fetchResult(int taskId) {
         // TODO implement here
         return null;
     }
