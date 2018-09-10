@@ -31,11 +31,9 @@ public class TDSDatabaseManager implements DBManager {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("unable to close the connection");
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

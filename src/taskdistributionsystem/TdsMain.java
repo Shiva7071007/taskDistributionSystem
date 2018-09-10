@@ -7,7 +7,7 @@ import com.itt.tds.coordinator.db.TDSDatabaseManager;
 import java.sql.Statement;
 import com.itt.tds.cfg.TDSConfiguration;;
 
-public class test {
+public class TdsMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

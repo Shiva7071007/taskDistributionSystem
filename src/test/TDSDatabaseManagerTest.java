@@ -15,7 +15,7 @@ class TDSDatabaseManagerTest {
 	private TDSDatabaseManager tdsDatabaseManager = new TDSDatabaseManager();
 
 	@Test
-	void testGetConnection() {	
+	void testGetConnection() {
 		Connection conn = tdsDatabaseManager.getConnection();
 		assertNotNull(conn);
 		try {
@@ -24,7 +24,6 @@ class TDSDatabaseManagerTest {
 			e.printStackTrace();
 		}
 	}
-	
 
 	@Test
 	void testCloseConnection() {
@@ -48,7 +47,7 @@ class TDSDatabaseManagerTest {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	@Test

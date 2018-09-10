@@ -14,7 +14,7 @@ class TDSConfigurationTest {
 		TDSConfiguration tdsCFG2 = TDSConfiguration.getInstance();
 		TDSConfiguration tdsCFG3 = TDSConfiguration.getInstance();
 		TDSConfiguration tdsCFG4 = TDSConfiguration.getInstance();
-		
+
 		assertEquals(tdsCFG1.hashCode(), tdsCFG2.hashCode());
 		assertSame(tdsCFG3, tdsCFG4);
 	}
@@ -22,10 +22,10 @@ class TDSConfigurationTest {
 	@Test
 	void testGetDBConnectionString() {
 		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password";
-		
+
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 		String result = tdsCFG.getDBConnectionString();
-		
+
 		assertEquals(dbConnectionString, result);
 	}
 }
