@@ -31,7 +31,7 @@ public class Task {
     /**
      * 
      */
-    private int taskState;
+    private TaskState taskState;
 
     /**
      * 
@@ -46,7 +46,7 @@ public class Task {
     /**
      * 
      */
-    private int programBytes;
+    private byte programBytes;
 
     /**
      * 
@@ -69,9 +69,9 @@ public class Task {
     }
 
     /**
-     * @param taskParameters
+     * @param taskExePath
      */
-    public void setTaskExePath(String taskParameters) {
+    public void setTaskExePath(String taskExePath) {
         // TODO implement here
     }
 
@@ -86,31 +86,31 @@ public class Task {
     /**
      * @param taskState
      */
-    public void setTaskState(int taskState) {
+    public void setTaskState(TaskState taskState) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public int getTaskState() {
+    public TaskState getTaskState() {
         // TODO implement here
-        return 0;
+        return null;
     }
 
     /**
      * @param taskResult
      */
-    public void setTaskResult(String taskResult) {
+    public void setTaskResult(TaskResult taskResult) {
         // TODO implement here
     }
 
     /**
      * @return
      */
-    public String getTaskResult() {
+    public TaskResult getTaskResult() {
         // TODO implement here
-        return "";
+        return null;
     }
 
     /**
@@ -124,6 +124,51 @@ public class Task {
      * @return
      */
     public int getId() {
+        // TODO implement here
+        return 0;
+    }
+
+    /**
+     * @param taskParamaters
+     */
+    public void setTaskParameters(String taskParamaters) {
+        // TODO implement here
+    }
+
+    /**
+     * @return
+     */
+    public String getTaskParameters() {
+        // TODO implement here
+        return "";
+    }
+
+    /**
+     * @param userId
+     */
+    public void setUserId(int userId) {
+        // TODO implement here
+    }
+
+    /**
+     * @return
+     */
+    public int getUserId() {
+        // TODO implement here
+        return 0;
+    }
+
+    /**
+     * @param bytes
+     */
+    public void setProgramBytes(byte bytes) {
+        // TODO implement here
+    }
+
+    /**
+     * @return
+     */
+    public byte getProgramBytes() {
         // TODO implement here
         return 0;
     }

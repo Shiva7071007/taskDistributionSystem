@@ -40,9 +40,9 @@ public class TDSDatabaseManager implements DBManager {
 
 	@Override
 	public int executeDMLQuery(Connection conn, String query) {
-		PreparedStatement pstmt = null;
 		int rowsAffected = 0;
 		try {
+			PreparedStatement pstmt = null;
 			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(query);
 			rowsAffected = pstmt.executeUpdate();

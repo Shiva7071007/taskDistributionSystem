@@ -25,9 +25,9 @@ public interface TaskRepository {
 
     /**
      * @param taskId 
-     * @param TaskStatus
+     * @param status
      */
-    public void SetTaskStatus(int taskId, int TaskStatus);
+    public void SetTaskStatus(int taskId, TaskStatus status);
 
     /**
      * @param clientId 
@@ -42,9 +42,9 @@ public interface TaskRepository {
     public Task GetTaskById(int taskId);
 
     /**
-     * @param taskStatus 
+     * @param status 
      * @return
      */
-    public List<Task> GetTasksByStatus(int taskStatus);
+    public List<Task> GetTasksByStatus(TaskStatus status);
 
 }
