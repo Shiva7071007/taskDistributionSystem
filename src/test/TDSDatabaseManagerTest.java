@@ -19,6 +19,7 @@ class TDSDatabaseManagerTest {
 		Connection conn = tdsDatabaseManager.getConnection();
 		assertNotNull(conn);
 		try {
+			assertTrue(conn.isValid(0));
 			conn.close();
 		} catch (SQLException e) {
 			e.printStackTrace();

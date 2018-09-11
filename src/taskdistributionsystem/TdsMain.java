@@ -30,6 +30,7 @@ public class TdsMain {
 			 while (rs.next())	{
 				 System.out.println(rs.getString("Tables_in_tds"));
 			 }
+			 
 			 int a = tds1.executeDMLQuery(dbConnection, sql);
 			 System.out.println(a);
 		} catch (SQLException e)	{
