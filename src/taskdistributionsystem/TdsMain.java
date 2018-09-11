@@ -7,7 +7,7 @@ import com.itt.tds.coordinator.db.TDSDatabaseManager;
 import java.sql.Statement;
 import com.itt.tds.cfg.TDSConfiguration;;
 
-public class test {
+public class TdsMain {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
@@ -30,6 +30,7 @@ public class test {
 			 while (rs.next())	{
 				 System.out.println(rs.getString("Tables_in_tds"));
 			 }
+			 
 			 int a = tds1.executeDMLQuery(dbConnection, sql);
 			 System.out.println(a);
 		} catch (SQLException e)	{

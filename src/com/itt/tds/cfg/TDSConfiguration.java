@@ -47,7 +47,6 @@ public class TDSConfiguration {
 					TDSConfigurationInstance = new TDSConfiguration();
 			}
 		}
-
 		return TDSConfigurationInstance;
 	}
 

@@ -31,18 +31,17 @@ public class TDSDatabaseManager implements DBManager {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			System.out.println("unable to close the connection");
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override
 	public int executeDMLQuery(Connection conn, String query) {
 		int rowsAffected = 0;
+		PreparedStatement pstmt = null;
+		
 		try {
-			PreparedStatement pstmt = null;
 			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(query);
 			rowsAffected = pstmt.executeUpdate();
@@ -53,6 +52,12 @@ public class TDSDatabaseManager implements DBManager {
 				conn.rollback();
 			} catch (SQLException e1) {
 				e1.printStackTrace();
+			}
+		}finally {
+			try {
+				pstmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
 		}
 		return rowsAffected;
