@@ -1,6 +1,6 @@
 package com.itt.tds.logging;
 
-import java.util.*;
+import java.util.logging.*;
 
 /**
  * 
@@ -65,6 +65,6 @@ public interface Logger {
      * @param message 
      * @param ex
      */
-    public void logDebug(String className, String methodName, Sring message, Exception ex);
+    public void logDebug(String className, String methodName, String message, Exception ex);
 
 }
