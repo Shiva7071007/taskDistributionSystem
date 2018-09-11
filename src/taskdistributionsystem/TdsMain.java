@@ -1,5 +1,6 @@
 package taskdistributionsystem;
 import java.sql.Connection;
+import com.itt.tds.logging.TDSLogger;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -13,6 +14,9 @@ public class TdsMain {
 		// TODO Auto-generated method stub
 		System.out.println("hello");
 		
+		TDSLogger tdsLogger = new TDSLogger(TdsMain.class);
+		
+		
 		TDSDatabaseManager test;
 		TDSDatabaseManager tds1 = new TDSDatabaseManager();
 		Connection dbConnection = null;
@@ -20,7 +24,10 @@ public class TdsMain {
 		ResultSet rs = null;
 		
 		try {
-			
+			tdsLogger.logDebug("TdsMain", "main", "logDebug");
+			tdsLogger.logWarn("TdsMain", "main", "logWarn");
+			tdsLogger.logInfo("TdsMain", "main", "logInfo");
+			tdsLogger.logError("TdsMain","main", "logError");
 			
 			dbConnection = tds1.getConnection();
 			String sql = "show tables";

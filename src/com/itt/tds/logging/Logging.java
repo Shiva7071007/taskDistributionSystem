@@ -1,11 +1,11 @@
 package com.itt.tds.logging;
 
-import java.util.logging.*;
+import java.util.*;
 
 /**
  * 
  */
-public interface Logger {
+public interface Logging {
 
     /**
      * @param className 
