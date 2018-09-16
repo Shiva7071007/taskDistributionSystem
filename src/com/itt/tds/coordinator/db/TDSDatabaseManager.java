@@ -20,8 +20,8 @@ public class TDSDatabaseManager implements DBManager {
 			String dbConnectionString = tdsConfiguration.getDBConnectionString();
 
 			dbConnection = DriverManager.getConnection(dbConnectionString);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			System.out.println("Exception: " + e.getMessage() + " Thrown by: " + e.getClass().getSimpleName());
 		}
 		return dbConnection;
 	}
@@ -40,7 +40,7 @@ public class TDSDatabaseManager implements DBManager {
 	public int executeDMLQuery(Connection conn, String query) {
 		int rowsAffected = 0;
 		PreparedStatement pstmt = null;
-		
+
 		try {
 			conn.setAutoCommit(false);
 			pstmt = conn.prepareStatement(query);
@@ -53,7 +53,7 @@ public class TDSDatabaseManager implements DBManager {
 			} catch (SQLException e1) {
 				e1.printStackTrace();
 			}
-		}finally {
+		} finally {
 			try {
 				pstmt.close();
 			} catch (SQLException e) {
