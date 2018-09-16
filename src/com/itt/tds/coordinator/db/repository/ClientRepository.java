@@ -19,9 +19,9 @@ public interface ClientRepository {
     public void Modify(Client client);
 
     /**
-     * @param client
+     * @param clientId
      */
-    public void Delete(Client client);
+    public void Delete(int clientId);
 
     /**
      * @return

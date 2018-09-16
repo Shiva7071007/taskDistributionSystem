@@ -54,6 +54,11 @@ public class Task {
     private int userId;
 
     /**
+     * 
+     */
+    private int assignedNodeId;
+
+    /**
      * @param taskName
      */
     public void setTaskName(String taskName) {
@@ -169,6 +174,22 @@ public class Task {
      * @return
      */
     public byte getProgramBytes() {
+        // TODO implement here
+        return 0;
+    }
+
+    /**
+     * @return
+     */
+    public int getAssingedNodeId() {
+        // TODO implement here
+        return 0;
+    }
+
+    /**
+     * @return
+     */
+    public int setAssignedNodeId() {
         // TODO implement here
         return 0;
     }

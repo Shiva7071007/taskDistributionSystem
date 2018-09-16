@@ -19,9 +19,9 @@ public interface NodeRepository {
     public void Modify(Node node);
 
     /**
-     * @param node
+     * @param nodeId
      */
-    public void Delete(Node node);
+    public void Delete(int nodeId);
 
     /**
      * Returns a List of available Nodes 

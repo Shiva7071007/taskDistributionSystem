@@ -14,9 +14,9 @@ public interface TaskRepository {
     public int Add(Task taskInstance);
 
     /**
-     * @param taskInstance
+     * @param taskId
      */
-    public void Delete(Task taskInstance);
+    public void Delete(int taskId);
 
     /**
      * @param taskInstance
@@ -46,5 +46,17 @@ public interface TaskRepository {
      * @return
      */
     public List<Task> GetTasksByStatus(TaskStatus status);
+
+    /**
+     * @param nodeId 
+     * @return
+     */
+    public Set<Task> GetTasksByNodeId(int nodeId);
+
+    /**
+     * @param node 
+     * @param taskId
+     */
+    public void AssignNode(Node node, int taskId);
 
 }
