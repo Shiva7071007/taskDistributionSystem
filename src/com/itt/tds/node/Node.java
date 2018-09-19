@@ -3,6 +3,9 @@ package com.itt.tds.node;
 import java.net.Socket;
 import java.util.*;
 
+import com.itt.tds.core.Task;
+import com.itt.tds.core.TaskResult;
+
 /**
  * 
  */
@@ -17,7 +20,7 @@ public class Node {
     /**
      * 
      */
-    private String hostName;
+    private String iP;
 
     /**
      * 
@@ -72,5 +75,45 @@ public class Node {
         // TODO implement here
         return null;
     }
+
+	public String getiP() {
+		return iP;
+	}
+
+	public void setiP(String iP) {
+		this.iP = iP;
+	}
+
+	public int getPort() {
+		return port;
+	}
+
+	public void setPort(int port) {
+		this.port = port;
+	}
+
+	public int getStatus() {
+		return Status;
+	}
+
+	public void setStatus(int status) {
+		Status = status;
+	}
+
+	public Task getCurrentTask() {
+		return currentTask;
+	}
+
+	public void setCurrentTask(Task currentTask) {
+		this.currentTask = currentTask;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 }
