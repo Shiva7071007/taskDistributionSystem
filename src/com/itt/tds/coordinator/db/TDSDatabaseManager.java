@@ -18,7 +18,7 @@ import com.itt.tds.exceptions.DBConnectionException;
 public class TDSDatabaseManager implements DBManager {
 
 	@Override
-	public Connection getConnection() throws SQLException, ParserConfigurationException, SAXException, IOException {
+	public Connection getConnection() {
 		Connection dbConnection = null;
 
 		TDSConfiguration tdsConfiguration = TDSConfiguration.getInstance();
@@ -29,7 +29,7 @@ public class TDSDatabaseManager implements DBManager {
 	}
 
 	@Override
-	public void closeConnection(Connection conn) throws SQLException {
+	public void closeConnection(Connection conn) {
 		conn.close();
 	}
 

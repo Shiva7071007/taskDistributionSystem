@@ -14,7 +14,7 @@ import com.itt.tds.node.Node;
 public class TDSNodeRepository implements NodeRepository {
 
 	@Override
-	public int Add(Node node) throws SQLException {
+	public int Add(Node node) {
 		String nodeIp = node.getiP();
 		int nodePort = node.getPort();
 		int nodeStatus = node.getStatus();
@@ -55,7 +55,7 @@ public class TDSNodeRepository implements NodeRepository {
 	}
 
 	@Override
-	public void Delete(int nodeId) throws SQLException {
+	public void Delete(int nodeId) {
 		TDSDatabaseManager tdsDatabaseManager = new TDSDatabaseManager();
 		Connection conn = tdsDatabaseManager.getConnection();
 		conn.setAutoCommit(false);
@@ -74,7 +74,7 @@ public class TDSNodeRepository implements NodeRepository {
 	}
 
 	@Override
-	public List<Node> GetAailableNodes() throws SQLException {
+	public List<Node> GetAailableNodes() {
 		List<Node> availableNodeList = new ArrayList<Node>();
 
 		TDSDatabaseManager tdsDatabaseManager = new TDSDatabaseManager();
@@ -99,7 +99,7 @@ public class TDSNodeRepository implements NodeRepository {
 	}
 
 	@Override
-	public List<Node> GetAllNodes() throws SQLException {
+	public List<Node> GetAllNodes() {
 		List<Node> allNodeList = new ArrayList<Node>();
 
 		TDSDatabaseManager tdsDatabaseManager = new TDSDatabaseManager();

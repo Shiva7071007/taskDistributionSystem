@@ -52,8 +52,7 @@ public class TDSConfiguration {
 		return TDSConfigurationInstance;
 	}
 
-	private NodeList getElementsByTagName(String tagName)
-			throws ParserConfigurationException, SAXException, IOException {
+	private NodeList getElementsByTagName(String tagName) {
 		NodeList tagNameList = null;
 		String configFileName = "TDS.xml";
 		URL configFilePath = getClass().getResource(configFileName);
@@ -72,7 +71,7 @@ public class TDSConfiguration {
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public String getDBConnectionString() throws ParserConfigurationException, SAXException, IOException {
+	public String getDBConnectionString() {
 
 		String dbConnectionString = null;
 		String tagName = "database";

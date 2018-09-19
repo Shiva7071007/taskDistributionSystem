@@ -28,7 +28,7 @@ public interface DBManager {
 	 * @throws SAXException
 	 * @throws ParserConfigurationException
 	 */
-	public Connection getConnection() throws SQLException, ParserConfigurationException, SAXException, IOException;
+	public Connection getConnection();
 
 	/**
 	 * @param conn
