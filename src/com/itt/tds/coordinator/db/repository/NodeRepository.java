@@ -13,9 +13,9 @@ public interface NodeRepository {
     /**
      * @param node 
      * @return
-     * @throws SQLException 
+     * @throws Exception 
      */
-    public int Add(Node node);
+    public int Add(Node node) throws SQLException, Exception;
 
     /**
      * @param node
@@ -24,23 +24,23 @@ public interface NodeRepository {
 
     /**
      * @param nodeId
-     * @throws SQLException 
+     * @throws Exception 
      */
-    public void Delete(int nodeId);
+    public void Delete(int nodeId) throws Exception;
 
     /**
      * Returns a List of available Nodes 
      * @return
-     * @throws SQLException 
+     * @throws Exception 
      */
-    public List<Node> GetAailableNodes();
+    public List<Node> GetAailableNodes() throws Exception;
 
     /**
 	 * Returns all nodes registered in the system.
 	 * 
 	 * @return
-	 * @throws SQLException
+     * @throws Exception 
 	 */
-    public List<Node> GetAllNodes();
+    public List<Node> GetAllNodes() throws Exception;
 
 }

@@ -1,15 +1,12 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
@@ -52,7 +49,7 @@ public class TDSConfiguration {
 		return TDSConfigurationInstance;
 	}
 
-	private NodeList getElementsByTagName(String tagName) {
+	private NodeList getElementsByTagName(String tagName) throws Exception {
 		NodeList tagNameList = null;
 		String configFileName = "TDS.xml";
 		URL configFilePath = getClass().getResource(configFileName);
@@ -67,11 +64,9 @@ public class TDSConfiguration {
 
 	/**
 	 * @return
-	 * @throws IOException
-	 * @throws SAXException
-	 * @throws ParserConfigurationException
+	 * @throws Exception 
 	 */
-	public String getDBConnectionString() {
+	public String getDBConnectionString() throws Exception {
 
 		String dbConnectionString = null;
 		String tagName = "database";
