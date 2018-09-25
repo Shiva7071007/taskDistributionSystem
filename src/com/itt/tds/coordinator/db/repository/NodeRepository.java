@@ -19,8 +19,9 @@ public interface NodeRepository {
 
     /**
      * @param node
+     * @throws Exception 
      */
-    public void Modify(Node node);
+    public void Modify(Node node) throws Exception;
 
     /**
      * @param nodeId

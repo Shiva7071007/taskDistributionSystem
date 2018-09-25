@@ -50,8 +50,40 @@ public class TDSNodeRepository implements NodeRepository {
 	}
 
 	@Override
-	public void Modify(Node node) {
-		// TODO Auto-generated method stub
+	public void Modify(Node node) throws Exception {
+		// UPDATE `tds`.`node` SET `nodeIp` = '3232235779', `nodePort` = '8002',
+		// `nodeStatus` = 'BUSY' WHERE (`nodeId` = '2');
+		int nodeId = node.getId();
+		String newNodeIp = node.getiP();
+		int newNodePort = node.getPort();
+		int newNodeStatus = node.getStatus();
+
+		Connection conn = null;
+		PreparedStatement modifyNodeStatement = null;
+
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
+
+		try {
+			conn = tdsDatabaseManager.getConnection();
+
+			String modifyNodeQuery = "UPDATE `tds`.`node` SET `nodeIp` = INET_ATON(?), `nodePort` = ?, `nodeStatus` = ? WHERE (`nodeId` = ?)";
+			modifyNodeStatement = conn.prepareStatement(modifyNodeQuery);
+			modifyNodeStatement.setString(1, newNodeIp);
+			modifyNodeStatement.setInt(2, newNodePort);
+			modifyNodeStatement.setInt(3, newNodeStatus);
+			modifyNodeStatement.setInt(4, nodeId);
+			int rowsAffected = modifyNodeStatement.executeUpdate();
+
+			if (rowsAffected == 1) {
+				// conn.commit();
+			} else {
+				// log(no row affected)
+			}
+
+		} finally {
+			modifyNodeStatement.close();
+			tdsDatabaseManager.closeConnection(conn);
+		}
 
 	}
 
