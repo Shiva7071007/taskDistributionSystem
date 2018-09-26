@@ -2,6 +2,10 @@ package com.itt.tds.coordinator.db.repository;
 
 import java.util.*;
 
+import com.itt.tds.core.Task;
+import com.itt.tds.core.TaskState;
+import com.itt.tds.node.Node;
+
 /**
  * 
  */
@@ -27,7 +31,7 @@ public interface TaskRepository {
      * @param taskId 
      * @param status
      */
-    public void SetTaskStatus(int taskId, TaskStatus status);
+    public void SetTaskStatus(int taskId, TaskState status);
 
     /**
      * @param clientId 
@@ -45,7 +49,7 @@ public interface TaskRepository {
      * @param status 
      * @return
      */
-    public List<Task> GetTasksByStatus(TaskStatus status);
+    public List<Task> GetTasksByStatus(TaskState status);
 
     /**
      * @param nodeId 

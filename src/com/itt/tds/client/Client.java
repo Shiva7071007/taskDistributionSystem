@@ -2,6 +2,9 @@ package com.itt.tds.client;
 
 import java.util.*;
 
+import com.itt.tds.core.Task;
+import com.itt.tds.core.TaskResult;
+
 /**
  * 
  */

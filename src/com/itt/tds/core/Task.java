@@ -46,11 +46,6 @@ public class Task {
     /**
      * 
      */
-    private byte programBytes;
-
-    /**
-     * 
-     */
     private int userId;
 
     /**
@@ -164,21 +159,6 @@ public class Task {
     }
 
     /**
-     * @param bytes
-     */
-    public void setProgramBytes(byte bytes) {
-        // TODO implement here
-    }
-
-    /**
-     * @return
-     */
-    public byte getProgramBytes() {
-        // TODO implement here
-        return 0;
-    }
-
-    /**
      * @return
      */
     public int getAssingedNodeId() {
@@ -193,5 +173,13 @@ public class Task {
         // TODO implement here
         return 0;
     }
+
+	public int getAssignedNodeId() {
+		return assignedNodeId;
+	}
+
+	public void setAssignedNodeId(int assignedNodeId) {
+		this.assignedNodeId = assignedNodeId;
+	}
 
 }
