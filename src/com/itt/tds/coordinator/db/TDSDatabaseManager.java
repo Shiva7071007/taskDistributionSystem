@@ -2,77 +2,54 @@ package com.itt.tds.coordinator.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import com.itt.tds.cfg.TDSConfiguration;
 
 public class TDSDatabaseManager implements DBManager {
+	
+	private static volatile TDSDatabaseManager tdsDatabaseManagerInstance;
+	
+	/**
+	 * Default constructor
+	 */
+	private TDSDatabaseManager() {
+		if (tdsDatabaseManagerInstance != null) {
+			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+		}
+	}
+	
+	/**
+	 * Should return the instance of TDSDatabaseManager object, the code should make
+	 * sure only one instance of the object in the application regardless of the
+	 * number of times the getInstance() method is called on the object.
+	 * 
+	 * @return
+	 */
+	public static TDSDatabaseManager getInstance() {
+		// Double check locking pattern
+		if (tdsDatabaseManagerInstance == null) { // Check for the first time
+
+			synchronized (TDSConfiguration.class) { // Check for the second time.
+				// if there is no instance available... create new one
+				if (tdsDatabaseManagerInstance == null)
+					tdsDatabaseManagerInstance = new TDSDatabaseManager();
+			}
+		}
+		return tdsDatabaseManagerInstance;
+	}
 
 	@Override
-	public Connection getConnection() {
+	public Connection getConnection() throws Exception {
 		Connection dbConnection = null;
 
-		try {
-			TDSConfiguration tdsConfiguration = TDSConfiguration.getInstance();
-			String dbConnectionString = tdsConfiguration.getDBConnectionString();
+		TDSConfiguration tdsConfiguration = TDSConfiguration.getInstance();
+		String dbConnectionString = tdsConfiguration.getDBConnectionString();
 
-			dbConnection = DriverManager.getConnection(dbConnectionString);
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+		dbConnection = DriverManager.getConnection(dbConnectionString);
 		return dbConnection;
 	}
 
 	@Override
-	public void closeConnection(Connection conn) {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			System.out.println("unable to close the connection");
-			e.printStackTrace();
-		}
+	public void closeConnection(Connection conn) throws Exception {
+		conn.close();
 	}
-
-	@Override
-	public int executeDMLQuery(Connection conn, String query) {
-		int rowsAffected = 0;
-		PreparedStatement pstmt = null;
-		
-		try {
-			conn.setAutoCommit(false);
-			pstmt = conn.prepareStatement(query);
-			rowsAffected = pstmt.executeUpdate();
-			conn.commit();
-		} catch (SQLException e) {
-			try {
-				System.out.println("Transaction Failed");
-				conn.rollback();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
-		}finally {
-			try {
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return rowsAffected;
-	}
-
-	@Override
-	public ResultSet executeSelectQuery(Connection conn, String query) {
-		ResultSet result = null;
-		try {
-			Statement stmt = conn.createStatement();
-			result = stmt.executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
-
 }

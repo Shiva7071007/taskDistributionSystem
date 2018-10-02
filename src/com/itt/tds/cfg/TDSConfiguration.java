@@ -34,8 +34,7 @@ public class TDSConfiguration {
 	 * 
 	 * @return
 	 */
-	// removed synchronized and using volatile keyword
-	// Without volatile modifier, it�s possible for another thread in Java to see
+	// Without volatile modifier, it is possible for another thread in Java to see
 	// half initialized state of TDSConfigurationInstance variable
 	public static TDSConfiguration getInstance() {
 		// Double check locking pattern
@@ -50,46 +49,39 @@ public class TDSConfiguration {
 		return TDSConfigurationInstance;
 	}
 
-	private NodeList getElementsByTagName(String tagName) {
+	private NodeList getElementsByTagName(String tagName) throws Exception {
 		NodeList tagNameList = null;
 		String configFileName = "TDS.xml";
-		try {
-			URL configFilePath = getClass().getResource(configFileName);
-			File configFile = new File(configFilePath.getPath());
-			DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			Document configXML = documentBuilder.parse(configFile);
-			configXML.getDocumentElement().normalize();
-			tagNameList = configXML.getElementsByTagName(tagName);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		URL configFilePath = getClass().getResource(configFileName);
+		File configFile = new File(configFilePath.getPath());
+		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+		Document configXML = documentBuilder.parse(configFile);
+		configXML.getDocumentElement().normalize();
+		tagNameList = configXML.getElementsByTagName(tagName);
 		return tagNameList;
 	}
 
 	/**
 	 * @return
+	 * @throws Exception 
 	 */
-	public String getDBConnectionString() {
+	public String getDBConnectionString() throws Exception {
 
 		String dbConnectionString = null;
-		try {
-			String tagName = "database";
+		String tagName = "database";
 
-			NodeList databaseList = getElementsByTagName(tagName);
-			Node nNode = databaseList.item(databaseList.getLength() - 1);
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
 
-			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-				Element element = (Element) nNode;
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
 
-				String dbConnectionUrl = element.getElementsByTagName("db-connection-string").item(0).getTextContent();
-				String userName = element.getElementsByTagName("db-user-name").item(0).getTextContent();
-				String userPassword = element.getElementsByTagName("db-user-password").item(0).getTextContent();
+			String dbConnectionUrl = element.getElementsByTagName("db-connection-string").item(0).getTextContent();
+			String userName = element.getElementsByTagName("db-user-name").item(0).getTextContent();
+			String userPassword = element.getElementsByTagName("db-user-password").item(0).getTextContent();
 
-				dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+			dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
 		}
 		return dbConnectionString;
 	}

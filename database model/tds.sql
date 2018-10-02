@@ -23,10 +23,13 @@ CREATE TABLE `task` (
   `taskPath` varchar(100) NOT NULL,
   `taskState` enum('PENDING','IN_PROGRESS','COMPLETED') NOT NULL,
   `userID` int(11) NOT NULL,
+  `assignedNodeId` int(11) DEFAULT NULL,
   PRIMARY KEY (`taskId`),
   UNIQUE KEY `taskId_UNIQUE` (`taskId`),
   KEY `clientId_idx` (`userID`),
-  CONSTRAINT `clientId` FOREIGN KEY (`userID`) REFERENCES `client` (`clientid`) ON DELETE CASCADE ON UPDATE CASCADE
+  KEY `nodeId_idx` (`assignedNodeId`),
+  CONSTRAINT `clientId` FOREIGN KEY (`userID`) REFERENCES `client` (`clientid`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `nodeId` FOREIGN KEY (`assignedNodeId`) REFERENCES `node` (`nodeid`)
 ) ;
 
 
@@ -58,15 +61,3 @@ CREATE TABLE `taskresult` (
   CONSTRAINT `taskIdKey` FOREIGN KEY (`taskId`) REFERENCES `task` (`taskId`) ON DELETE CASCADE
 ) ;
 
-
-/* create nodetotaskmapping table*/
-DROP TABLE IF EXISTS `nodetotaskmapping`;
-
-CREATE TABLE `nodetotaskmapping` (
-  `taskId` int(11) NOT NULL,
-  `nodeId` int(11) NOT NULL,
-  PRIMARY KEY (`taskId`),
-  KEY `nodeId_idx` (`nodeId`),
-  CONSTRAINT `nodeId` FOREIGN KEY (`nodeId`) REFERENCES `node` (`nodeid`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `taskId` FOREIGN KEY (`taskId`) REFERENCES `task` (`taskid`)
-) ;
