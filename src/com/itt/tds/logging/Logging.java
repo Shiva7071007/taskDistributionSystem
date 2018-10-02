@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * 
  */
-public interface Logger {
+public interface Logging {
 
     /**
      * @param className 
@@ -65,6 +65,6 @@ public interface Logger {
      * @param message 
      * @param ex
      */
-    public void logDebug(String className, String methodName, Sring message, Exception ex);
+    public void logDebug(String className, String methodName, String message, Exception ex);
 
 }
