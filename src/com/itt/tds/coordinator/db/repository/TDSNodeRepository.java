@@ -3,6 +3,7 @@ package com.itt.tds.coordinator.db.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class TDSNodeRepository implements NodeRepository {
 		try {
 			conn = tdsDatabaseManager.getConnection();
 			String insertNodeQuery = "INSERT INTO `tds`.`node` (`nodeIp`, `nodePort`, `nodeStatus`) VALUES (INET_ATON(?), ?, ?)";
-			insertNodeStatement = conn.prepareStatement(insertNodeQuery);
+			insertNodeStatement = conn.prepareStatement(insertNodeQuery, Statement.RETURN_GENERATED_KEYS);
 			insertNodeStatement.setString(1, nodeIp);
 			insertNodeStatement.setInt(2, nodePort);
 			insertNodeStatement.setInt(3, nodeStatus);
