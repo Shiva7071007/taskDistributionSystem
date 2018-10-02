@@ -2,8 +2,6 @@ package com.itt.tds.coordinator.db.repository;
 
 import java.util.*;
 
-import com.itt.tds.client.Client;
-
 /**
  * 
  */

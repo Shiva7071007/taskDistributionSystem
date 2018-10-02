@@ -1,7 +1,5 @@
 package com.itt.tds.core;
 
-import java.util.*;
-
 /**
  * 
  */
@@ -57,129 +55,112 @@ public class Task {
      * @param taskName
      */
     public void setTaskName(String taskName) {
-        // TODO implement here
+        this.taskName = taskName;
     }
 
     /**
      * @return
      */
     public String getTaskName() {
-        // TODO implement here
-        return "";
+        return taskName;
     }
 
     /**
      * @param taskExePath
      */
     public void setTaskExePath(String taskExePath) {
-        // TODO implement here
+        this.taskExePath = taskExePath;
     }
 
     /**
      * @return
      */
     public String getTaskExePath() {
-        // TODO implement here
-        return "";
+        return taskExePath;
     }
 
     /**
      * @param taskState
      */
     public void setTaskState(TaskState taskState) {
-        // TODO implement here
+       this.taskState = taskState;
     }
 
     /**
      * @return
      */
     public TaskState getTaskState() {
-        // TODO implement here
-        return null;
+        return taskState;
     }
 
     /**
      * @param taskResult
      */
     public void setTaskResult(TaskResult taskResult) {
-        // TODO implement here
+    	this.taskResult = taskResult;
     }
 
     /**
      * @return
      */
     public TaskResult getTaskResult() {
-        // TODO implement here
-        return null;
+        return taskResult;
     }
 
     /**
      * @param id
      */
     public void setId(int id) {
-        // TODO implement here
+    	this.id = id;
     }
 
     /**
      * @return
      */
     public int getId() {
-        // TODO implement here
-        return 0;
+        return id;
     }
 
     /**
      * @param taskParamaters
      */
-    public void setTaskParameters(String taskParamaters) {
-        // TODO implement here
+    public void setTaskParameters(String taskParameters) {
+        this.taskParameters = taskParameters;
     }
 
     /**
      * @return
      */
     public String getTaskParameters() {
-        // TODO implement here
-        return "";
+        return taskParameters;
     }
 
     /**
      * @param userId
      */
     public void setUserId(int userId) {
-        // TODO implement here
+    	this.userId = userId;
     }
 
     /**
      * @return
      */
     public int getUserId() {
-        // TODO implement here
-        return 0;
+        return userId;
     }
 
     /**
      * @return
      */
     public int getAssingedNodeId() {
-        // TODO implement here
-        return 0;
+        return assignedNodeId;
     }
 
     /**
      * @return
      */
-    public int setAssignedNodeId() {
-        // TODO implement here
-        return 0;
+    public void setAssignedNodeId(int assignedNodeId) {
+    	this.assignedNodeId = assignedNodeId;
     }
-
-	public int getAssignedNodeId() {
-		return assignedNodeId;
-	}
-
-	public void setAssignedNodeId(int assignedNodeId) {
-		this.assignedNodeId = assignedNodeId;
-	}
 
 }

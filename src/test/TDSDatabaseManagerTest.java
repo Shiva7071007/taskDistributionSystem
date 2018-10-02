@@ -5,65 +5,46 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import com.itt.tds.coordinator.db.TDSDatabaseManager;
 
 class TDSDatabaseManagerTest {
 
-	private TDSDatabaseManager tdsDatabaseManager = new TDSDatabaseManager();
+	@Test
+	void testGetInstance() {
+		// act
+		TDSDatabaseManager tdsDB1 = TDSDatabaseManager.getInstance();
+		TDSDatabaseManager tdsDB2 = TDSDatabaseManager.getInstance();
+
+		// assert
+		assertEquals(tdsDB1.hashCode(), tdsDB2.hashCode());
+		assertSame(tdsDB1, tdsDB2);
+	}
 
 	@Test
-	void testGetConnection() {
+	void testGetConnection() throws Exception {
+		// arrange
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
+
+		// act
 		Connection conn = tdsDatabaseManager.getConnection();
+
+		// assert
 		assertNotNull(conn);
-		try {
-			assertTrue(conn.isValid(0));
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		assertTrue(conn.isValid(0));
+
 	}
 
 	@Test
-	void testCloseConnection() {
+	void testCloseConnection() throws Exception {
+		// arrange
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = tdsDatabaseManager.getConnection();
+
+		// act
 		tdsDatabaseManager.closeConnection(conn);
-		try {
-			assertTrue(conn.isClosed());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 
-	@Test
-	void testExecuteDMLQuery() {
-		String query = "show tables";
-		Connection conn = tdsDatabaseManager.getConnection();
-		int result = tdsDatabaseManager.executeDMLQuery(conn, query);
-		assertEquals(result, 5);
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	@Test
-	void testExecuteSelectQuery() {
-		Connection conn = tdsDatabaseManager.getConnection();
-		ResultSet rs = null;
-		String query = "show tables";
-		rs = tdsDatabaseManager.executeSelectQuery(conn, query);
-		assertNotNull(rs);
-		try {
-			rs.close();
-			conn.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+		// assert
+		assertTrue(conn.isClosed());
 	}
 
 }
