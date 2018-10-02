@@ -118,7 +118,7 @@ public class TDSClientRepository implements ClientRepository {
 				Client client = new Client();
 				client.setId(clientResult.getInt("clientId"));
 				client.setHostName(clientResult.getString("hostname"));
-				client.setUserName(clientResult.getString("hostname"));
+				client.setUserName(clientResult.getString("username"));
 
 				allNodeList.add(client);
 			}
