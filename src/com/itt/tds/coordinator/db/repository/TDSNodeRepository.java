@@ -52,8 +52,6 @@ public class TDSNodeRepository implements NodeRepository {
 
 	@Override
 	public void Modify(Node node) throws Exception {
-		// UPDATE `tds`.`node` SET `nodeIp` = '3232235779', `nodePort` = '8002',
-		// `nodeStatus` = 'BUSY' WHERE (`nodeId` = '2');
 		int nodeId = node.getId();
 		String newNodeIp = node.getiP();
 		int newNodePort = node.getPort();
@@ -85,7 +83,6 @@ public class TDSNodeRepository implements NodeRepository {
 			modifyNodeStatement.close();
 			tdsDatabaseManager.closeConnection(conn);
 		}
-
 	}
 
 	@Override

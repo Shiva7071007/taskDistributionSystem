@@ -1,5 +1,7 @@
 package com.itt.tds.core;
 
+import java.util.ArrayList;
+
 /**
  * 
  */
@@ -19,7 +21,7 @@ public class Task {
     /**
      * 
      */
-    private String taskParameters;
+    private ArrayList<String> taskParameters;
 
     /**
      * 
@@ -29,7 +31,7 @@ public class Task {
     /**
      * 
      */
-    private TaskState taskState;
+    private int taskState;
 
     /**
      * 
@@ -82,14 +84,14 @@ public class Task {
     /**
      * @param taskState
      */
-    public void setTaskState(TaskState taskState) {
+    public void setTaskState(int taskState) {
        this.taskState = taskState;
     }
 
     /**
      * @return
      */
-    public TaskState getTaskState() {
+    public int getTaskState() {
         return taskState;
     }
 
@@ -124,14 +126,14 @@ public class Task {
     /**
      * @param taskParamaters
      */
-    public void setTaskParameters(String taskParameters) {
+    public void setTaskParameters(ArrayList<String> taskParameters) {
         this.taskParameters = taskParameters;
     }
 
     /**
      * @return
      */
-    public String getTaskParameters() {
+    public ArrayList<String> getTaskParameters() {
         return taskParameters;
     }
 
