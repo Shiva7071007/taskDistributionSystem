@@ -30,7 +30,7 @@ public class TDSResponse extends TDSProtocol {
     /**
      * @param key
      */
-    public void getValue(string key) {
+    public void getValue(String key) {
         // TODO implement here
     }
 
@@ -38,7 +38,7 @@ public class TDSResponse extends TDSProtocol {
      * @param key 
      * @param value
      */
-    public void setValue(string key, string value) {
+    public void setValue(String key, String value) {
         // TODO implement here
     }
 

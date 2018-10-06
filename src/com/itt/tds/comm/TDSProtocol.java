@@ -51,7 +51,7 @@ public class TDSProtocol {
     /**
      * 
      */
-    public Array<byte> data;
+    public byte[] data;
 
 
 

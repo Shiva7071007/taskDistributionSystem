@@ -1,5 +1,6 @@
 package com.itt.tds.coordinator;
 
+import java.net.ServerSocket;
 import java.util.*;
 
 /**
@@ -16,12 +17,12 @@ public class CommunicationManager {
     /**
      * 
      */
-    public void serverSocketForClient;
+    public ServerSocket serverSocketForClient;
 
     /**
      * 
      */
-    public void serverSocketForNode;
+    public ServerSocket serverSocketForNode;
 
     /**
      * @return
