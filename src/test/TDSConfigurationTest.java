@@ -15,7 +15,6 @@ class TDSConfigurationTest {
 		TDSConfiguration tdsCFG2 = TDSConfiguration.getInstance();
 
 		// assert
-		assertEquals(tdsCFG1.hashCode(), tdsCFG2.hashCode());
 		assertSame(tdsCFG1, tdsCFG2);
 	}
 

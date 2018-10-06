@@ -16,7 +16,6 @@ class TDSDatabaseManagerTest {
 		TDSDatabaseManager tdsDB2 = TDSDatabaseManager.getInstance();
 
 		// assert
-		assertEquals(tdsDB1.hashCode(), tdsDB2.hashCode());
 		assertSame(tdsDB1, tdsDB2);
 	}
 
