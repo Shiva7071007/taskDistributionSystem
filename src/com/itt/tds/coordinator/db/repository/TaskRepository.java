@@ -46,20 +46,23 @@ public interface TaskRepository {
     /**
      * @param taskId 
      * @return
+     * @throws Exception 
      */
-    public Task GetTaskById(int taskId);
+    public Task GetTaskById(int taskId) throws Exception;
 
     /**
      * @param status 
      * @return
+     * @throws Exception 
      */
-    public List<Task> GetTasksByStatus(int status);
+    public List<Task> GetTasksByStatus(int status) throws Exception;
 
     /**
      * @param nodeId 
      * @return
+     * @throws Exception 
      */
-    public List<Task> GetTasksByNodeId(int nodeId);
+    public List<Task> GetTasksByNodeId(int nodeId) throws Exception;
 
     /**
      * @param node 

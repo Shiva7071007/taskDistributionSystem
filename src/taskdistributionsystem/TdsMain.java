@@ -1,5 +1,6 @@
 package taskdistributionsystem;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,15 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
+import com.itt.tds.utility.Utility;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.xml.sax.SAXException;
 
 import com.itt.tds.cfg.TDSConfiguration;
-import com.itt.tds.client.Client;;
-
+import com.itt.tds.client.Client;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 public class TdsMain {
 
 	public static void main(String[] args) throws Exception {
@@ -70,16 +70,39 @@ public class TdsMain {
 		arr.add("hi");
 		arr.add("hello");
 		arr.add("world");
+		System.out.println(arr);
+//		System.out.println(arr.toString());
+//		
+//		String arrList =  arr.toString();
+//		System.out.println(arrList);
+
+
+//		String str1 = jsarr.toJSONString();
+//		
+//		JSONArray jsonArray1 = new JSONArray();
+//		jsonArray1.add("hi");
 		
-		System.out.println(arr.toString());
-		JSONArray jsarr = new JSONArray();
-		jsarr.addAll(arr);
-		System.out.println(jsarr);
-		String str1 = jsarr.toJSONString();
 		
-		JSONArray jsonArray1 = new JSONArray();
-		jsonArray1.add("hi");
+		//creating Gson instance to convert JSON array to Java array 
 		
+//		JSONArray jsonArray = new JSONArray();
+//		jsonArray.addAll(arr);
+//		String str1 = jsonArray.toJSONString();
+//		Gson converter = new Gson(); 
+		 String str1 = Utility.stringArrayListToJSONArray(arr);
+		
+		System.out.println(str1);
+		
+		
+
+//		Type type = new TypeToken<ArrayList<String>>(){}.getType(); 
+		ArrayList<String> arr1 = Utility.jsonArrayToStringArrayList(str1);
+		System.out.println(arr1);
+		for(String list : arr1) {
+			System.out.println(list);
+		}
+
+		//Read more: https://javarevisited.blogspot.com/2013/04/convert-json-array-to-string-array-list-java-from.html#ixzz5TBwvqxRT
 		
 		
 		
