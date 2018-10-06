@@ -28,9 +28,7 @@ class TDSDatabaseManagerTest {
 		Connection conn = tdsDatabaseManager.getConnection();
 
 		// assert
-		assertNotNull(conn);
-		assertTrue(conn.isValid(0));
-
+		assertTrue(conn.isValid(1));
 	}
 
 	@Test
@@ -45,5 +43,4 @@ class TDSDatabaseManagerTest {
 		// assert
 		assertTrue(conn.isClosed());
 	}
-
 }
