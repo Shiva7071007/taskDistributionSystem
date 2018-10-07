@@ -20,6 +20,6 @@ public interface DBManager {
 	 * @param conn
 	 * @throws Exception 
 	 */
-	public void closeConnection(Connection conn) throws Exception;
+	public void returnConnection(Connection conn) throws Exception;
 
 }

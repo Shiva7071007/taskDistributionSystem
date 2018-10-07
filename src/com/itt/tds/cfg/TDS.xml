@@ -4,5 +4,6 @@
         <db-connection-string>jdbc:mysql://localhost:3306/tds</db-connection-string>
         <db-user-name>root</db-user-name>
         <db-user-password>password</db-user-password>
+        <db-max-connection>10</db-max-connection>
     </database>
 </tds>

@@ -12,10 +12,9 @@ import com.itt.tds.utility.Utility;
 
 public class TDSTaskRepository implements TaskRepository {
 
-	private TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
-
 	@Override
 	public int Add(Task taskInstance) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int taskId = 0;
 		String taskName = taskInstance.getTaskName();
 		String taskParameters = Utility.stringArrayListToJSONArray(taskInstance.getTaskParameters());
@@ -54,12 +53,13 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			taskIdSet.close();
 			insertTaskStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public void Delete(int taskId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = null;
 		PreparedStatement deleteTaskStatement = null;
 
@@ -78,12 +78,13 @@ public class TDSTaskRepository implements TaskRepository {
 			}
 		} finally {
 			deleteTaskStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public void Modify(Task taskInstance) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int taskId = taskInstance.getId();
 		String newTaskName = taskInstance.getTaskName();
 		String newTaskParameters = Utility.stringArrayListToJSONArray(taskInstance.getTaskParameters());
@@ -119,12 +120,13 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			modifyTaskStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public void SetTaskStatus(int taskId, int status) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 
 		Connection conn = null;
 		PreparedStatement updateTaskStatusQueryStatement = null;
@@ -148,12 +150,13 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			updateTaskStatusQueryStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public List<Task> GetTasksByClientId(int clientId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		List<Task> tasksByClientId = new ArrayList<Task>();
 		Connection conn = null;
 		PreparedStatement getTasksByClientIdStatement = null;
@@ -184,12 +187,13 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByClientIdResult.close();
 			getTasksByClientIdStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public Task GetTaskById(int taskId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = null;
 		PreparedStatement getTasksByTaskIdStatement = null;
 		ResultSet getTasksByTaskIdResult = null;
@@ -218,12 +222,13 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByTaskIdResult.close();
 			getTasksByTaskIdStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public List<Task> GetTasksByStatus(int status) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		List<Task> tasksByStatus = new ArrayList<Task>();
 		Connection conn = null;
 		PreparedStatement getTasksByStatusStatement = null;
@@ -254,12 +259,13 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByStatusResult.close();
 			getTasksByStatusStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public List<Task> GetTasksByNodeId(int nodeId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		List<Task> tasksByNodeId = new ArrayList<Task>();
 		Connection conn = null;
 		PreparedStatement getTasksByNodeIdStatement = null;
@@ -290,12 +296,13 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByNodeIdResult.close();
 			getTasksByNodeIdStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 	}
 
 	@Override
 	public void AssignNode(int nodeID, int taskId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = null;
 		PreparedStatement assignNodeStatement = null;
 
@@ -318,7 +325,7 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			assignNodeStatement.close();
-			tdsDatabaseManager.closeConnection(conn);
+			tdsDatabaseManager.returnConnection(conn);
 		}
 
 	}

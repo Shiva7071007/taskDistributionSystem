@@ -10,7 +10,7 @@ import com.itt.tds.coordinator.db.TDSDatabaseManager;
 class TDSDatabaseManagerTest {
 
 	@Test
-	void testGetInstance() {
+	void testGetInstance() throws Exception {
 		// act
 		TDSDatabaseManager tdsDB1 = TDSDatabaseManager.getInstance();
 		TDSDatabaseManager tdsDB2 = TDSDatabaseManager.getInstance();
@@ -32,15 +32,15 @@ class TDSDatabaseManagerTest {
 	}
 
 	@Test
-	void testCloseConnection() throws Exception {
+	void testReturnConnection() throws Exception {
 		// arrange
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = tdsDatabaseManager.getConnection();
 
 		// act
-		tdsDatabaseManager.closeConnection(conn);
+		tdsDatabaseManager.returnConnection(conn);
 
 		// assert
-		assertTrue(conn.isClosed());
+		assertTrue(conn.isValid(1));
 	}
 }

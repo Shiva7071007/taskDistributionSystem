@@ -64,45 +64,35 @@ public class TdsMain {
 //			
 //			
 //		}
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		
-		ArrayList<String> arr = new ArrayList<String>();
-		
-		arr.add("hi");
-		arr.add("hello");
-		arr.add("world");
-		System.out.println(arr);
-//		System.out.println(arr.toString());
-//		
-//		String arrList =  arr.toString();
-//		System.out.println(arrList);
+		Connection conn = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn1 = tdsDatabaseManager.getConnection();
+		System.out.println(conn1.isValid(2));
+		Connection conn2 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn3 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn4 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn5 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn6 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn7 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn8 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn9 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn10 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn11 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn12 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
 
-
-//		String str1 = jsarr.toJSONString();
-//		
-//		JSONArray jsonArray1 = new JSONArray();
-//		jsonArray1.add("hi");
-		
-		
-		//creating Gson instance to convert JSON array to Java array 
-		
-//		JSONArray jsonArray = new JSONArray();
-//		jsonArray.addAll(arr);
-//		String str1 = jsonArray.toJSONString();
-//		Gson converter = new Gson(); 
-		 String str1 = Utility.stringArrayListToJSONArray(arr);
-		
-		System.out.println(str1);
-		
-		
-
-//		Type type = new TypeToken<ArrayList<String>>(){}.getType(); 
-		ArrayList<String> arr1 = Utility.jsonArrayToStringArrayList(str1);
-		System.out.println(arr1);
-		for(String list : arr1) {
-			System.out.println(list);
-		}
-
-		//Read more: https://javarevisited.blogspot.com/2013/04/convert-json-array-to-string-array-list-java-from.html#ixzz5TBwvqxRT
 		
 		
 		
