@@ -18,10 +18,7 @@ public class CoOrdinator {
      */
     public List<Node> nodes;
 
-    /**
-     * 
-     */
-    public CommunicationManager commMgr;
+
 
     /**
      * @param node
