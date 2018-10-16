@@ -38,7 +38,7 @@ class TDSDatabaseManagerTest {
 		Connection conn = tdsDatabaseManager.getConnection();
 
 		// act
-		tdsDatabaseManager.returnConnection(conn);
+		tdsDatabaseManager.closeConnection(conn);
 
 		// assert
 		assertTrue(conn.isValid(1));

@@ -53,7 +53,7 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			taskIdSet.close();
 			insertTaskStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -78,7 +78,7 @@ public class TDSTaskRepository implements TaskRepository {
 			}
 		} finally {
 			deleteTaskStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			modifyTaskStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -150,7 +150,7 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			updateTaskStatusQueryStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -187,7 +187,7 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByClientIdResult.close();
 			getTasksByClientIdStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -222,7 +222,7 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByTaskIdResult.close();
 			getTasksByTaskIdStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -259,7 +259,7 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByStatusResult.close();
 			getTasksByStatusStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -296,7 +296,7 @@ public class TDSTaskRepository implements TaskRepository {
 		} finally {
 			getTasksByNodeIdResult.close();
 			getTasksByNodeIdStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -325,7 +325,7 @@ public class TDSTaskRepository implements TaskRepository {
 
 		} finally {
 			assignNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 
 	}

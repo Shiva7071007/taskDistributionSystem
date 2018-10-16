@@ -41,7 +41,7 @@ public class TDSClientRepository implements ClientRepository {
 		} finally {
 			clientIdSet.close();
 			insertClientStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -72,7 +72,7 @@ public class TDSClientRepository implements ClientRepository {
 			}
 		} finally {
 			modifyClientStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -97,7 +97,7 @@ public class TDSClientRepository implements ClientRepository {
 			}
 		} finally {
 			deleteClientStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -129,7 +129,7 @@ public class TDSClientRepository implements ClientRepository {
 		} finally {
 			clientResult.close();
 			getClientStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 

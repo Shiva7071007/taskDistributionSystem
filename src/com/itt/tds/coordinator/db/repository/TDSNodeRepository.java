@@ -45,7 +45,7 @@ public class TDSNodeRepository implements NodeRepository {
 		} finally {
 			nodeIdSet.close();
 			insertNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 		return nodeId;
 	}
@@ -81,7 +81,7 @@ public class TDSNodeRepository implements NodeRepository {
 
 		} finally {
 			modifyNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class TDSNodeRepository implements NodeRepository {
 
 		try {
 			conn = tdsDatabaseManager.getConnection();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 			// conn.setAutoCommit(false);
 
 			String deleteNodeQuery = "DELETE FROM `tds`.`node` WHERE (`nodeId` = ?)";
@@ -109,7 +109,7 @@ public class TDSNodeRepository implements NodeRepository {
 			}
 		} finally {
 			deleteNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class TDSNodeRepository implements NodeRepository {
 		} finally {
 			availableNodeResult.close();
 			getAvailableNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 		return availableNodeList;
 	}
@@ -176,7 +176,7 @@ public class TDSNodeRepository implements NodeRepository {
 		} finally {
 			availableNodeResult.close();
 			getAllNodeStatement.close();
-			tdsDatabaseManager.returnConnection(conn);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 		return allNodeList;
 	}
