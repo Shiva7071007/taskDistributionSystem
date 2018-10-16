@@ -1,6 +1,5 @@
 package com.itt.tds.core;
 
-import java.util.*;
 
 /**
  * 
@@ -26,7 +25,7 @@ public class TaskResult {
     /**
      * 
      */
-    public Array<byte> resultBuffer;
+    public byte[] resultBuffer;
 
     /**
      * 

@@ -37,14 +37,14 @@ public class TDSRequest extends TDSProtocol {
     /**
      * @param data
      */
-    public void setData(Array<byte> data) {
+    public void setData(byte[] data) {
         // TODO implement here
     }
 
     /**
      * @param method
      */
-    public void setMethod(string method) {
+    public void setMethod(String method) {
         // TODO implement here
     }
 

@@ -5,12 +5,12 @@ import java.util.*;
 /**
  * 
  */
-public class Coordinator {
+public class CoOrdinator {
 
     /**
      * Default constructor
      */
-    public Coordinator() {
+    public CoOrdinator() {
     }
 
     /**
@@ -18,10 +18,7 @@ public class Coordinator {
      */
     public List<Node> nodes;
 
-    /**
-     * 
-     */
-    public CommunicationManager commMgr;
+
 
     /**
      * @param node

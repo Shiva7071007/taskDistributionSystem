@@ -10,10 +10,10 @@ import com.itt.tds.client.Client;
 import com.itt.tds.coordinator.db.TDSDatabaseManager;
 
 public class TDSClientRepository implements ClientRepository {
-	private TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 
 	@Override
 	public int Add(Client client) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int clientId = 0;
 		String hostName = client.getHostName();
 		String userName = client.getUserName();
@@ -47,6 +47,7 @@ public class TDSClientRepository implements ClientRepository {
 
 	@Override
 	public void Modify(Client client) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int id = client.getId();
 		String newHostName = client.getHostName();
 		String newClientName = client.getUserName();
@@ -77,6 +78,7 @@ public class TDSClientRepository implements ClientRepository {
 
 	@Override
 	public void Delete(int clientId) throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		Connection conn = null;
 		PreparedStatement deleteClientStatement = null;
 
@@ -101,6 +103,7 @@ public class TDSClientRepository implements ClientRepository {
 
 	@Override
 	public List<Client> GetClients() throws Exception {
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		List<Client> allNodeList = new ArrayList<Client>();
 
 		Connection conn = null;

@@ -64,7 +64,7 @@ public class TDSConfiguration {
 
 	/**
 	 * @return
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public String getDBConnectionString() throws Exception {
 
@@ -84,6 +84,20 @@ public class TDSConfiguration {
 			dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
 		}
 		return dbConnectionString;
+	}
+
+	public int getMaxDBConnectionNumber() throws Exception {
+		int maxDBConnection = 0;
+		String tagName = "database";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+
+			String maxDBConnectionConfig = element.getElementsByTagName("db-max-connection").item(0).getTextContent();
+			maxDBConnection = Integer.parseInt(maxDBConnectionConfig);
+		}
+		return maxDBConnection;
 	}
 
 }

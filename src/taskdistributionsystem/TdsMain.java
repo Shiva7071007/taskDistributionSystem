@@ -1,5 +1,6 @@
 package taskdistributionsystem;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,15 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
+import com.itt.tds.utility.Utility;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.xml.sax.SAXException;
 
 import com.itt.tds.cfg.TDSConfiguration;
-import com.itt.tds.client.Client;;
-
+import com.itt.tds.client.Client;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 public class TdsMain {
 
 	public static void main(String[] args) throws Exception {
@@ -64,22 +64,35 @@ public class TdsMain {
 //			
 //			
 //		}
+		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		
-		ArrayList<String> arr = new ArrayList<String>();
-		
-		arr.add("hi");
-		arr.add("hello");
-		arr.add("world");
-		
-		System.out.println(arr.toString());
-		JSONArray jsarr = new JSONArray();
-		jsarr.addAll(arr);
-		System.out.println(jsarr);
-		String str1 = jsarr.toJSONString();
-		
-		JSONArray jsonArray1 = new JSONArray();
-		jsonArray1.add("hi");
-		
+		Connection conn = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn1 = tdsDatabaseManager.getConnection();
+		System.out.println(conn1.isValid(2));
+		Connection conn2 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn3 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn4 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn5 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn6 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn7 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn8 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn9 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn10 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn11 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+		Connection conn12 = tdsDatabaseManager.getConnection();
+		System.out.println(conn.isValid(2));
+
 		
 		
 		

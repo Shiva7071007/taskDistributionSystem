@@ -25,7 +25,7 @@ public class TDSSerializer {
      * @param protocolObject 
      * @param rawData
      */
-    public void DeSerialize(TDSProtocol protocolObject, void rawData) {
+    public void DeSerialize(TDSProtocol protocolObject, String rawData) {
         // TODO implement here
     }
 
