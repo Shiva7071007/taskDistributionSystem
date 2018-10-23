@@ -2,6 +2,8 @@ package com.itt.tds.cfg;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -51,8 +53,11 @@ public class TDSConfiguration {
 
 	private NodeList getElementsByTagName(String tagName) throws Exception {
 		NodeList tagNameList = null;
-		String configFileName = "TDS.xml";
+		String configFileName = "config/TDS.xml";
+		Path path = FileSystems.getDefault().getPath(configFileName).toAbsolutePath();
+		System.out.println(path.toString());
 		URL configFilePath = getClass().getResource(configFileName);
+		System.out.println(configFilePath);
 		File configFile = new File(configFilePath.getPath());
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();

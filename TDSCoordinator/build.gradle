@@ -25,6 +25,8 @@ dependencies {
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+    
+    runtime files('config')
 }
 
 // In this section you declare where to find the dependencies of your project
