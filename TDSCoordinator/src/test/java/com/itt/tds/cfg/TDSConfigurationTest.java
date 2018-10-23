@@ -1,15 +1,13 @@
-package test;
+package com.itt.tds.cfg;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-import com.itt.tds.cfg.TDSConfiguration;
-
-class TDSConfigurationTest {
+public class TDSConfigurationTest {
 
 	@Test
-	void testGetInstance() {
+	public void testGetInstance() {
 		// act
 		TDSConfiguration tdsCFG1 = TDSConfiguration.getInstance();
 		TDSConfiguration tdsCFG2 = TDSConfiguration.getInstance();
@@ -19,28 +17,29 @@ class TDSConfigurationTest {
 	}
 
 	@Test
-	void testGetDBConnectionString() throws Exception {
+	public void testGetDBConnectionString() throws Exception {
 		// arrange
 		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password";
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		
+
 		// act
 		String result = tdsCFG.getDBConnectionString();
 
 		// assert
 		assertEquals(dbConnectionString, result);
 	}
-	
-	@Test 
-	void testGetMaxDBConnectionNumber() throws Exception {
-		// arrange 
+
+	@Test
+	public void testGetMaxDBConnectionNumber() throws Exception {
+		// arrange
 		int maxDBConnectionnumber = 10;
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		
+
 		// act
 		int dbConnectionNumber = tdsCFG.getMaxDBConnectionNumber();
-		
+
 		// assert
 		assertEquals(maxDBConnectionnumber, dbConnectionNumber);
 	}
+
 }
