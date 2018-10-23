@@ -1,5 +1,5 @@
 */bin/
-*/trash/
+trash/
 */build/
 *.class
 */.gradle
