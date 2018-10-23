@@ -1,2 +1,6 @@
-/bin/
-/trash/
+*/bin/
+trash/
+*/build/
+*.class
+*/.gradle
+.vscode

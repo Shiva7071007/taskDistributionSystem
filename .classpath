@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="F:/workingCode/taskdistributionsystem/jar/mysql-connector-java-8.0.11.jar"/>
-	<classpathentry kind="lib" path="F:/workingCode/taskdistributionsystem/jar/gson-2.8.5.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" path="TDSCoordinator/src/main/java"/>
+	<classpathentry kind="src" path="TDSCoordinator/src/test/java"/>
+	<classpathentry kind="lib" path="TDSCoordinator/build/libs/TDS_vscode.jar"/>
+	<classpathentry kind="lib" path="TDSCoordinator/build/libs/TDSCoordinator.jar"/>
+	<classpathentry kind="lib" path="TDSCoordinator/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="output" path="TDSCoordinator/bin/main"/>
 </classpath>

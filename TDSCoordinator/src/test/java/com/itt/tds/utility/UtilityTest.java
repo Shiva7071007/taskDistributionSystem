@@ -1,17 +1,15 @@
-package test;
+package com.itt.tds.utility;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
 
 import java.util.ArrayList;
 
-import org.junit.jupiter.api.Test;
-
-import com.itt.tds.utility.Utility;
-
-class UtilityTest {
+public class UtilityTest {
 
 	@Test
-	void testStringArrayListToJSONArray() {
+	public void testStringArrayListToJSONArray() {
 		// arrange
 		ArrayList<String> arrList = new ArrayList<String>();
 		arrList.add("hi");
@@ -27,7 +25,7 @@ class UtilityTest {
 	}
 
 	@Test
-	void testJsonArrayToStringArrayList() {
+	public void testJsonArrayToStringArrayList() {
 		// arrange
 		String jsonString = "[\"hi\",\"hello\",\"world\"]";
 
@@ -42,4 +40,5 @@ class UtilityTest {
 		// assert
 		assertEquals(convertedArrayList, arrList);
 	}
+
 }
