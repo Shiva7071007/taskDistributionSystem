@@ -3,3 +3,4 @@ trash/
 */build/
 *.class
 */.gradle
+.vscode
