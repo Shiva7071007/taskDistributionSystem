@@ -94,8 +94,6 @@ public class TDSNodeRepository implements NodeRepository {
 
 		try {
 			conn = tdsDatabaseManager.getConnection();
-			tdsDatabaseManager.closeConnection(conn);
-			// conn.setAutoCommit(false);
 
 			String deleteNodeQuery = "DELETE FROM `tds`.`node` WHERE (`nodeId` = ?)";
 			deleteNodeStatement = conn.prepareStatement(deleteNodeQuery);
