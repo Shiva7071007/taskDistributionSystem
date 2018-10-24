@@ -18,28 +18,28 @@ public class TDSConfigurationTest {
 
 	@Test
 	public void testGetDBConnectionString() throws Exception {
-//		// arrange
-//		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password";
-//		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-//
-//		// act
-//		String result = tdsCFG.getDBConnectionString();
-//
-//		// assert
-//		assertEquals(dbConnectionString, result);
+		// arrange
+		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password";
+		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
+
+		// act
+		String result = tdsCFG.getDBConnectionString();
+
+		// assert
+		assertEquals(dbConnectionString, result);
 	}
 
 	@Test
 	public void testGetMaxDBConnectionNumber() throws Exception {
-//		// arrange
-//		int maxDBConnectionnumber = 10;
-//		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-//
-//		// act
-//		int dbConnectionNumber = tdsCFG.getMaxDBConnectionNumber();
-//
-//		// assert
-//		assertEquals(maxDBConnectionnumber, dbConnectionNumber);
+		// arrange
+		int maxDBConnectionnumber = 10;
+		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
+
+		// act
+		int dbConnectionNumber = tdsCFG.getMaxDBConnectionNumber();
+
+		// assert
+		assertEquals(maxDBConnectionnumber, dbConnectionNumber);
 	}
 
 }
