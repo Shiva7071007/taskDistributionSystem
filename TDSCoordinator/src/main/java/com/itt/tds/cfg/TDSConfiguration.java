@@ -53,12 +53,8 @@ public class TDSConfiguration {
 
 	private NodeList getElementsByTagName(String tagName) throws Exception {
 		NodeList tagNameList = null;
-		String configFileName = "config/TDS.xml";
-		Path path = FileSystems.getDefault().getPath(configFileName).toAbsolutePath();
-		System.out.println(path.toString());
-		URL configFilePath = getClass().getResource(configFileName);
-		System.out.println(configFilePath);
-		File configFile = new File(configFilePath.getPath());
+		String configFileName = "TDS.xml";
+		File configFile = new File(configFileName);
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 		Document configXML = documentBuilder.parse(configFile);
