@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <client clientId='1' hostName='shivam' userName='kumar' />
+
+    <client clientId='2' hostName='shiva' userName='kumar' />
+
+</dataset>
