@@ -31,6 +31,8 @@ dependencies {
 }
 
 task cleanAndTest {
+	group = 'customTask'
+    description = 'clean old tests and rerun them without running build again'
     dependsOn 'cleanTest'
     dependsOn 'test'
     tasks.findByName('test').mustRunAfter 'cleanTest'

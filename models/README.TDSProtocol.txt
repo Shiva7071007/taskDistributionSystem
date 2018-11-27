@@ -12,6 +12,7 @@ TDSProtocolFormat: json
 			"key2": "value2",
 			"key3": "value3"
 	}
+	"payload" : base64string
 }
 
 
