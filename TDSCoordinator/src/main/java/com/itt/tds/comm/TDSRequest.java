@@ -38,7 +38,7 @@ public class TDSRequest extends TDSProtocol {
 	 *******/
 	
 	public String getMethod() {
-		return headerParameters.get("method");
+		return getParameters("method");
 	}
 
 	public void setMethod(String method) {

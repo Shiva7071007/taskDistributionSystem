@@ -40,6 +40,14 @@ task cleanAndTest {
     tasks.findByName('test').mustRunAfter 'cleanTest'
 }
 
+task cleanAndBuild {
+	group = 'customTask'
+    description = 'clean > build > test'
+    dependsOn 'clean'
+    dependsOn 'build'
+    tasks.findByName('build').mustRunAfter 'clean'
+}
+
 test {
     testLogging {
         // Make sure output from
