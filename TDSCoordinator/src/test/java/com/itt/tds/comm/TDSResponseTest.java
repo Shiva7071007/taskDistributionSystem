@@ -142,19 +142,19 @@ public class TDSResponseTest {
 	@Test
 	public void testSetValue() {
 		// arrange
-				String key = "custom";
-				String value = "custom value";
-				Hashtable<String, String> headerParameters = new Hashtable<String, String>();
-				TDSResponse resObject1 = new TDSResponse();
-				TDSResponse resObject2 = new TDSResponse();
-				headerParameters.put(key, value);
-				resObject1.setHeaders(headerParameters);
+		String key = "custom";
+		String value = "custom value";
+		Hashtable<String, String> headerParameters = new Hashtable<String, String>();
+		TDSResponse resObject1 = new TDSResponse();
+		TDSResponse resObject2 = new TDSResponse();
+		headerParameters.put(key, value);
+		resObject1.setHeaders(headerParameters);
 
-				// act
-				resObject2.setValue(key, value);
+		// act
+		resObject2.setValue(key, value);
 
-				// assert
-				assertEquals(resObject2.getHeaders().get(key), resObject1.getHeaders().get(key));
+		// assert
+		assertEquals(resObject2.getHeaders().get(key), resObject1.getHeaders().get(key));
 	}
 
 	@Test

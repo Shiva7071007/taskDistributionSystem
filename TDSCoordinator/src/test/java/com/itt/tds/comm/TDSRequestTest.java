@@ -7,7 +7,7 @@ import java.util.Hashtable;
 import org.junit.Test;
 
 public class TDSRequestTest {
-	
+
 	@Test
 	public void testGetProtocolType() {
 		// Arrange
