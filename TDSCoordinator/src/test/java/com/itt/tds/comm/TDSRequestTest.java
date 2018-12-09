@@ -7,6 +7,20 @@ import java.util.Hashtable;
 import org.junit.Test;
 
 public class TDSRequestTest {
+	
+	@Test
+	public void testGetProtocolType() {
+		// Arrange
+		String protocolType = "request";
+		TDSRequest reqObject = new TDSRequest();
+
+		// act
+		String result = reqObject.getProtocolType();
+
+		// assert
+		assertEquals(result, protocolType);
+
+	}
 
 	@Test
 	public void testGetMethod() {
