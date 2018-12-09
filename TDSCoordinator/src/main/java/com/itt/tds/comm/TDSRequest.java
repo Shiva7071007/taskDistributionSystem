@@ -2,6 +2,8 @@ package com.itt.tds.comm;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  */
@@ -13,6 +15,9 @@ public class TDSRequest extends TDSProtocol {
 	 * Default constructor
 	 */
 	public TDSRequest() {
+		this.protocolType = "request";
+		headerParameters.put("method", "");
+		this.setHeaders(headerParameters);
 	}
 
 	/*******
@@ -37,6 +42,7 @@ public class TDSRequest extends TDSProtocol {
 	 * 
 	 *******/
 	
+	@JsonIgnore
 	public String getMethod() {
 		return getParameters("method");
 	}
@@ -46,8 +52,8 @@ public class TDSRequest extends TDSProtocol {
 	}
 	
 	public String getParameters(String key) {
-		Hashtable<String, String> headerParameters = getHeaders();
-		return headerParameters.get(key);
+		Hashtable<String, String> headerData = getHeaders();
+		return headerData.get(key);
 	}
 
 	public void setParameters(String parameter, String value) {

@@ -36,10 +36,10 @@ public class TDSRequestTest {
 		TDSRequest reqObject2 = new TDSRequest();
 		headerParameters.put(key, value);
 		reqObject1.setHeaders(headerParameters);
-		
+
 		// act
 		reqObject2.setMethod(value);
-		
+
 		// test
 		assertEquals(reqObject2.getHeaders(), reqObject1.getHeaders());
 	}
@@ -71,12 +71,12 @@ public class TDSRequestTest {
 		TDSRequest reqObject2 = new TDSRequest();
 		headerParameters.put(key, value);
 		reqObject1.setHeaders(headerParameters);
-		
+
 		// act
 		reqObject2.setParameters(key, value);
-		
+
 		// assert
-		assertEquals(reqObject2.getHeaders(), reqObject1.getHeaders());
+		assertEquals(reqObject2.getHeaders().get(key), reqObject1.getHeaders().get(key));
 	}
 
 }

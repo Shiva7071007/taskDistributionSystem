@@ -16,22 +16,7 @@ public class TDSProtocol {
 	/**
 	 * 
 	 */
-	private String sourceIp;
-
-	/**
-	 * 
-	 */
-	private String destIp;
-
-	/**
-	 * 
-	 */
-	private int sourcePort;
-
-	/**
-	 * 
-	 */
-	private int destPort;
+	private String protocolVersion;
 
 	/**
 	 * 
@@ -41,12 +26,27 @@ public class TDSProtocol {
 	/**
 	 * 
 	 */
-	private String protocolVersion;
+	protected String protocolType;
 
 	/**
 	 * 
 	 */
-	protected String protocolType;
+	private String sourceIp;
+
+	/**
+	 * 
+	 */
+	private int sourcePort;
+
+	/**
+	 * 
+	 */
+	private String destIp;
+
+	/**
+	 * 
+	 */
+	private int destPort;
 
 	/**
 	 * 
@@ -57,6 +57,14 @@ public class TDSProtocol {
 	 * 
 	 */
 	private byte[] data;
+
+	public String getProtocolVersion() {
+		return protocolVersion;
+	}
+
+	public void setProtocolVersion(String protocolVersion) {
+		this.protocolVersion = protocolVersion;
+	}
 
 	public String getSourceIp() {
 		return sourceIp;
@@ -98,20 +106,8 @@ public class TDSProtocol {
 		this.protocolFormat = protocolFormat;
 	}
 
-	public String getProtocolVersion() {
-		return protocolVersion;
-	}
-
-	public void setProtocolVersion(String protocolVersion) {
-		this.protocolVersion = protocolVersion;
-	}
-
 	public String getProtocolType() {
 		return protocolType;
-	}
-
-	public void setProtocolType(String protocolType) {
-		this.protocolType = protocolType;
 	}
 
 	public Hashtable<String, String> getHeaders() {
