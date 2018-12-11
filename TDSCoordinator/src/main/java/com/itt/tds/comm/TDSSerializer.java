@@ -5,28 +5,11 @@ import java.util.*;
 /**
  * 
  */
-public class TDSSerializer {
+public interface TDSSerializer {
+	// DeSerialize the String data into a TDSProtocol object
+	public TDSProtocol DeSerialize(String data);
 
-    /**
-     * Default constructor
-     */
-    public TDSSerializer() {
-    }
-
-    /**
-     * @param protocolObect 
-     * @param rawData
-     */
-    public void Serialize(TDSProtocol protocolObect, String rawData) {
-        // TODO implement here
-    }
-
-    /**
-     * @param protocolObject 
-     * @param rawData
-     */
-    public void DeSerialize(TDSProtocol protocolObject, String rawData) {
-        // TODO implement here
-    }
+	// Serialize the TDSProtocol object to a String format
+	public String Serialize(TDSProtocol protocol);
 
 }

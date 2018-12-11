@@ -2,57 +2,63 @@ package com.itt.tds.comm;
 
 import java.util.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * 
  */
 public class TDSRequest extends TDSProtocol {
+	
+	private Hashtable<String, String> headerParameters = new Hashtable<String, String>();
 
-    /**
-     * Default constructor
-     */
-    public TDSRequest() {
-    }
+	/**
+	 * Default constructor
+	 */
+	public TDSRequest() {
+		this.protocolType = "request";
+		headerParameters.put("method", "");
+		this.setHeaders(headerParameters);
+	}
 
-    /**
-     * 
-     */
-    public void getMethod() {
-        // TODO implement here
-    }
+	/*******
+	 * Sample TDSRequest JSON string 
+	 * 
+	 * { 
+	 * 		"TDSProtocolVersion":"1.0",
+	 * 		"TDSProtocolFormat":"json", 
+	 * 		"type":"request", 
+	 * 		"sourceIP":"127.0.0.1",
+	 * 		"sourcePort":"10001", 
+	 * 		"destinationIp":"127.0.0.1", 
+	 * 		"destinationPort":"10002",
+	 * 		"header":{ 
+	 * 			"method":"node-add", 
+	 * 			"node-name":"abc", 
+	 * 			"node-ip":"ip-address",
+	 * 			"node-port":"port" 
+	 * 		}, 
+	 * 		"payload":"base64string" 
+	 * }
+	 * 
+	 *******/
+	
+	@JsonIgnore
+	public String getMethod() {
+		return getParameters("method");
+	}
 
-    /**
-     * 
-     */
-    public void getParameters() {
-        // TODO implement here
-    }
+	public void setMethod(String method) {
+		setParameters("method", method);
+	}
+	
+	public String getParameters(String key) {
+		Hashtable<String, String> headerData = getHeaders();
+		return headerData.get(key);
+	}
 
-    /**
-     * 
-     */
-    public void getData() {
-        // TODO implement here
-    }
-
-    /**
-     * @param data
-     */
-    public void setData(byte[] data) {
-        // TODO implement here
-    }
-
-    /**
-     * @param method
-     */
-    public void setMethod(String method) {
-        // TODO implement here
-    }
-
-    /**
-     * @param params
-     */
-    public void setParameters(Hashtable params) {
-        // TODO implement here
-    }
+	public void setParameters(String parameter, String value) {
+		headerParameters.put(parameter, value);
+		setHeaders(headerParameters);
+	}
 
 }

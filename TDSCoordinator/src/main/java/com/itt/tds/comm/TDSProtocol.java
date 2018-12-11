@@ -7,52 +7,123 @@ import java.util.*;
  */
 public class TDSProtocol {
 
-    /**
-     * Default constructor
-     */
-    public TDSProtocol() {
-    }
+	/**
+	 * Default constructor
+	 */
+	public TDSProtocol() {
+	}
 
-    /**
-     * 
-     */
-    public String sourceIp;
+	/**
+	 * 
+	 */
+	private String protocolVersion;
 
-    /**
-     * 
-     */
-    public String destIp;
+	/**
+	 * 
+	 */
+	private String protocolFormat;
 
-    /**
-     * 
-     */
-    public int sourcePort;
+	/**
+	 * 
+	 */
+	protected String protocolType;
 
-    /**
-     * 
-     */
-    public int destPort;
+	/**
+	 * 
+	 */
+	private String sourceIp;
 
-    /**
-     * 
-     */
-    public String protocolFormat;
+	/**
+	 * 
+	 */
+	private int sourcePort;
 
-    /**
-     * 
-     */
-    public String protocolVersion;
+	/**
+	 * 
+	 */
+	private String destIp;
 
-    /**
-     * 
-     */
-    public Hashtable headers;
+	/**
+	 * 
+	 */
+	private int destPort;
 
-    /**
-     * 
-     */
-    public byte[] data;
+	/**
+	 * 
+	 */
+	private Hashtable<String, String> headers;
 
+	/**
+	 * 
+	 */
+	private byte[] data;
 
+	public String getProtocolVersion() {
+		return protocolVersion;
+	}
+
+	public void setProtocolVersion(String protocolVersion) {
+		this.protocolVersion = protocolVersion;
+	}
+
+	public String getSourceIp() {
+		return sourceIp;
+	}
+
+	public void setSourceIp(String sourceIp) {
+		this.sourceIp = sourceIp;
+	}
+
+	public String getDestIp() {
+		return destIp;
+	}
+
+	public void setDestIp(String destIp) {
+		this.destIp = destIp;
+	}
+
+	public int getSourcePort() {
+		return sourcePort;
+	}
+
+	public void setSourcePort(int sourcePort) {
+		this.sourcePort = sourcePort;
+	}
+
+	public int getDestPort() {
+		return destPort;
+	}
+
+	public void setDestPort(int destPort) {
+		this.destPort = destPort;
+	}
+
+	public String getProtocolFormat() {
+		return protocolFormat;
+	}
+
+	public void setProtocolFormat(String protocolFormat) {
+		this.protocolFormat = protocolFormat;
+	}
+
+	public String getProtocolType() {
+		return protocolType;
+	}
+
+	public Hashtable<String, String> getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(Hashtable<String, String> headers) {
+		this.headers = headers;
+	}
+
+	public byte[] getData() {
+		return data;
+	}
+
+	public void setData(byte[] data) {
+		this.data = data;
+	}
 
 }
