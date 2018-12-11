@@ -40,8 +40,6 @@ public class TDSResponseTest {
 
 		// act
 		resObject2.setStatus(value);
-		System.out.println(resObject2.getHeaders());
-		System.out.println(resObject1.getHeaders());
 
 		// test
 		assertEquals(resObject2.getHeaders(), resObject1.getHeaders());

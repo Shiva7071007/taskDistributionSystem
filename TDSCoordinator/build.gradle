@@ -25,6 +25,7 @@ dependencies {
     compile 'mysql:mysql-connector-java:8.0.11'
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
 	compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+	compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
