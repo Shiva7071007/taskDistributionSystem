@@ -1,6 +1,7 @@
 package com.itt.tds.comm;
 
 import java.util.Hashtable;
+import com.itt.tds.comm.CommConstants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,10 +16,10 @@ public class TDSResponse extends TDSProtocol {
 	 * Default constructor
 	 */
 	public TDSResponse() {
-		this.protocolType = "response";
-		headerParameters.put("status", "");
-		headerParameters.put("error-code", "");
-		headerParameters.put("error-message", "");
+		this.protocolType = CommConstants.RESPONSE;
+		headerParameters.put(CommConstants.STATUS, "");
+		headerParameters.put(CommConstants.ERROR_CODE, "");
+		headerParameters.put(CommConstants.ERROR_MESSAGE, "");
 		this.setHeaders(headerParameters);
 	}
 
@@ -46,29 +47,29 @@ public class TDSResponse extends TDSProtocol {
 
 	@JsonIgnore
 	public String getStatus() {
-		return getValue("status");
+		return getValue(CommConstants.STATUS);
 	}
 	
 	public void setStatus(String status) {
-		setValue("status", status);
+		setValue(CommConstants.STATUS, status);
 	}
 	
 	@JsonIgnore
 	public String getErrorCode() {
-		return getValue("error-code");
+		return getValue(CommConstants.ERROR_CODE);
 	}
 
 	public void setErrorCode(String errorCode) {
-		setValue("error-code", errorCode);
+		setValue(CommConstants.ERROR_CODE, errorCode);
 	}
 	
 	@JsonIgnore
 	public String getErrorMessage() {
-		return getValue("error-message");
+		return getValue(CommConstants.ERROR_MESSAGE);
 	}
 	
 	public void setErrorMessage(String message) {
-		setValue("error-message", message);
+		setValue(CommConstants.ERROR_MESSAGE, message);
 	}
 
 	public String getValue(String key) {

@@ -1,6 +1,7 @@
 package com.itt.tds.comm;
 
 import java.io.IOException;
+import com.itt.tds.comm.CommConstants;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,14 +16,14 @@ public class JSONSerializer implements TDSSerializer {
 		ObjectMapper mapper = new ObjectMapper();
 		
 		JsonObject jObject = new Gson().fromJson(data, JsonObject.class);
-		String protocolType = jObject.get("protocolType").getAsString();
+		String protocolType = jObject.get(CommConstants.PROTOCOL_TYPE).getAsString();
 		
 		try {
-			if (protocolType.equalsIgnoreCase("request")) {
+			if (protocolType.equalsIgnoreCase(CommConstants.REQUEST)) {
 				TDSProtocol reqObject = null;
 				reqObject = mapper.readValue(data, TDSRequest.class);
 				tdsProtocolObj = reqObject;
-			} else if (protocolType.equalsIgnoreCase("response")) {
+			} else if (protocolType.equalsIgnoreCase(CommConstants.RESPONSE)) {
 				TDSResponse resObject = null;
 				resObject = mapper.readValue(data, TDSResponse.class);
 				tdsProtocolObj = resObject;
