@@ -6,6 +6,9 @@ import java.util.*;
  * 
  */
 public class TDSProtocol {
+	
+	protected static String REQUEST = "request";
+	protected static String RESPONSE = "response";
 
 	/**
 	 * Default constructor

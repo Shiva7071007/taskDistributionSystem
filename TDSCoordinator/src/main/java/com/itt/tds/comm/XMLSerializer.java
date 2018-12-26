@@ -1,8 +1,5 @@
 package com.itt.tds.comm;
 
-import java.io.IOException;
-import com.itt.tds.comm.CommConstants;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
@@ -10,6 +7,7 @@ public class XMLSerializer implements TDSSerializer {
 
 	@Override
 	public TDSProtocol DeSerialize(String data) {
+
 		XmlMapper xmlMapper = new XmlMapper();
 		TDSProtocol tdsProtocolObj = null;
 		try {
@@ -17,19 +15,19 @@ public class XMLSerializer implements TDSSerializer {
 
 			String protocolType = tdsProtocolObj.getProtocolType();
 
-			if (protocolType.equalsIgnoreCase(CommConstants.REQUEST)) {
+			if (protocolType.equalsIgnoreCase(REQUEST)) {
 				TDSRequest reqObject = null;
 				reqObject = xmlMapper.readValue(data, TDSRequest.class);
 				tdsProtocolObj = reqObject;
-			} else if (protocolType.equalsIgnoreCase(CommConstants.RESPONSE)) {
+			} else if (protocolType.equalsIgnoreCase(RESPONSE)) {
 				TDSResponse resObject = null;
 				resObject = xmlMapper.readValue(data, TDSResponse.class);
 				tdsProtocolObj = resObject;
 			} else {
-				System.err.println("invalid XML string for protocol object");
+				throw new Exception("Invalid TDSPProtocol Serialized xml String: " + data);
 			}
-		} catch (IOException e) {
-			System.err.println("Incorrect format of XML");
+		} catch (Exception e) {
+			System.err.println("Invalid TDSPProtocol Serialized xml String: " + data);
 			e.printStackTrace();
 		}
 		return tdsProtocolObj;
