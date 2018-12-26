@@ -1,10 +1,6 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
-import java.net.URL;
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
-
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;

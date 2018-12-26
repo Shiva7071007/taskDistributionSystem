@@ -1,14 +1,16 @@
 package com.itt.tds.comm;
 
 public class TDSSerializerFactory {
-	public static TDSSerializer getSerializer(String protocolFormat) {
-		if (protocolFormat.equalsIgnoreCase("json")) {
+	private static String JSON = "json";
+	private static String XML = "xml";
+	
+	public static TDSSerializer getSerializer(String protocolFormat) throws Exception {
+		if (protocolFormat.equalsIgnoreCase(JSON)) {
 			return new JSONSerializer();
-		} else if (protocolFormat.equalsIgnoreCase("xml")) {
+		} else if (protocolFormat.equalsIgnoreCase(XML)) {
 			return new XMLSerializer();
 		} else {
-			System.err.println("Incorrect protocol format passed");
-			return null;
+			throw new Exception("Invalid TDSSerializser Format : " + protocolFormat);
 		}
 	}
 }

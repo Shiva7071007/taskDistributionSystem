@@ -1,7 +1,5 @@
 package com.itt.tds.coordinator;
 
-import java.util.*;
-
 import com.itt.tds.core.TaskResult;
 
 /**
