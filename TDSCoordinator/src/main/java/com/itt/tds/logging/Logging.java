@@ -1,7 +1,5 @@
 package com.itt.tds.logging;
 
-import java.util.*;
-
 /**
  * 
  */

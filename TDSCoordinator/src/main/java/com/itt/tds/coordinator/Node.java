@@ -1,8 +1,6 @@
 package com.itt.tds.coordinator;
 
 import java.net.Socket;
-import java.util.*;
-
 import com.itt.tds.core.NodeState;
 import com.itt.tds.core.Task;
 
