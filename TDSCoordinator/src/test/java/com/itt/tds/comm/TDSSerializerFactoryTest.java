@@ -93,7 +93,6 @@ public class TDSSerializerFactoryTest {
 		TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer("xml");
 
 		String result = dataSerializer.Serialize(reqObject);
-		System.out.println(result);
 
 		assertEquals(result, requestObjectXMLString);
 	}
