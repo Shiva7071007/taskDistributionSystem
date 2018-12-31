@@ -1,0 +1,5 @@
+rootProject.name = 'TDS'
+include 'core'
+include 'co-ordinator'
+include 'client'
+include 'node'
