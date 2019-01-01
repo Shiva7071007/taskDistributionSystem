@@ -1,0 +1,81 @@
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'eclipse'
+    
+
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        // This dependency is found on compile classpath of this component and consumers.
+        compile 'com.google.guava:guava:23.0'
+        compile 'com.google.code.gson:gson:2.8.5'
+        compile 'mysql:mysql-connector-java:8.0.11'
+        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	    
+        // Use JUnit test framework
+        testCompile 'junit:junit:4.12'
+        testCompile 'org.dbunit:dbunit:2.5.4'
+        testCompile 'org.slf4j:slf4j-simple:1.6.1'
+    }
+
+    task cleanAndTest {
+	    group = 'customTask'
+        description = 'clean old tests and rerun them without running build again'
+        dependsOn 'cleanTest'
+        dependsOn 'test'
+        tasks.findByName('test').mustRunAfter 'cleanTest'
+    }
+
+    task cleanAndBuild {
+	    group = 'customTask'
+        description = 'clean > build > test'
+        dependsOn 'clean'
+        dependsOn 'build'
+        tasks.findByName('build').mustRunAfter 'clean'
+    }
+
+    test {
+        testLogging {
+            // Make sure output from
+            // standard out or error is shown
+            // in Gradle output.
+            // showStandardStreams = true
+ 
+            // Or we use events method:
+            // events 'standard_out', 'standard_error'
+ 
+            // Or set property events:
+            // events = ['standard_out', 'standard_error']
+ 
+            // Instead of string values we can
+            // use enum values:
+            // events org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_OUT,
+            //        org.gradle.api.tasks.testing.logging.TestLogEvent.STANDARD_ERROR,
+        }
+    }  
+
+}
+
+project(':core') {
+
+    apply plugin: 'java-library'
+
+    dependencies {
+        compile 'com.fasterxml.jackson.core:jackson-databind:2.9.7'
+	    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.9.4'
+    }
+}
+
+project(':client') {
+    apply plugin: 'application'
+}
+
+project(':co-ordinator') {
+    apply plugin: 'application'
+}
+
+project(':node') {
+    apply plugin: 'application'
+}
