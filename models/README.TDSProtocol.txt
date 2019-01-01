@@ -120,6 +120,31 @@ interface TDSSerializer{
 
 Implement this interface as a JSONSerializer or XMLSeriaizer and also implement a Factory class to get the Serializer object.
 
++ Server implementation
+
+main() {
+	TDSServer server = new TDSServer();
+	server.start();
+}
+TDSServer.java
+------------
+class TDSServer{
+	//Initialize a ServerSocket in constructor on a given port.
+	//Define the port configuration in TDSConfiguration and use that instead of hardcoding.
+	public TDSServer(){}
+
+	public void start(){
+	//Do the following sequence in a while loop.
+		//Wait for data to arrive at the socket.
+		//Read the data
+		//De-Serialize to get the Request.
+		//Log the request
+		//Construct a TDSResponse
+		//Serialize the TDSResponse
+		//Write the serialized output to the socket
+	}
+	
+}
 + Client implementation.
 
 main() {
@@ -130,15 +155,9 @@ request.addParameter("node-name","node1");
 request.addParamter("node-ip","Ip-address");
 request.addParamter("node-port","port");
 
-TDSSerializer dataSerializer=  TDSSerializerFactory.getSerializer();
 
-String request = dataSerializer.Serialize(req);
-
-//Write the code to send the request to server
-
-String response=SendRequest(request);
-
-TDSResponse response = (TDSResponse)dataSerializer.DeSerialize(response);
+TDSClient client = new TDSClient();
+TDSResponse response = client.sendRequest(req);
 
 System.out.println("Resposne status:"+response.getStatus());
 System.out.println("Response error code:"+response.getErrorCode());
@@ -146,9 +165,20 @@ System.out.println("Response error message:"+response.getErrorMessage());
 
 
 }
+	
+
+TDSClient.java
+----------
+
+class Client{
+   TDSResponse sendRequest(TDSRequest request){
+      //Open a socket connection to server
+      //Send the serialized data to server and wait for response
+      //De-Serialize the response and return
+   }
 
 
-+ Server implementation
++ Advanced Server implementation(NOT TO BE IMPLEMENTED FOR NOW)
 
 main() {
 	//Here you are in a loop to recieve the request
@@ -196,7 +226,10 @@ class SocketHandler implements Runnable{
 		//Convert the request to TDSRequest 
 		TDSController controller= RequestDispatcher.getController(TDSRequest request);
 		TDSResponse response = controller.processRequest(request);
-		String responseData = //Serialize the response data;
+TDSResponse response = new TDSResponse();
+response.setStatus(true);
+response.setErrorCode(0);
+response.setErrroMessage("Operation		String responseData = //Serialize the response data;
 		writeResponse(sock,responseData);
 	}
 	private String getRequest(Socket sock);
