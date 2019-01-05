@@ -7,9 +7,8 @@
  */
 
 dependencies {
-
-	compile project(':core')
+	implementation project(':core')
 }
 
 // Define the main class for the application
-mainClassName = 'client.App'
+mainClassName = 'client.Taskmgr'

@@ -5,14 +5,11 @@ import com.itt.tds.cfg.TDSConfiguration;
  */
 
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+	public String getGreeting() {
+		return "Hello world.";
+	}
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(new App().getGreeting());
-        
-        TDSConfiguration cfg = TDSConfiguration.getInstance();
-        System.out.println(cfg.getDBConnectionString());
-    }
+	public static void main(String[] args) throws Exception {
+		System.out.println(new App().getGreeting());
+	}
 }

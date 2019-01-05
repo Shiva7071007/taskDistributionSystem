@@ -6,9 +6,9 @@ package client;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class AppTest {
+public class TaskmgrTest {
     @Test public void testAppHasAGreeting() {
-        App classUnderTest = new App();
+        Taskmgr classUnderTest = new Taskmgr();
         assertNotNull("app should have a greeting", classUnderTest.getGreeting());
     }
 }
