@@ -6,4 +6,8 @@
         <db-user-password>password</db-user-password>
         <db-max-connection>10</db-max-connection>
     </database>
+    <co-ordinator>
+        <co-ordinator-ip>127.0.0.1</co-ordinator-ip>
+        <co-ordinator-port>5000</co-ordinator-port>
+    </co-ordinator>
 </tds>

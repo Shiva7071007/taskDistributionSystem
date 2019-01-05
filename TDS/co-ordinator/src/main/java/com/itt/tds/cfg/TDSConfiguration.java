@@ -97,4 +97,30 @@ public class TDSConfiguration {
 		return maxDBConnection;
 	}
 
+	public String getCoordinatorIP() throws Exception {
+		String coordinatorIP = "";
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+
+			coordinatorIP = element.getElementsByTagName("co-ordinator-ip").item(0).getTextContent();
+		}
+		return coordinatorIP;
+	}
+	
+	public int getCoordinatorPort() throws Exception {
+		int coordinatorPort = 0;
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+			
+			coordinatorPort = Integer.parseInt(element.getElementsByTagName("co-ordinator-port").item(0).getTextContent());
+		}
+		return coordinatorPort;
+	}
+
 }
