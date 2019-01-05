@@ -5,9 +5,29 @@
  * For more details take a look at the Java Quickstart chapter in the Gradle
  * user guide available at https://docs.gradle.org/5.0/userguide/tutorial_java_projects.html
  */
+ 
+plugins {
+  id 'edu.sc.seis.launch4j' version '2.4.4'
+}
+
 dependencies {
     implementation project(':core')
 }
 
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'node.App'
+        )
+    }
+}
+
+launch4j {
+  mainClassName = 'node.App'
+  icon = "${projectDir}/icons/slave.ico"
+  headerType = "console"
+}
+
 // Define the main class for the application
 mainClassName = 'node.App'
+
