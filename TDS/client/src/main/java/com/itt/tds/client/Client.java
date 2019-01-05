@@ -1,16 +1,12 @@
 package com.itt.tds.client;
 
+import java.util.List;
+
 import com.itt.tds.core.Task;
 import com.itt.tds.core.TaskResult;
 
-import picocli.CommandLine;
-import picocli.CommandLine.*;
 
-
-// Defining sub-commands for TAskMgr
-//@Command(name = "")
-
-public class Client extends com.itt.tds.core.Client {
+public class Client  {
 
 //	/**
 //	 * Default constructor
@@ -36,8 +32,14 @@ public class Client extends com.itt.tds.core.Client {
 //	}
 	
     public static void main(String... args) {
-    	System.out.println("test");
-        //CommandLine.run(new Greet(), args);
+//    	System.out.println("test");
+//    	CommandLine commandLine = new CommandLine(new Client());
+//    	commandLine.addSubcommand("status",   new Result());
+////    	List<CommandLine> parsed = commandLine.parse(args);
+////    	System.out.println(parsed);
+//        //CommandLine.run(new Greet(), args);
+//    	List<Object> result = commandLine.parseWithHandler(new RunAll(), args);
     }
+
 
 }

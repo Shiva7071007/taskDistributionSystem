@@ -3,13 +3,33 @@
  */
 package client;
 
-public class Taskmgr {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+import java.util.List;
 
-    public static void main(String[] args) {
-        System.out.println(new Taskmgr().getGreeting());
-        com.itt.tds.client.Client.main(args);
-    }
+import com.itt.tds.client.Query;
+import com.itt.tds.client.Queue;
+import com.itt.tds.client.Result;
+
+import picocli.CommandLine;
+import picocli.CommandLine.*;
+
+@Command(description = "task mgr", mixinStandardHelpOptions = true, // auto-include --help and --version
+		subcommands = { Queue.class, Query.class, Result.class })
+public class Taskmgr implements Runnable {
+	public String getGreeting() {
+		return "Hello world.";
+	}
+
+	public static void main(String[] args) {
+		System.out.println(new Taskmgr().getGreeting());
+
+		Taskmgr app = new Taskmgr();
+		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
+	}
+
+	@Override
+	public void run() {
+		System.out.println("#taskmgr.call");
+
+	}
+
 }

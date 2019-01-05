@@ -28,4 +28,5 @@ launch4j {
   mainClassName = 'client.Taskmgr'
   icon = "${projectDir}/icons/client.ico"
   headerType = "console"
+  outfile = "taskmgr.exe"
 }
