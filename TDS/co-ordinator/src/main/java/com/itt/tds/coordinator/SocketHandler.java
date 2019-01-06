@@ -46,8 +46,15 @@ public class SocketHandler implements Runnable {
 
 		} catch (Exception e) {
 			logger.error("something bad happened for socket : " + sock, e);
-			logger.trace("Socket : " + sock +" will be closed");
+			logger.trace("Socket : " + sock + " will be closed");
 			try {
+				sock.close();
+			} catch (IOException e1) {
+				logger.error("failed to close Socket : " + sock, e1);
+			}
+		} finally {
+			try {
+				logger.trace("Socket : " + sock + " will be closed");
 				sock.close();
 			} catch (IOException e1) {
 				logger.error("failed to close Socket : " + sock, e1);
@@ -59,14 +66,14 @@ public class SocketHandler implements Runnable {
 		BufferedReader socketReader = null;
 		String request = "";
 
-		try {			
+		try {
 			socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			request = socketReader.readLine(); //lines().collect(Collectors.joining());
+			request = socketReader.readLine(); // lines().collect(Collectors.joining());
 		} catch (IOException e) {
 			logger.error("Reading from socket failed for client : " + sock, e);
 			logger.warn("retrying reading again");
 
-			try {				
+			try {
 				socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 				request = socketReader.lines().collect(Collectors.joining());
 			} catch (IOException e1) {
@@ -74,11 +81,15 @@ public class SocketHandler implements Runnable {
 			}
 
 		} finally {
-			try {
-				socketReader.close();
-			} catch (IOException e) {
-				logger.fatal("failed to close bufferreader for sock : " + sock, e);
-			}
+			/******
+			 * /* Closing the returned OutputStream will close the associated socket. /*
+			 * have to do something about it
+			 ******/
+			// try {
+			// socketReader.close();
+			// } catch (IOException e) {
+			// logger.fatal("failed to close BufferedReader for sock : " + sock, e);
+			// }
 		}
 		logger.trace("request got from sock : " + sock + " ==> \n " + request);
 		return request;
@@ -92,7 +103,7 @@ public class SocketHandler implements Runnable {
 		} catch (IOException e) {
 			logger.error("failed to write response for socket : " + sock, e);
 			logger.warn("retrying writing again");
-			
+
 			try {
 				socketWriter = new PrintWriter(sock.getOutputStream(), true);
 				socketWriter.println(responseData);
@@ -100,7 +111,11 @@ public class SocketHandler implements Runnable {
 				logger.fatal("failed to write response again for socket : " + sock, e);
 			}
 		} finally {
-			socketWriter.close();
+			/******
+			 * /* when you close the PrintWriter, /* it'll close the associated OutputStream
+			 * /* which will close the associated socket.
+			 ******/
+			// socketWriter.close();
 		}
 	}
 
