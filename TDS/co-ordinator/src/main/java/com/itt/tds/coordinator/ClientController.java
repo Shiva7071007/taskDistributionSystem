@@ -1,12 +1,9 @@
 package com.itt.tds.coordinator;
 
-import java.util.*;
-
 import org.apache.log4j.Logger;
 
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.core.Task;
 import com.itt.tds.logging.TDSLogger;
 
 /**
@@ -42,6 +39,7 @@ public class ClientController implements TDSController {
 		resObject.setErrorCode("0");
 		resObject.setErrorMessage("no-error");
 		resObject.setValue("taskId", "155");
+		resObject.setValue("taskStatus", "queued");
 		
 		return resObject;
 	}

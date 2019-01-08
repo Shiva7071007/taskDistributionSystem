@@ -5,6 +5,11 @@ package client;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.itt.tds.core.*;
+import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.client.Config;
 import com.itt.tds.client.Query;
 import com.itt.tds.client.Queue;
 import com.itt.tds.client.Result;
@@ -12,23 +17,21 @@ import com.itt.tds.client.Result;
 import picocli.CommandLine;
 import picocli.CommandLine.*;
 
-@Command(description = "task mgr", mixinStandardHelpOptions = true, // auto-include --help and --version
-		subcommands = { Queue.class, Query.class, Result.class })
+@Command(description = "A multi-node Task executer", mixinStandardHelpOptions = true, // auto-include --help and --version
+		subcommands = { Queue.class, Query.class, Result.class, Config.class })
 public class Taskmgr implements Runnable {
-	public String getGreeting() {
-		return "Hello world.";
-	}
+	static Logger logger = new TDSLogger().getLogger();
 
 	public static void main(String[] args) {
-		System.out.println(new Taskmgr().getGreeting());
-
 		Taskmgr app = new Taskmgr();
+		if (args.length == 0)
+			CommandLine.usage(app, System.out);
+			
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
 	}
 
 	@Override
 	public void run() {
-		System.out.println("#taskmgr.call");
 
 	}
 

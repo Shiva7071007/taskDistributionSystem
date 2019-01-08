@@ -8,7 +8,5 @@ import static org.junit.Assert.*;
 
 public class TaskmgrTest {
     @Test public void testAppHasAGreeting() {
-        Taskmgr classUnderTest = new Taskmgr();
-        assertNotNull("app should have a greeting", classUnderTest.getGreeting());
     }
 }
