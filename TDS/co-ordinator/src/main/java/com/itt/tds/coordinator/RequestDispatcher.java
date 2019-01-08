@@ -6,7 +6,7 @@ import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.logging.TDSLogger;
 
 class RequestDispatcher {
-	static Logger logger = TDSLogger.getLogger();
+	static Logger logger = new TDSLogger().getLogger();
 	
 	public static TDSController getController(TDSRequest request) throws Exception {
 		if (request.getMethod().startsWith("node-")) {

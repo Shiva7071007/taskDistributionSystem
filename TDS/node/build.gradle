@@ -11,7 +11,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':core')
+    compile project(':core')
 }
 
 jar {

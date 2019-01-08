@@ -17,7 +17,7 @@ import com.itt.tds.logging.TDSLogger;
 
 public class SocketHandler implements Runnable {
 
-	static Logger logger = TDSLogger.getLogger();
+	static Logger logger = new TDSLogger().getLogger();
 
 	Socket sock;
 
@@ -41,6 +41,7 @@ public class SocketHandler implements Runnable {
 
 			// Serialize the response data;
 			String responseData = dataSerializer.Serialize(response);
+			//String responseData = "{\"protocolVersion\":\"1.0\",\"protocolFormat\":\"JSON\",\"protocolType\":\"request\",\"sourceIp\":\"127.0.0.1\",\"sourcePort\":10001,\"destIp\":\"127.0.0.1\",\"destPort\":10002,\"headers\":{\"node-ip\":\"127.0.0.1\",\"node-name\":\"node1\",\"method\":\"node-add\"},\"data\":null}";
 			logger.trace("writing response for socket : " + sock + "==> \n " + responseData);
 			writeResponse(sock, responseData);
 
@@ -68,7 +69,7 @@ public class SocketHandler implements Runnable {
 
 		try {
 			socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			request = socketReader.readLine(); // lines().collect(Collectors.joining());
+			request = socketReader.readLine();
 		} catch (IOException e) {
 			logger.error("Reading from socket failed for client : " + sock, e);
 			logger.warn("retrying reading again");
@@ -82,7 +83,7 @@ public class SocketHandler implements Runnable {
 
 		} finally {
 			/******
-			 * /* Closing the returned OutputStream will close the associated socket. /*
+			 * Closing the returned OutputStream will close the associated socket. 
 			 * have to do something about it
 			 ******/
 			// try {
@@ -112,8 +113,9 @@ public class SocketHandler implements Runnable {
 			}
 		} finally {
 			/******
-			 * /* when you close the PrintWriter, /* it'll close the associated OutputStream
-			 * /* which will close the associated socket.
+			 /* when you close the PrintWriter, 
+			 /* it'll close the associated OutputStream
+			 /* which will close the associated socket.
 			 ******/
 			// socketWriter.close();
 		}

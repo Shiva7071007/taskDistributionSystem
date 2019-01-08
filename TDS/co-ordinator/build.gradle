@@ -10,7 +10,7 @@ plugins {
 }
 
 dependencies {
-    implementation project(':core')
+    compile project(':core')
 }
 
 // Define the main class for the application
