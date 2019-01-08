@@ -1,9 +1,6 @@
 package com.itt.tds.client;
 
-import picocli.CommandLine;
 import picocli.CommandLine.Command;
-
-import static picocli.CommandLine.*;
 
 
 @Command(name = "query", mixinStandardHelpOptions = true, header = "get the current status of task by task ID")

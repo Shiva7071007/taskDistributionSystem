@@ -11,10 +11,12 @@ import com.itt.tds.comm.TDSSerializer;
 import com.itt.tds.comm.TDSSerializerFactory;
 
 public class Server {
+	private static String PROTOCOL_FORMAT = "JSON";
+	
 	static TDSResponse getResponse(TDSRequest request) {
 		TDSResponse response = null;
 		try (Socket socket = new Socket(request.getDestIp(), request.getDestPort())) {
-			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer("json");
+			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer(PROTOCOL_FORMAT);
 			String requestData = dataSerializer.Serialize(request);
 
 			BufferedReader serverReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

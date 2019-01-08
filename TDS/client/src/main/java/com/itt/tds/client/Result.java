@@ -1,6 +1,5 @@
 package com.itt.tds.client;
 
-import picocli.CommandLine;
 import static picocli.CommandLine.*;
 
 @Command(name = "result", mixinStandardHelpOptions = true, header = "get the result for passed task ID")

@@ -15,6 +15,10 @@ public class Config implements Runnable{
 	
 	@Option(names = "--port", defaultValue = "5000", description = "port of the server. default: ${DEFAULT-VALUE}")
 	String port;
+	
+	private static String CO_ORDINATOR_IP = "co-ordinator-ip";
+	private static String CO_ORDINATOR_PORT = "co-ordinator-port";
+	private static String PROPERTIES_FILE = "config.properties";
 
 	@Override
 	public void run() {
@@ -23,11 +27,11 @@ public class Config implements Runnable{
 
 		try {
 
-			output = new FileOutputStream("config.properties");
+			output = new FileOutputStream(PROPERTIES_FILE);
 
 			// set the properties value
-			prop.setProperty("co-ordinator-ip", ip);
-			prop.setProperty("co-ordinator-port", port);
+			prop.setProperty(CO_ORDINATOR_IP, ip);
+			prop.setProperty(CO_ORDINATOR_PORT, port);
 
 			// save properties to project root folder
 			prop.store(output, "properties file for connecting to server");
