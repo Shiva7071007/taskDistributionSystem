@@ -92,7 +92,7 @@ public class SocketHandler implements Runnable {
 			// logger.fatal("failed to close BufferedReader for sock : " + sock, e);
 			// }
 		}
-		logger.trace("request got from sock : " + sock + " ==> \n " + request);
+		// logger.trace("request got from sock : " + sock + " ==> \n " + request);
 		return request;
 	}
 
