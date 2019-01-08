@@ -2,6 +2,10 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'eclipse'
     
+	//group = 'com.itt.tds'    
+    //version = '1.0'
+    
+    
 
     repositories {
         jcenter()
@@ -12,12 +16,13 @@ subprojects {
         compile 'com.google.guava:guava:23.0'
         compile 'com.google.code.gson:gson:2.8.5'
         compile 'mysql:mysql-connector-java:8.0.11'
-        // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	    compile 'info.picocli:picocli:3.8.2'
+	    compile 'log4j:log4j:1.2.17'
 	    
         // Use JUnit test framework
+        compile 'org.slf4j:slf4j-simple:1.6.1'
         testCompile 'junit:junit:4.12'
         testCompile 'org.dbunit:dbunit:2.5.4'
-        testCompile 'org.slf4j:slf4j-simple:1.6.1'
     }
 
     task cleanAndTest {
@@ -68,7 +73,7 @@ project(':core') {
     }
 }
 
-project(':client') {
+project(':client') {	
     apply plugin: 'application'
 }
 

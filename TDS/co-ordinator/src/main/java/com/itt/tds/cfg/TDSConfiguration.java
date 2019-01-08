@@ -1,6 +1,8 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
+import java.net.URI;
+
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -49,7 +51,8 @@ public class TDSConfiguration {
 
 	private NodeList getElementsByTagName(String tagName) throws Exception {
 		NodeList tagNameList = null;
-		String configFileName = "./src/main/resources/TDS.xml";
+		//URI configFileName = getClass().getClassLoader().getResource("TDS.xml").toURI();//"src/main/resources/TDS.xml";
+		String configFileName = "TDS.xml";
 		File configFile = new File(configFileName);
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
@@ -95,6 +98,32 @@ public class TDSConfiguration {
 			maxDBConnection = Integer.parseInt(maxDBConnectionConfig);
 		}
 		return maxDBConnection;
+	}
+
+	public String getCoordinatorIP() throws Exception {
+		String coordinatorIP = "";
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+
+			coordinatorIP = element.getElementsByTagName("co-ordinator-ip").item(0).getTextContent();
+		}
+		return coordinatorIP;
+	}
+	
+	public int getCoordinatorPort() throws Exception {
+		int coordinatorPort = 0;
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+			
+			coordinatorPort = Integer.parseInt(element.getElementsByTagName("co-ordinator-port").item(0).getTextContent());
+		}
+		return coordinatorPort;
 	}
 
 }

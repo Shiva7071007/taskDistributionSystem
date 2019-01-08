@@ -1,11 +1,13 @@
 package com.itt.tds.coordinator;
 
+import com.itt.tds.comm.TDSRequest;
+import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.core.TaskResult;
 
 /**
  * 
  */
-public class NodeController {
+public class NodeController implements TDSController{
 
     /**
      * Default constructor
@@ -41,5 +43,11 @@ public class NodeController {
     private void saveResult(TaskResult taskResult) {
         // TODO implement here
     }
+
+	@Override
+	public TDSResponse processRequest(TDSRequest request) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

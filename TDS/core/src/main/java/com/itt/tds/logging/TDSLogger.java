@@ -1,71 +1,12 @@
 package com.itt.tds.logging;
 
+import org.apache.log4j.Logger;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+public class TDSLogger {
 
-public class TDSLogger implements Logging {
-	
-	private Logger tdsLogger;
-	
-	public TDSLogger(Class<?> loggerClass) {
-		tdsLogger = Logger.getLogger(loggerClass.getName());
-    }
-
-	@Override
-	public void logWarn(String className, String methodName, String message) {
-		if(tdsLogger.isLoggable(Level.WARNING)) {
-			tdsLogger.log(Level.WARNING, message);
-		}
+	public Logger getLogger () {
+		String className = new Exception().getStackTrace()[1].getClassName();
+		Logger logger = Logger.getLogger(className);
+		return logger;
 	}
-
-	@Override
-	public void logWarn(String className, String methodName, String message, Exception ex) {
-		if(tdsLogger.isLoggable(Level.WARNING)) {
-			tdsLogger.log(Level.WARNING, message);
-		}
-	}
-
-	@Override
-	public void logError(String className, String methodName, String message) {
-		if(tdsLogger.isLoggable(Level.SEVERE)) {
-			tdsLogger.log(Level.SEVERE, message);
-		}
-	}
-
-	@Override
-	public void logError(String className, String methodName, String message, Exception ex) {
-		if(tdsLogger.isLoggable(Level.SEVERE)) {
-			tdsLogger.log(Level.SEVERE, message);
-		}
-	}
-
-	@Override
-	public void logInfo(String className, String methodName, String message) {
-		if(tdsLogger.isLoggable(Level.INFO)) {
-			tdsLogger.log(Level.INFO, message);
-		}
-	}
-
-	@Override
-	public void logInfo(String className, String methodName, String message, Exception ex) {
-		if(tdsLogger.isLoggable(Level.INFO)) {
-			tdsLogger.log(Level.INFO, message);
-		}
-	}
-
-	@Override
-	public void logDebug(String className, String methodName, String message) {
-		if(tdsLogger.isLoggable(Level.FINE)) {
-			tdsLogger.log(Level.FINE, message);
-		}
-	}
-
-	@Override
-	public void logDebug(String className, String methodName, String message, Exception ex) {
-		if(tdsLogger.isLoggable(Level.FINE)) {
-			tdsLogger.log(Level.FINE, message);
-		}
-	}
-
 }
