@@ -26,6 +26,7 @@ public class Taskmgr implements Runnable {
 		if (args.length == 0)
 			CommandLine.usage(app, System.out);
 			
+		@SuppressWarnings("unused")
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
 	}
 
