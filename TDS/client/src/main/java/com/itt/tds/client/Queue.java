@@ -24,13 +24,13 @@ public class Queue implements Runnable {
 
 	static Logger logger = new TDSLogger().getLogger();
 
-	private static String HOSTNAME = "hostname";
-	private static String USERNAME = "userName";
-	private static String CLIENT_QUEUE_TASK = "client-queueTask";
-	private static String TASK_NAME = "taskName";
-	private static String PARAMETERS = "parameters";
-	private static String TASK_STATUS = "taskStatus";
-	private static String TASK_ID = "taskId";
+	private static final String HOSTNAME = "hostname";
+	private static final String USERNAME = "userName";
+	private static final String CLIENT_QUEUE_TASK = "client-queueTask";
+	private static final String TASK_NAME = "taskName";
+	private static final String PARAMETERS = "parameters";
+	private static final String TASK_STATUS = "taskStatus";
+	private static final String TASK_ID = "taskId";
 
 	@Override
 	public void run() {
@@ -61,9 +61,16 @@ public class Queue implements Runnable {
 			request.setData(Utility.convertToByte(task));
 
 			TDSResponse response = Server.getResponse(request);
-			String status = response.getValue(TASK_STATUS);
-			String taskId = response.getValue(TASK_ID);
-			logger.info(status + ", task ID:" + taskId);
+			
+			if(response.getStatus().equalsIgnoreCase("SUCCESS")) {
+				String status = response.getValue(TASK_STATUS);
+				String taskId = response.getValue(TASK_ID);
+				logger.info(status + ", task ID:" + taskId);
+			} else {
+				String errorCode = response.getErrorCode();
+				String errorMsg = response.getErrorMessage();
+				logger.error("Error-code : " + errorCode + " " + errorMsg);
+			}
 		}
 
 	}

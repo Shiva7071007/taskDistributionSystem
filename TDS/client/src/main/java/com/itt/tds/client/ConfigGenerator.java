@@ -60,17 +60,17 @@ public class ConfigGenerator implements Runnable {
 	@Option(names = "--user-name", description = "user name of current machine. (default: ${DEFAULT-VALUE})")
 	String userName = getUserName();
 
-	private static String PROPERTIES_FILE = "config.properties";
-	private static String CO_ORDINATOR_IP = "co-ordinator-ip";
-	private static String CO_ORDINATOR_PORT = "co-ordinator-port";
-	private static String PROTOCOL_FORMAT = "protocol-format";
-	private static String PROTOCOL_VERSION = "protocol-version";
-	private static String LOG_LEVEL = "log-level";
-	private static String USER_NAME = "user.name";
-	private static String SOURCE_PORT = "source-port";
-	private static String SOURCE_IP = "source-ip";
-	private static String HOSTNAME = "hostName";
-	private static String USERNAME = "userName";
+	private static final String PROPERTIES_FILE = "config.properties";
+	private static final String CO_ORDINATOR_IP = "co-ordinator-ip";
+	private static final String CO_ORDINATOR_PORT = "co-ordinator-port";
+	private static final String PROTOCOL_FORMAT = "protocol-format";
+	private static final String PROTOCOL_VERSION = "protocol-version";
+	private static final String LOG_LEVEL = "log-level";
+	private static final String USER_NAME = "user.name";
+	private static final String SOURCE_PORT = "source-port";
+	private static final String SOURCE_IP = "source-ip";
+	private static final String HOSTNAME = "hostName";
+	private static final String USERNAME = "userName";
 
 	static Logger logger = new TDSLogger().getLogger();
 
