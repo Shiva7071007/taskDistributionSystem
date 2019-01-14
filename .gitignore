@@ -6,3 +6,4 @@ trash/
 */.gradle
 .vscode
 .gradle
+TDS/*/log/logging.log
