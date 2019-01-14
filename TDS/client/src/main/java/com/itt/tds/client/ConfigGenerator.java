@@ -53,10 +53,10 @@ public class ConfigGenerator implements Runnable {
 
 	@Option(names = "--source-port", description = "Port of current machine. (default: ${DEFAULT-VALUE})")
 	Integer sourcePort = 5000;
-	
+
 	@Option(names = "--hostname", description = "HostName of current machine. (default: ${DEFAULT-VALUE})")
 	String hostname = getHostName();
-	
+
 	@Option(names = "--user-name", description = "user name of current machine. (default: ${DEFAULT-VALUE})")
 	String userName = getUserName();
 
@@ -116,7 +116,7 @@ public class ConfigGenerator implements Runnable {
 		}
 		return ip;
 	}
-	
+
 	private String getHostName() {
 		InetAddress inetAddress = null;
 		String hostName = null;
@@ -129,7 +129,7 @@ public class ConfigGenerator implements Runnable {
 		}
 		return hostName;
 	}
-	
+
 	public String getUserName() {
 		return System.getProperty(USER_NAME);
 	}

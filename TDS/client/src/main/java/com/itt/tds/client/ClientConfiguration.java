@@ -10,8 +10,8 @@ import org.apache.log4j.Logger;
 
 import com.itt.tds.logging.TDSLogger;
 
-public class TDSConfiguration {
-	private static volatile TDSConfiguration TDSConfigurationInstance;
+public class ClientConfiguration {
+	private static volatile ClientConfiguration ClientConfigurationInstance;
 
 	private static String PROTOCOL_VERSION = "protocol-version";
 	private static String PROTOCOL_FORMAT = "protocol-format";
@@ -23,40 +23,39 @@ public class TDSConfiguration {
 	private static String SOURCE_IP = "source-ip";
 	private static String HOSTNAME = "hostName";
 	private static String USERNAME = "userName";
-	
 
 	static Logger logger = new TDSLogger().getLogger();
 
-	Properties prop = new Properties();
+	static Properties prop = new Properties();
 
-	private TDSConfiguration() {
-		if (TDSConfigurationInstance != null) {
+	private ClientConfiguration() {
+		if (ClientConfigurationInstance != null) {
 			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
+		}
+	}
+
+	public static ClientConfiguration getInstance() {
+		if (ClientConfigurationInstance == null) { // Check for the first time
+
+			synchronized (ClientConfiguration.class) { // Check for the second time.
+				// if there is no instance available... create new one
+				if (ClientConfigurationInstance == null)
+					ClientConfigurationInstance = new ClientConfiguration();
+			}
 		}
 
 		try {
 			InputStream input = new FileInputStream(PROPERTIES_FILE);
 			// load a properties file
 			prop.load(input);
-			
+
 			StringWriter writer = new StringWriter();
 			prop.list(new PrintWriter(writer));
 			logger.trace(writer.getBuffer().toString());
 		} catch (Exception e) {
 			logger.error("Unable to find config file. Run generate-config to generate one");
 		}
-	}
-
-	public static TDSConfiguration getInstance() {
-		if (TDSConfigurationInstance == null) { // Check for the first time
-
-			synchronized (TDSConfiguration.class) { // Check for the second time.
-				// if there is no instance available... create new one
-				if (TDSConfigurationInstance == null)
-					TDSConfigurationInstance = new TDSConfiguration();
-			}
-		}
-		return TDSConfigurationInstance;
+		return ClientConfigurationInstance;
 	}
 
 	public String getProtocolVersion() {
@@ -66,7 +65,6 @@ public class TDSConfiguration {
 	public String getProtocolFormat() {
 		return prop.getProperty(PROTOCOL_FORMAT);
 	}
-
 
 	public String getDestinationIp() {
 		return prop.getProperty(CO_ORDINATOR_IP);
@@ -92,7 +90,7 @@ public class TDSConfiguration {
 		return Integer.parseInt(prop.getProperty(SOURCE_PORT));
 	}
 
-	public String getUserNAme() {
+	public String getUserName() {
 		return prop.getProperty(USERNAME);
 	}
 
