@@ -11,14 +11,15 @@ import picocli.CommandLine.Parameters;
 
 @Command(name = "query", mixinStandardHelpOptions = true, header = "get the current status of task by task ID")
 public class Query implements Runnable {
+	@Parameters(index = "0", description = "task-id of the task got from server while queuing")
+	int taskId;
+	
 	private static final String CLIENT_QUERY_TASK = "client-queryTask";
 	private static final String TASK_ID = "taskId";
 	private static final String HOSTNAME = "hostname";
 	private static final String USERNAME = "userName";
 	private static final String TASK_STATUS = "taskStatus";
 
-	@Parameters(index = "0", description = "task-id of the task got from server while queuing")
-	int taskId;
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -42,7 +43,7 @@ public class Query implements Runnable {
 
 		if (response.getStatus().equalsIgnoreCase("SUCCESS")) {
 			String status = response.getValue(TASK_STATUS);
-			logger.info(status + ", task ID:" + taskId);
+			logger.info("Status : " + status);
 		} else {
 			String errorCode = response.getErrorCode();
 			String errorMsg = response.getErrorMessage();
