@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.comm.DestinationComManager;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
@@ -60,7 +61,7 @@ public class Queue implements Runnable {
 			request.setParameters(USERNAME, clientCfg.getUserName());
 			request.setData(Utility.convertToByte(task));
 
-			TDSResponse response = Server.getResponse(request);
+			TDSResponse response = DestinationComManager.getResponse(request);
 			
 			if(response.getStatus().equalsIgnoreCase("SUCCESS")) {
 				String status = response.getValue(TASK_STATUS);

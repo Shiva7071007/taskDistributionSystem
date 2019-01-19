@@ -1,4 +1,4 @@
-package com.itt.tds.client;
+package com.itt.tds.node;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,7 +13,8 @@ import com.itt.tds.comm.TDSSerializer;
 import com.itt.tds.comm.TDSSerializerFactory;
 import com.itt.tds.logging.TDSLogger;
 
-public class Server {
+public class NodeClient {
+
 	static Logger logger = new TDSLogger().getLogger();
 
 	static TDSResponse getResponse(TDSRequest request) {
@@ -30,15 +31,16 @@ public class Server {
 			PrintWriter serverWriter = new PrintWriter(socket.getOutputStream(), true);
 
 			serverWriter.println(requestData);
-			String responseDAta = serverReader.readLine();
-			logger.debug("serialised response got : " + responseDAta);
+			String responseData = serverReader.readLine();
+			logger.debug("serialised response got : " + responseData);
 
-			response = (TDSResponse) dataSerializer.DeSerialize(responseDAta);
+			response = (TDSResponse) dataSerializer.DeSerialize(responseData);
 
 		} catch (Exception e) {
 			logger.error("Unable to communicate with server", e);
 		}
 
 		return response;
-	}
+
+}
 }

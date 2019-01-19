@@ -1,5 +1,6 @@
 import java.util.List;
 
+import com.itt.tds.cfg.ConfigGenerator;
 import com.itt.tds.coordinator.Server;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
@@ -10,7 +11,7 @@ import picocli.CommandLine.*;
  */
 @Command(description = "A multi-node Task executer Server", mixinStandardHelpOptions = true, // auto-include --help and
 																								// --version
-		subcommands = { Server.class })
+		subcommands = { Server.class, ConfigGenerator.class })
 public class App implements Runnable {
 
 	public static void main(String[] args) {
