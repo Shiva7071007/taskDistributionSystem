@@ -4,10 +4,14 @@ import java.net.Socket;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.comm.DestinationComManager;
+import com.itt.tds.comm.TDSRequest;
+import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.core.Task;
 import com.itt.tds.core.TaskResult;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.node.ConfigGenerator.LogLevel;
+import com.itt.tds.core.NodeState;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -17,6 +21,9 @@ import picocli.CommandLine.Option;
  */
 @Command(name = "start", mixinStandardHelpOptions = true, header = "starts the node")
 public class Node implements Runnable {
+	private static final String NODE_ADD = "node-add";
+	private static final String NODE_STATE = "nodeState";
+
 	@Option(names = { "-t",
 			"--timeout" }, description = "timeout for valid connection with co-ordinator in minutes. Valid values: ${COMPLETION-CANDIDATES} (default: ${DEFAULT-VALUE})")
 	int timeout = 10;
@@ -26,6 +33,22 @@ public class Node implements Runnable {
 	@Override
 	public void run() {
 		NodeConfiguration nodeCfg = NodeConfiguration.getInstance();
+		
+		TDSRequest request = new TDSRequest();
+		request.setProtocolVersion(nodeCfg.getProtocolVersion());
+		request.setProtocolFormat(nodeCfg.getProtocolFormat());
+		request.setSourceIp(nodeCfg.getSourceIp());
+		request.setSourcePort(nodeCfg.getSourcePort());
+		request.setDestIp(nodeCfg.getDestinationIp());
+		request.setDestPort(nodeCfg.getDestinationPort());
+		request.setMethod(NODE_ADD);
+		request.setParameters(NODE_STATE, String.valueOf(NodeState.AVAILABLE));
+
+		TDSResponse response = DestinationComManager.getResponse(request);
+		
+		if(response.getStatus().equals("SUCCESS")) {
+			NodeServer.startServer();
+		}
 		
 	}
 
