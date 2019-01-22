@@ -41,7 +41,6 @@ public class SocketHandler implements Runnable {
 
 			// Serialize the response data;
 			String responseData = dataSerializer.Serialize(response);
-			//String responseData = "{\"protocolVersion\":\"1.0\",\"protocolFormat\":\"JSON\",\"protocolType\":\"request\",\"sourceIp\":\"127.0.0.1\",\"sourcePort\":10001,\"destIp\":\"127.0.0.1\",\"destPort\":10002,\"headers\":{\"node-ip\":\"127.0.0.1\",\"node-name\":\"node1\",\"method\":\"node-add\"},\"data\":null}";
 			logger.trace("writing response for socket : " + sock + "==> \n " + responseData);
 			writeResponse(sock, responseData);
 
@@ -72,26 +71,7 @@ public class SocketHandler implements Runnable {
 			request = socketReader.readLine();
 		} catch (IOException e) {
 			logger.error("Reading from socket failed for client : " + sock, e);
-			logger.warn("retrying reading again");
-
-			try {
-				socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-				request = socketReader.lines().collect(Collectors.joining());
-			} catch (IOException e1) {
-				logger.fatal("failed to read again for sock : " + sock, e1);
-			}
-
-		} finally {
-			/******
-			 * Closing the returned OutputStream will close the associated socket. 
-			 * have to do something about it
-			 ******/
-			// try {
-			// socketReader.close();
-			// } catch (IOException e) {
-			// logger.fatal("failed to close BufferedReader for sock : " + sock, e);
-			// }
-		}
+		} 
 		// logger.trace("request got from sock : " + sock + " ==> \n " + request);
 		return request;
 	}
@@ -103,22 +83,7 @@ public class SocketHandler implements Runnable {
 			socketWriter.println(responseData);
 		} catch (IOException e) {
 			logger.error("failed to write response for socket : " + sock, e);
-			logger.warn("retrying writing again");
-
-			try {
-				socketWriter = new PrintWriter(sock.getOutputStream(), true);
-				socketWriter.println(responseData);
-			} catch (IOException e1) {
-				logger.fatal("failed to write response again for socket : " + sock, e);
-			}
-		} finally {
-			/******
-			 /* when you close the PrintWriter, 
-			 /* it'll close the associated OutputStream
-			 /* which will close the associated socket.
-			 ******/
-			// socketWriter.close();
-		}
+		} 
 	}
 
 }
