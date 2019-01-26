@@ -17,6 +17,10 @@ import org.w3c.dom.Element;
  */
 public class TDSConfiguration {
 	private static volatile TDSConfiguration TDSConfigurationInstance;
+	
+	private static final String PROTOCOL_FORMAT = "co-ordinator-protocol-format";
+	private static final String PROTOCOL_VERSION = "co-ordinator-protocol-version";
+	private static final String LOG_LEVEL = "co-ordinator-log-level";
 
 	/**
 	 * Default constructor
@@ -124,6 +128,45 @@ public class TDSConfiguration {
 			coordinatorPort = Integer.parseInt(element.getElementsByTagName("co-ordinator-port").item(0).getTextContent());
 		}
 		return coordinatorPort;
+	}
+	
+	public String getCoordinatorProtocolFormat() throws Exception {
+		String coordinatorProtocolFormat = null;
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+			
+			coordinatorProtocolFormat = element.getElementsByTagName(PROTOCOL_FORMAT).item(0).getTextContent();
+		}
+		return coordinatorProtocolFormat;
+	}
+	
+	public String getCoordinatorProtocolVersion() throws Exception {
+		String coordinatorProtocolVersion = null;
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+			
+			coordinatorProtocolVersion = element.getElementsByTagName(PROTOCOL_VERSION).item(0).getTextContent();
+		}
+		return coordinatorProtocolVersion;
+	}
+	
+	public String getCoordinatorLogLevel() throws Exception {
+		String coordinatorLogLevel = null;
+		String tagName = "co-ordinator";
+		NodeList databaseList = getElementsByTagName(tagName);
+		Node nNode = databaseList.item(databaseList.getLength() - 1);
+		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element element = (Element) nNode;
+			
+			coordinatorLogLevel = element.getElementsByTagName(LOG_LEVEL).item(0).getTextContent();
+		}
+		return coordinatorLogLevel;
 	}
 
 }

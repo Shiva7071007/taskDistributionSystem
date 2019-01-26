@@ -75,6 +75,9 @@ public class ConfigGenerator implements Runnable {
 	private static final String CO_ORDINATOR = "co-ordinator";
 	private static final String CO_ORDINATOR_IP = "co-ordinator-ip";
 	private static final String CO_ORDINATOR_PORT = "co-ordinator-port";
+	private static final String PROTOCOL_FORMAT = "co-ordinator-protocol-format";
+	private static final String PROTOCOL_VERSION = "co-ordinator-protocol-version";
+	private static final String LOG_LEVEL = "co-ordinator-log-level";
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -124,6 +127,18 @@ public class ConfigGenerator implements Runnable {
 			Element coOrdinatorPort = document.createElement(CO_ORDINATOR_PORT);
 			coOrdinatorPort.appendChild(document.createTextNode(port.toString()));
 			coOrdinator.appendChild(coOrdinatorPort);
+			
+			Element coOrdinatorProtocolFormat = document.createElement(PROTOCOL_FORMAT);
+			coOrdinatorProtocolFormat.appendChild(document.createTextNode(protocolFormat.toString()));
+			coOrdinator.appendChild(coOrdinatorProtocolFormat);
+			
+			Element coOrdinatorProtocolversion = document.createElement(PROTOCOL_VERSION);
+			coOrdinatorProtocolversion.appendChild(document.createTextNode(protocolVersion));
+			coOrdinator.appendChild(coOrdinatorProtocolversion);
+			
+			Element coOrdinatorLogLevel = document.createElement(LOG_LEVEL);
+			coOrdinatorLogLevel.appendChild(document.createTextNode(logLevel.toString()));
+			coOrdinator.appendChild(coOrdinatorLogLevel);
 
 			// create the xml file
 			// transform the DOM Object to an XML File

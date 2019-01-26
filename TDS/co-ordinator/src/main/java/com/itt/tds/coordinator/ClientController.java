@@ -20,16 +20,21 @@ public class ClientController implements TDSController {
 	 */
 	public ClientController() {
 	}
-	
+
 	@Override
 	public TDSResponse processRequest(TDSRequest request) {
 		logger.info("processing request");
-		if (request.getMethod().equals(CLIENT_QUEUE_TASK))
-			return QueueTask.addTask(request);
-		if (request.getMethod().equals(CLIENT_QUERY_TASK))
-			return QueryTask.getTaskStatus(request);
-		if (request.getMethod().equals(CLIENT_RESULT_TASK))
-			return ResultTask.getResult(request);
+		try {
+			if (request.getMethod().equals(CLIENT_QUEUE_TASK))
+				return QueueTask.addTask(request);
+			if (request.getMethod().equals(CLIENT_QUERY_TASK))
+				return QueryTask.getTaskStatus(request);
+			if (request.getMethod().equals(CLIENT_RESULT_TASK))
+				return ResultTask.getResult(request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 }

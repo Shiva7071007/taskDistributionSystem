@@ -1,11 +1,15 @@
 package com.itt.tds.coordinator.ClientTasks;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.ListIterator;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.db.repository.TDSClientRepository;
@@ -22,46 +26,81 @@ public class QueueTask {
 	private static final String TASK_NAME = "taskName";
 	private static final String PARAMETERS = "parameters";
 	private static final String TASK_FOLDER = "tasks\\";
+	private static final String TASK_STATUS = "taskStatus";
+	private static final String TASK_ID = "taskId";
 
 	public static TDSResponse addTask(TDSRequest request) {
-		Client client = new Client();
-		client.setHostName(request.getParameters(HOSTNAME));
-		client.setUserName(request.getParameters(USERNAME));
+		Client client = null;
 
 		TDSClientRepository clientRepository = new TDSClientRepository();
-		int clientID;
+		TDSResponse response = new TDSResponse();
 		try {
-			clientID = clientRepository.Add(client);
+			List<Client> clientList = clientRepository.GetClients();
+			
+			ListIterator<Client> clientListIterator = clientList.listIterator();
+			while(clientListIterator.hasNext())
+			{
+				Client tempClient = clientListIterator.next();
+				if(tempClient.getHostName().equalsIgnoreCase(request.getParameters(HOSTNAME))) {
+					if(tempClient.getUserName().equalsIgnoreCase(request.getParameters(USERNAME))) {
+						client = tempClient;
+						break;
+					}
+				}
+			}
+			
+			if(client == null)
+			{
+				client = new Client();
+				client.setHostName(request.getParameters(HOSTNAME));
+				client.setUserName(request.getParameters(USERNAME));
+				client.setId(clientRepository.Add(client));
+			}
+			
+			int clientID = client.getId();
 
 			Task task = new Task();
 			task.setTaskName(request.getParameters(TASK_NAME));
 
 			String taskParameters = request.getParameters(PARAMETERS).substring(1,
 					request.getParameters(PARAMETERS).length() - 1);
-			task.setTaskParameters((ArrayList<String>) Arrays.asList(taskParameters.split(",")));
+			task.setTaskParameters(new ArrayList<>(Arrays.asList(taskParameters.split(","))));
 
 			task.setUserId(clientID);
 
-			String taskAddress = TASK_FOLDER + TASK_NAME;
+			File dir = new File(TASK_FOLDER + clientID);
+			boolean isCreated = dir.mkdirs();
+			
+			String taskAddress = dir.getAbsolutePath() + "\\" + task.getTaskName();
 			FileOutputStream fileStream = new FileOutputStream(taskAddress);
 			fileStream.write(request.getData());
+			fileStream.close();
 			task.setTaskExePath(taskAddress);
-			
+
 			task.setTaskState(TaskState.PENDING);
 			task.setAssignedNodeId(0);
-			
+
 			TDSTaskRepository taskRepository = new TDSTaskRepository();
 			int taskID = taskRepository.Add(task);
-			
-			TDSResponse response = new TDSResponse();
-			
-			
+			logger.trace("task id got ==> " + taskID);
 
+			TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
+
+			response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
+			response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
+			response.setSourceIp(tdsCFG.getCoordinatorIP());
+			response.setSourcePort(tdsCFG.getCoordinatorPort());
+			response.setDestIp(request.getSourceIp());
+			response.setDestPort(request.getDestPort());
+			response.setStatus("SUCCESS");
+			response.setErrorCode("0");
+			response.setErrorMessage("");
+			response.setValue(TASK_STATUS, "queued");
+			response.setValue(TASK_ID, String.valueOf(taskID));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-		return null;
+		return response;
 	}
 
 }

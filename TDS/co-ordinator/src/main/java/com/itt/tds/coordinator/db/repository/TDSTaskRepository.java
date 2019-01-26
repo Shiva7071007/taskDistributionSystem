@@ -3,6 +3,7 @@ package com.itt.tds.coordinator.db.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class TDSTaskRepository implements TaskRepository {
 
 			String insertTaskQuery = "INSERT INTO `tds`.`task` (`taskName`, `taskParameter`, `taskPath`, `taskState`, `userID`, `assignedNodeId`) VALUES (?, ?, ?, ?, ?, ?)";
 
-			insertTaskStatement = conn.prepareStatement(insertTaskQuery);
+			insertTaskStatement = conn.prepareStatement(insertTaskQuery, Statement.RETURN_GENERATED_KEYS);
 			insertTaskStatement.setString(1, taskName);
 			insertTaskStatement.setString(2, taskParameters);
 			insertTaskStatement.setString(3, taskPath);
@@ -197,9 +198,10 @@ public class TDSTaskRepository implements TaskRepository {
 		Connection conn = null;
 		PreparedStatement getTasksByTaskIdStatement = null;
 		ResultSet getTasksByTaskIdResult = null;
-		Task task = new Task();
+		Task task = null;
 
 		try {
+			task = new Task();
 			conn = tdsDatabaseManager.getConnection();
 
 			String GetTasksByTaskIdIdQuery = "SELECT taskId, taskName, taskParameter, taskPath, taskState+0, userID, assignedNodeId FROM tds.task where taskId = ?";
