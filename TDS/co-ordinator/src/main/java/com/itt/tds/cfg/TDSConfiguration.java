@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URI;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -53,16 +54,20 @@ public class TDSConfiguration {
 		return TDSConfigurationInstance;
 	}
 
-	private NodeList getElementsByTagName(String tagName) throws Exception {
+	private NodeList getElementsByTagName(String tagName) {
 		NodeList tagNameList = null;
-		//URI configFileName = getClass().getClassLoader().getResource("TDS.xml").toURI();//"src/main/resources/TDS.xml";
 		String configFileName = "TDS.xml";
 		File configFile = new File(configFileName);
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-		Document configXML = documentBuilder.parse(configFile);
-		configXML.getDocumentElement().normalize();
-		tagNameList = configXML.getElementsByTagName(tagName);
+		DocumentBuilder documentBuilder;
+		try {
+			documentBuilder = documentBuilderFactory.newDocumentBuilder();
+			Document configXML = documentBuilder.parse(configFile);
+			configXML.getDocumentElement().normalize();
+			tagNameList = configXML.getElementsByTagName(tagName);
+		} catch (Exception e) {
+			System.err.println("Unable to find config file. Run \"co-ordinator generate-config\" to generate one" );
+		}
 		return tagNameList;
 	}
 

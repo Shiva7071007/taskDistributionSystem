@@ -6,6 +6,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.itt.tds.cfg.TDSConfiguration;
@@ -19,9 +21,16 @@ public class Server implements Runnable{
 
 	@Override
 	public void run() {
+		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
+		Level logLevel = Level.INFO;
+		try {
+			logLevel = Level.toLevel(tdsCFG.getCoordinatorLogLevel());
+		} catch (Exception e3) {
+			e3.printStackTrace();
+		}
+		LogManager.getRootLogger().setLevel(logLevel);
 
 		logger.debug("reading server configuration...");
-		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 		String serverIp = null;
 		int serverPort = 0;
 		try {

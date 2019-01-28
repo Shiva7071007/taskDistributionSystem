@@ -22,7 +22,6 @@ public class TDSTaskRepository implements TaskRepository {
 		String taskPath = taskInstance.getTaskExePath();
 		int taskState = taskInstance.getTaskState();
 		int userID = taskInstance.getUserId();
-		int assignedNodeId = taskInstance.getAssingedNodeId();
 
 		Connection conn = null;
 		PreparedStatement insertTaskStatement = null;
@@ -31,7 +30,7 @@ public class TDSTaskRepository implements TaskRepository {
 		try {
 			conn = tdsDatabaseManager.getConnection();
 
-			String insertTaskQuery = "INSERT INTO `tds`.`task` (`taskName`, `taskParameter`, `taskPath`, `taskState`, `userID`, `assignedNodeId`) VALUES (?, ?, ?, ?, ?, ?)";
+			String insertTaskQuery = "INSERT INTO `tds`.`task` (`taskName`, `taskParameter`, `taskPath`, `taskState`, `userID`) VALUES (?, ?, ?, ?, ?)";
 
 			insertTaskStatement = conn.prepareStatement(insertTaskQuery, Statement.RETURN_GENERATED_KEYS);
 			insertTaskStatement.setString(1, taskName);
@@ -39,7 +38,6 @@ public class TDSTaskRepository implements TaskRepository {
 			insertTaskStatement.setString(3, taskPath);
 			insertTaskStatement.setInt(4, taskState);
 			insertTaskStatement.setInt(5, userID);
-			insertTaskStatement.setInt(6, assignedNodeId);
 
 			int rowsAffected = insertTaskStatement.executeUpdate();
 			if (rowsAffected == 1) {
@@ -92,7 +90,6 @@ public class TDSTaskRepository implements TaskRepository {
 		String newTtaskPath = taskInstance.getTaskExePath();
 		int newTaskState = taskInstance.getTaskState();
 		int newUserID = taskInstance.getUserId();
-		int newAssignedNodeId = taskInstance.getAssingedNodeId();
 
 		Connection conn = null;
 		PreparedStatement modifyTaskStatement = null;
@@ -108,7 +105,6 @@ public class TDSTaskRepository implements TaskRepository {
 			modifyTaskStatement.setString(3, newTtaskPath);
 			modifyTaskStatement.setInt(4, newTaskState);
 			modifyTaskStatement.setInt(5, newUserID);
-			modifyTaskStatement.setInt(6, newAssignedNodeId);
 			modifyTaskStatement.setInt(7, taskId);
 
 			int rowsAffected = modifyTaskStatement.executeUpdate();
@@ -180,7 +176,6 @@ public class TDSTaskRepository implements TaskRepository {
 				task.setTaskExePath(getTasksByClientIdResult.getString("taskPath"));
 				task.setTaskState(getTasksByClientIdResult.getInt("taskState+0"));
 				task.setUserId(getTasksByClientIdResult.getInt("userID"));
-				task.setAssignedNodeId(getTasksByClientIdResult.getInt("assignedNodeId"));
 
 				tasksByClientId.add(task);
 			}
@@ -218,7 +213,6 @@ public class TDSTaskRepository implements TaskRepository {
 			task.setTaskExePath(getTasksByTaskIdResult.getString("taskPath"));
 			task.setTaskState(getTasksByTaskIdResult.getInt("taskState+0"));
 			task.setUserId(getTasksByTaskIdResult.getInt("userID"));
-			task.setAssignedNodeId(getTasksByTaskIdResult.getInt("assignedNodeId"));
 
 			return task;
 		} finally {
@@ -253,7 +247,6 @@ public class TDSTaskRepository implements TaskRepository {
 				task.setTaskExePath(getTasksByStatusResult.getString("taskPath"));
 				task.setTaskState(getTasksByStatusResult.getInt("taskState+0"));
 				task.setUserId(getTasksByStatusResult.getInt("userID"));
-				task.setAssignedNodeId(getTasksByStatusResult.getInt("assignedNodeId"));
 
 				tasksByStatus.add(task);
 			}
@@ -290,7 +283,6 @@ public class TDSTaskRepository implements TaskRepository {
 				task.setTaskExePath(getTasksByNodeIdResult.getString("taskPath"));
 				task.setTaskState(getTasksByNodeIdResult.getInt("taskState+0"));
 				task.setUserId(getTasksByNodeIdResult.getInt("userID"));
-				task.setAssignedNodeId(getTasksByNodeIdResult.getInt("assignedNodeId"));
 
 				tasksByNodeId.add(task);
 			}

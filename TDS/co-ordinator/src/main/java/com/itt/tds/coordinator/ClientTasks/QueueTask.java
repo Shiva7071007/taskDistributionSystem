@@ -36,27 +36,25 @@ public class QueueTask {
 		TDSResponse response = new TDSResponse();
 		try {
 			List<Client> clientList = clientRepository.GetClients();
-			
+
 			ListIterator<Client> clientListIterator = clientList.listIterator();
-			while(clientListIterator.hasNext())
-			{
+			while (clientListIterator.hasNext()) {
 				Client tempClient = clientListIterator.next();
-				if(tempClient.getHostName().equalsIgnoreCase(request.getParameters(HOSTNAME))) {
-					if(tempClient.getUserName().equalsIgnoreCase(request.getParameters(USERNAME))) {
+				if (tempClient.getHostName().equalsIgnoreCase(request.getParameters(HOSTNAME))) {
+					if (tempClient.getUserName().equalsIgnoreCase(request.getParameters(USERNAME))) {
 						client = tempClient;
 						break;
 					}
 				}
 			}
-			
-			if(client == null)
-			{
+
+			if (client == null) {
 				client = new Client();
 				client.setHostName(request.getParameters(HOSTNAME));
 				client.setUserName(request.getParameters(USERNAME));
 				client.setId(clientRepository.Add(client));
 			}
-			
+
 			int clientID = client.getId();
 
 			Task task = new Task();
@@ -70,7 +68,7 @@ public class QueueTask {
 
 			File dir = new File(TASK_FOLDER + clientID);
 			boolean isCreated = dir.mkdirs();
-			
+
 			String taskAddress = dir.getAbsolutePath() + "\\" + task.getTaskName();
 			FileOutputStream fileStream = new FileOutputStream(taskAddress);
 			fileStream.write(request.getData());
@@ -78,7 +76,6 @@ public class QueueTask {
 			task.setTaskExePath(taskAddress);
 
 			task.setTaskState(TaskState.PENDING);
-			task.setAssignedNodeId(0);
 
 			TDSTaskRepository taskRepository = new TDSTaskRepository();
 			int taskID = taskRepository.Add(task);
