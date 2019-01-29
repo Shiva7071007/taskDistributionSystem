@@ -47,6 +47,8 @@ public class Task {
      * 
      */
     private int userId;
+    
+    private int assignedNodeId;
 
     /**
      * @param taskName
@@ -144,5 +146,19 @@ public class Task {
      */
     public int getUserId() {
         return userId;
+    }
+    
+    /**
+     * @return
+     */
+    public int getAssingedNodeId() {
+        return assignedNodeId;
+    }
+
+    /**
+     * @return
+     */
+    public void setAssignedNodeId(int assignedNodeId) {
+    	this.assignedNodeId = assignedNodeId;
     }
 }

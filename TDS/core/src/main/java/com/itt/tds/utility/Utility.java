@@ -23,7 +23,7 @@ public class Utility {
 		return arrList;
 	}
 	
-	public static byte[] convertToByte(File task) {
+	public static byte[] convertFileToByte(File task) {
 		byte[] bytesArray = new byte[(int) task.length()];
 
 		FileInputStream fis;
@@ -36,5 +36,14 @@ public class Utility {
 		}
 
 		return bytesArray;
+	}
+	
+	public static byte[] stringToByteArray (String str) {
+		byte[] byteArr = str.getBytes();
+		return byteArr;
+	}
+	
+	public static String byteToString (byte[] byteArr) {
+		return new String(byteArr);
 	}
 }

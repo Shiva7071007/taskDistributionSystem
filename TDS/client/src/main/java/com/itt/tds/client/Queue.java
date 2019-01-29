@@ -59,7 +59,7 @@ public class Queue implements Runnable {
 			request.setParameters(PARAMETERS, parameters.toString());
 			request.setParameters(HOSTNAME, clientCfg.getHostName());
 			request.setParameters(USERNAME, clientCfg.getUserName());
-			request.setData(Utility.convertToByte(task));
+			request.setData(Utility.convertFileToByte(task));
 
 			TDSResponse response = DestinationComManager.getResponse(request);
 			

@@ -19,7 +19,7 @@ public class TDSConfigurationTest {
 	@Test
 	public void testGetDBConnectionString() throws Exception {
 		// arrange
-		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password";
+		String dbConnectionString = "jdbc:mysql://localhost:3306/tds?user=root&password=password&useSSL=false";
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 
 		// act

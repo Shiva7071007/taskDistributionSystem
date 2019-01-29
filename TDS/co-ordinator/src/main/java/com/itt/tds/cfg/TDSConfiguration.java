@@ -90,7 +90,7 @@ public class TDSConfiguration {
 			String userName = element.getElementsByTagName("db-user-name").item(0).getTextContent();
 			String userPassword = element.getElementsByTagName("db-user-password").item(0).getTextContent();
 
-			dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword;
+			dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword + "&useSSL=false";
 		}
 		return dbConnectionString;
 	}

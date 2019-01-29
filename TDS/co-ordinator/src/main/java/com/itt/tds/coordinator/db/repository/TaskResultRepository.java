@@ -15,4 +15,6 @@ public interface TaskResultRepository {
 	public TaskResult getTaskResultById (int taskId);
 	
 	public List<TaskResult> getTaskResultByErrCode(int errorCode);
+	
+	public List<TaskResult> getallTaskResult();
 }

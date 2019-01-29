@@ -13,6 +13,12 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int taskId =  taskresultInstance.getTaskId();
 		TaskOutcome taskOutcome = taskresultInstance.getTaskOutcome();
+		int errCode = taskresultInstance.getErrorCode();
+		String errMsg = taskresultInstance.getErrorMessage();
+		byte[] resultBuffer = taskresultInstance.getResultBuffer();
+		
+		
+		
 	}
 
 	@Override
@@ -35,6 +41,12 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 
 	@Override
 	public List<TaskResult> getTaskResultByErrCode(int errorCode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TaskResult> getallTaskResult() {
 		// TODO Auto-generated method stub
 		return null;
 	}

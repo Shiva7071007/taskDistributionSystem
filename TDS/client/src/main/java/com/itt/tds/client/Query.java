@@ -14,13 +14,12 @@ import picocli.CommandLine.Parameters;
 public class Query implements Runnable {
 	@Parameters(index = "0", description = "task-id of the task got from server while queuing")
 	int taskId;
-	
+
 	private static final String CLIENT_QUERY_TASK = "client-queryTask";
 	private static final String TASK_ID = "taskId";
 	private static final String HOSTNAME = "hostname";
 	private static final String USERNAME = "userName";
 	private static final String TASK_STATUS = "taskStatus";
-
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -43,13 +42,25 @@ public class Query implements Runnable {
 		TDSResponse response = DestinationComManager.getResponse(request);
 
 		if (response.getStatus().equalsIgnoreCase("SUCCESS")) {
-			String status = response.getValue(TASK_STATUS);
-			logger.info("Status : " + status);
+			String statusCode = response.getValue(TASK_STATUS);
+			logger.info("Status : " + getStatusValueFromCode(statusCode));
 		} else {
 			String errorCode = response.getErrorCode();
 			String errorMsg = response.getErrorMessage();
 			logger.error("Error-code : " + errorCode + " " + errorMsg);
 		}
+	}
+
+	private String getStatusValueFromCode(String statusCode) {
+		switch (statusCode) {
+		case "1":
+			return "Pending";
+		case "2":
+			return "Executing";
+		case "3":
+			return "Completed";
+		}
+		return statusCode;
 	}
 
 }
