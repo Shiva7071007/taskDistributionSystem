@@ -25,11 +25,6 @@ public class Node {
     /**
      * 
      */
-    private Task currentTask;
-
-    /**
-     * 
-     */
     private int id;
     
     
@@ -55,14 +50,6 @@ public class Node {
 
 	public void setStatus(int status) {
 		Status = status;
-	}
-
-	public Task getCurrentTask() {
-		return currentTask;
-	}
-
-	public void setCurrentTask(Task currentTask) {
-		this.currentTask = currentTask;
 	}
 
 	public int getId() {
