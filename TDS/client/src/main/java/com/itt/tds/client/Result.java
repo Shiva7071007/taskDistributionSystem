@@ -8,6 +8,7 @@ import com.itt.tds.comm.DestinationComManager;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.Parameters;
 
@@ -44,14 +45,16 @@ public class Result implements Runnable {
 		TDSResponse response = DestinationComManager.getResponse(request);
 
 		if (response.getStatus().equalsIgnoreCase("SUCCESS")) {
-
-			String status = response.getValue(TASK_STATUS);
-			if (status.equalsIgnoreCase("completed")) {
-				String result = response.getValue(TASK_RESULT);
-				logger.info(result);
-			} else
-				logger.info("Status : " + status);
-
+			String taskOutcome = response.getValue("taskOutcome");
+			String taskErrorCode = response.getValue("taskErrorCode");
+			String taskErrorMessage = response.getValue("taskErrorMessage");
+			String taskResult = response.getValue("taskResult");
+			
+			logger.info("taskOutcome : " + taskOutcome);
+			logger.info("taskErrorCode : " + taskErrorCode);
+			logger.info("taskErrorMessage : " + taskErrorMessage);
+			logger.info("taskResult : " + taskResult);
+			
 		} else {
 			String errorCode = response.getErrorCode();
 			String errorMsg = response.getErrorMessage();

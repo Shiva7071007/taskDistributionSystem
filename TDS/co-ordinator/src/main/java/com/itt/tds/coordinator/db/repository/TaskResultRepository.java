@@ -12,9 +12,8 @@ public interface TaskResultRepository {
 	
 	public void Modify(TaskResult taskresultInstance) throws Exception;
 	
-	public TaskResult getTaskResultById (int taskId);
+	public TaskResult getTaskResultByTaskId (int taskId) throws Exception;
 	
-	public List<TaskResult> getTaskResultByErrCode(int errorCode);
-	
-	public List<TaskResult> getallTaskResult();
+	public List<TaskResult> getTaskResultByErrCode(int errorCode) throws Exception;
+
 }

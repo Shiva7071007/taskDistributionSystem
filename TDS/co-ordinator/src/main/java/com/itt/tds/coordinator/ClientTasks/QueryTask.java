@@ -27,7 +27,7 @@ public class QueryTask {
 		response.setSourceIp(tdsCFG.getCoordinatorIP());
 		response.setSourcePort(tdsCFG.getCoordinatorPort());
 		response.setDestIp(request.getSourceIp());
-		response.setDestPort(request.getDestPort());
+		response.setDestPort(request.getSourcePort());
 		
 		Client client = null;
 		TDSClientRepository clientRepository = new TDSClientRepository();
@@ -51,7 +51,6 @@ public class QueryTask {
 			response.setErrorMessage("no such client is found");
 		} else {
 			Task task = null;
-			System.out.println(client.getId());
 			List<Task> clientTaskList = new TDSTaskRepository().GetTasksByClientId(client.getId());
 			
 			ListIterator<Task> clientTaskListIterator = clientTaskList.listIterator();

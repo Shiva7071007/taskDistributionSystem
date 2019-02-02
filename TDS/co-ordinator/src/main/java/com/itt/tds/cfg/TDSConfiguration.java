@@ -1,10 +1,7 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
-import java.net.URI;
-
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;

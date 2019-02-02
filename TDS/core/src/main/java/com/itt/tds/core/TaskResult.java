@@ -20,7 +20,7 @@ public class TaskResult {
 
     public int taskId;
 
-    public TaskOutcome taskOutcome;
+    public int taskOutcome;
 
 	public int getErrorCode() {
 		return errorCode;
@@ -54,11 +54,11 @@ public class TaskResult {
 		this.taskId = taskId;
 	}
 
-	public TaskOutcome getTaskOutcome() {
+	public int getTaskOutcome() {
 		return taskOutcome;
 	}
 
-	public void setTaskOutcome(TaskOutcome taskOutcome) {
+	public void setTaskOutcome(int taskOutcome) {
 		this.taskOutcome = taskOutcome;
 	}
 
