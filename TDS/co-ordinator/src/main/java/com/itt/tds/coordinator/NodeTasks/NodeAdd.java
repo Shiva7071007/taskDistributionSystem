@@ -24,27 +24,28 @@ public class NodeAdd {
 
 		try {
 			List<Node> nodeList = nodeRepo.GetAllNodes();
-			
+
 			ListIterator<Node> nodeListIterator = nodeList.listIterator();
-			
-			while(nodeListIterator.hasNext()) {
+
+			while (nodeListIterator.hasNext()) {
 				Node tempNode = nodeListIterator.next();
-				if(tempNode.getiP() == request.getSourceIp() && tempNode.getPort() == request.getSourcePort()) {
+				if (tempNode.getiP().equalsIgnoreCase(request.getSourceIp())
+						&& tempNode.getPort() == request.getSourcePort()) {
 					node = tempNode;
 					break;
 				}
 			}
-			
-			if(node == null) {
+
+			if (node == null) {
 				node = new Node();
 				node.setiP(request.getSourceIp());
 				node.setPort(request.getSourcePort());
 				node.setStatus(Integer.parseInt(request.getParameters(NODE_STATE)));
 				node.setId(nodeRepo.Add(node));
 			}
-			
+
 			TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-			
+
 			response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
 			response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
 			response.setSourceIp(tdsCFG.getCoordinatorIP());
@@ -55,11 +56,11 @@ public class NodeAdd {
 			response.setErrorCode("0");
 			response.setErrorMessage("");
 			response.setValue(NODE_ID, String.valueOf(node.getId()));
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return response;
 	}
 

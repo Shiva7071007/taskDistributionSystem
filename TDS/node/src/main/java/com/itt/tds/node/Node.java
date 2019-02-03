@@ -56,11 +56,11 @@ public class Node implements Runnable {
 		} else {
 			if (response.getStatus().equals("SUCCESS")) {
 				String id = response.getValue(NODE_ID);
-				logger.info(id);
-				logger.info("starting server");
+				NodeServer.startServer();
 			}
 
 		}
+		
 	}
 }
 
