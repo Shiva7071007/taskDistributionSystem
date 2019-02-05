@@ -7,8 +7,8 @@ import java.util.*;
  */
 public class TDSProtocol {
 	
-	protected static String REQUEST = "request";
-	protected static String RESPONSE = "response";
+	protected static final String REQUEST = "request";
+	protected static final String RESPONSE = "response";
 
 	/**
 	 * Default constructor

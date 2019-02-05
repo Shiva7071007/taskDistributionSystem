@@ -6,34 +6,44 @@ import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.NodeTasks.NodeAdd;
 import com.itt.tds.coordinator.NodeTasks.SaveResult;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 /**
  * 
  */
-public class NodeController implements TDSController{
+public class NodeController implements TDSController {
 	private static final Object NODE_ADD = "node-add";
 	private static final Object NODE_SAVE_RESULT = "node-saveResult";
+	private static final String ERROR = "ERROR";
 	static Logger logger = new TDSLogger().getLogger();
 
-    /**
-     * Default constructor
-     */
-    public NodeController() {
-    }
+	/**
+	 * Default constructor
+	 */
+	public NodeController() {
+	}
 
 	@Override
 	public TDSResponse processRequest(TDSRequest request) {
-		logger.info("processing request");
-		try {
-			if (request.getMethod().equals(NODE_ADD))
-				return NodeAdd.addNode(request);
-			if (request.getMethod().equals(NODE_SAVE_RESULT))
-				return SaveResult.addTaskResult(request);
-		} catch (Exception e) {
-			e.printStackTrace();
+		logger.debug("processing request");
+		TDSResponse response = null;
+		if (request.getMethod().equals(NODE_ADD))
+			response = NodeAdd.addNode(request);
+		else if (request.getMethod().equals(NODE_SAVE_RESULT))
+			response = SaveResult.addTaskResult(request);
+		else {
+			response = new TDSResponse();
+			response.setProtocolVersion(request.getProtocolVersion());
+			response.setProtocolFormat(request.getProtocolFormat());
+			response.setDestIp(request.getSourceIp());
+			response.setDestPort(request.getSourcePort());
+			response.setSourceIp(request.getDestIp());
+			response.setSourcePort(request.getDestPort());
+			response.setStatus(ERROR);
+			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
+			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());
 		}
-		return null;
+		return response;
 	}
-
 }

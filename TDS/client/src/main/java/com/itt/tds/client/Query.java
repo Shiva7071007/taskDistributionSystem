@@ -20,6 +20,14 @@ public class Query implements Runnable {
 	private static final String HOSTNAME = "hostname";
 	private static final String USERNAME = "userName";
 	private static final String TASK_STATUS = "taskStatus";
+	private static final String SEPARATOR = " : ";
+	private static final String STATUS = "Status";
+	private static final String PENDING = "Pending";
+	private static final String EXECUTING = "Executing";
+	private static final String COMPLETED = "Completed";
+	private static final String ERROR_CODE = "Error-code";
+	private static final String SUCCESS = "SUCCESS";
+	
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -41,24 +49,24 @@ public class Query implements Runnable {
 
 		TDSResponse response = DestinationComManager.getResponse(request);
 
-		if (response.getStatus().equalsIgnoreCase("SUCCESS")) {
+		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 			String statusCode = response.getValue(TASK_STATUS);
-			logger.info("Status : " + getStatusValueFromCode(statusCode));
+			logger.info(STATUS + SEPARATOR + getStatusValueFromCode(statusCode));
 		} else {
 			String errorCode = response.getErrorCode();
 			String errorMsg = response.getErrorMessage();
-			logger.error("Error-code : " + errorCode + " " + errorMsg);
+			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
 		}
 	}
 
 	private String getStatusValueFromCode(String statusCode) {
 		switch (statusCode) {
 		case "1":
-			return "Pending";
+			return PENDING;
 		case "2":
-			return "Executing";
+			return EXECUTING;
 		case "3":
-			return "Completed";
+			return COMPLETED;
 		}
 		return statusCode;
 	}

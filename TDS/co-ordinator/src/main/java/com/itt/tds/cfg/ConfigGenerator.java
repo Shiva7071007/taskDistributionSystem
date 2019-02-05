@@ -1,7 +1,5 @@
 package com.itt.tds.cfg;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +14,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -24,7 +24,7 @@ import picocli.CommandLine.Option;
 @Command(name = "generate-config", mixinStandardHelpOptions = true, header = "create a xml file containning configuration for starting Co-ordinator server")
 public class ConfigGenerator implements Runnable {
 	@Option(names = { "-i", "--ip" }, description = "ip of the server. default: ${DEFAULT-VALUE}")
-	String ip = getSourceIp();
+	String ip = Utility.getSourceIp();
 
 	@Option(names = { "-p",
 			"--port" }, defaultValue = "5000", description = "port of the server. default: ${DEFAULT-VALUE}")
@@ -149,22 +149,8 @@ public class ConfigGenerator implements Runnable {
 
 			transformer.transform(domSource, streamResult);
 		} catch (Exception e) {
-			logger.error("Failed to create configuration file", e);
-			;
+			logger.error(TDSError.FAILED_TO_CREATE_CONFIG.toString());
+			throw new RuntimeException(TDSError.FAILED_TO_CREATE_CONFIG.toString(), e);
 		}
 	}
-
-	private String getSourceIp() {
-		InetAddress inetAddress = null;
-		String ip = null;
-		try {
-			inetAddress = InetAddress.getLocalHost();
-			ip = inetAddress.getHostAddress();
-
-		} catch (UnknownHostException e) {
-			logger.error("unable to read host ip.");
-		}
-		return ip;
-	}
-
 }

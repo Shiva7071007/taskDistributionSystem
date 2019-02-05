@@ -8,6 +8,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 public class ClientConfiguration {
@@ -53,7 +54,8 @@ public class ClientConfiguration {
 			prop.list(new PrintWriter(writer));
 			logger.trace(writer.getBuffer().toString());
 		} catch (Exception e) {
-			logger.error("Unable to find config file. Run generate-config to generate one");
+			logger.error(TDSError.UNABLE_TO_FIND_CONFIG.toString());
+			logger.trace(e);
 		}
 		return ClientConfigurationInstance;
 	}

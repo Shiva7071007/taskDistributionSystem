@@ -33,15 +33,9 @@ public class Server implements Runnable{
 		logger.debug("reading server configuration...");
 		String serverIp = null;
 		int serverPort = 0;
-		try {
+		
 			serverIp = tdsCFG.getCoordinatorIP();
 			serverPort = tdsCFG.getCoordinatorPort();
-		} catch (Exception e1) {
-			logger.error("Cannot find configuration file.");
-			logger.error("You may want to run co-ordinator generate config first.");
-			logger.trace("failed to read configuration for starting the server", e1);
-			System.exit(0);
-		}
 
 		logger.info("Starting the Server on ip: " + serverIp + ":" + serverPort);
 		ServerSocket serverSocket = null;

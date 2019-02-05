@@ -32,6 +32,9 @@ public class Queue implements Runnable {
 	private static final String PARAMETERS = "parameters";
 	private static final String TASK_STATUS = "taskStatus";
 	private static final String TASK_ID = "taskId";
+	private static final String ERROR_CODE = "Error-code";
+	private static final String SEPARATOR = " : ";
+	private static final String SUCCESS = "SUCCESS";
 
 	@Override
 	public void run() {
@@ -63,14 +66,14 @@ public class Queue implements Runnable {
 
 			TDSResponse response = DestinationComManager.getResponse(request);
 			
-			if(response.getStatus().equalsIgnoreCase("SUCCESS")) {
+			if(response.getStatus().equalsIgnoreCase(SUCCESS)) {
 				String status = response.getValue(TASK_STATUS);
 				String taskId = response.getValue(TASK_ID);
 				logger.info(status + ", task ID:" + taskId);
 			} else {
 				String errorCode = response.getErrorCode();
 				String errorMsg = response.getErrorMessage();
-				logger.error("Error-code : " + errorCode + " " + errorMsg);
+				logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
 			}
 		}
 

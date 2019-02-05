@@ -8,8 +8,6 @@ import com.itt.tds.comm.DestinationComManager;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
-import com.itt.tds.utility.Utility;
-
 import picocli.CommandLine.Parameters;
 
 @Command(name = "result", mixinStandardHelpOptions = true, header = "get the result for passed task ID")
@@ -21,8 +19,13 @@ public class Result implements Runnable {
 	private static final String TASK_ID = "taskId";
 	private static final String HOSTNAME = "hostname";
 	private static final String USERNAME = "userName";
-	private static final String TASK_STATUS = "taskStatus";
 	private static final String TASK_RESULT = "taskResult";
+	private static final String ERROR_CODE = "Error-code";
+	private static final String SEPARATOR = " : ";
+	private static final String SUCCESS = "SUCCESS";
+	private static final String TASK_OUTCOME = "taskOutcome";
+	private static final String TASK_ERROR_CODE = "taskErrorCode";
+	private static final String TASK_ERROR_MESSAGE = "taskErrorMessage";
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -44,21 +47,21 @@ public class Result implements Runnable {
 
 		TDSResponse response = DestinationComManager.getResponse(request);
 
-		if (response.getStatus().equalsIgnoreCase("SUCCESS")) {
-			String taskOutcome = response.getValue("taskOutcome");
-			String taskErrorCode = response.getValue("taskErrorCode");
-			String taskErrorMessage = response.getValue("taskErrorMessage");
-			String taskResult = response.getValue("taskResult");
+		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
+			String taskOutcome = response.getValue(TASK_OUTCOME);
+			String taskErrorCode = response.getValue(TASK_ERROR_CODE);
+			String taskErrorMessage = response.getValue(TASK_ERROR_MESSAGE);
+			String taskResult = response.getValue(TASK_RESULT);
 			
-			logger.info("taskOutcome : " + taskOutcome);
-			logger.info("taskErrorCode : " + taskErrorCode);
-			logger.info("taskErrorMessage : " + taskErrorMessage);
-			logger.info("taskResult : " + taskResult);
+			logger.info("Task Outcome" + SEPARATOR + taskOutcome);
+			logger.info("Task Error Code" + SEPARATOR + taskErrorCode);
+			logger.info("Task Error Message" + SEPARATOR + taskErrorMessage);
+			logger.info("Task Result" + SEPARATOR + taskResult);
 			
 		} else {
 			String errorCode = response.getErrorCode();
 			String errorMsg = response.getErrorMessage();
-			logger.error("Error-code : " + errorCode + " " + errorMsg);
+			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
 		}
 	}
 }

@@ -18,7 +18,7 @@ public class QueryTask {
 	private static final String TASK_ID = "taskId";
 	private static final String TASK_STATUS = "taskStatus";
 	
-	public static TDSResponse getTaskStatus(TDSRequest request) throws Exception {
+	public static TDSResponse getTaskStatus(TDSRequest request) {
 		
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 		TDSResponse response = new TDSResponse();
@@ -31,7 +31,10 @@ public class QueryTask {
 		
 		Client client = null;
 		TDSClientRepository clientRepository = new TDSClientRepository();
-		List<Client> clientList = clientRepository.GetClients();
+		List<Client> clientList;
+		try {
+			clientList = clientRepository.GetClients();
+		
 		
 		ListIterator<Client> clientListIterator = clientList.listIterator();
 		while(clientListIterator.hasNext())
@@ -70,6 +73,10 @@ public class QueryTask {
 				response.setValue(TASK_STATUS,String.valueOf(task.getTaskState()));
 			}
 			
+		}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		return response;

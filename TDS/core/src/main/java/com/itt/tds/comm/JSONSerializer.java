@@ -1,16 +1,21 @@
 package com.itt.tds.comm;
 
+import org.apache.log4j.Logger;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itt.tds.comm.TDSProtocol;
+import com.itt.tds.errorCodes.TDSError;
+import com.itt.tds.logging.TDSLogger;
 
 public class JSONSerializer implements TDSSerializer {
 
-	TDSProtocol tdsProtocolObj = null;
+	static Logger logger = new TDSLogger().getLogger();
 
 	@Override
 	public TDSProtocol DeSerialize(String data)  {
 		TDSProtocol tdsProtocolObj = null;
+		logger.debug("Serialized data ==> " + data);
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
@@ -29,8 +34,8 @@ public class JSONSerializer implements TDSSerializer {
 				throw new Exception("Invalid TDSPProtocol Serialized json String");
 			}
 		} catch (Exception e) {
-			System.err.println("Invalid TDSPProtocol Serialized json String");
-			e.printStackTrace();
+			logger.error(TDSError.INVALID_JSON_STRING.toString());
+			logger.trace(e);
 		}
 
 		return tdsProtocolObj;
@@ -44,8 +49,8 @@ public class JSONSerializer implements TDSSerializer {
 		try {
 			objectString = mapper.writeValueAsString(protocol);
 		} catch (JsonProcessingException e) {
-			System.err.println("problem occured while serializing the protocol object");
-			e.printStackTrace();
+			logger.error(TDSError.UNABLE_TO_SERIALIZE.toString());
+			logger.trace(e);
 		}
 		return objectString;
 	}

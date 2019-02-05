@@ -7,6 +7,7 @@ import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.ClientTasks.QueryTask;
 import com.itt.tds.coordinator.ClientTasks.QueueTask;
 import com.itt.tds.coordinator.ClientTasks.ResultTask;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 public class ClientController implements TDSController {
@@ -14,6 +15,7 @@ public class ClientController implements TDSController {
 	private static final String CLIENT_QUERY_TASK = "client-queryTask";
 	private static final String CLIENT_RESULT_TASK = "client-resultTask";
 	private static final String CLIENT_QUEUE_TASK = "client-queueTask";
+	private static final String ERROR = "ERROR";
 
 	/**
 	 * Default constructor
@@ -23,18 +25,27 @@ public class ClientController implements TDSController {
 
 	@Override
 	public TDSResponse processRequest(TDSRequest request) {
-		logger.info("processing request");
-		try {
-			if (request.getMethod().equals(CLIENT_QUEUE_TASK))
-				return QueueTask.addTask(request);
-			if (request.getMethod().equals(CLIENT_QUERY_TASK))
-				return QueryTask.getTaskStatus(request);
-			if (request.getMethod().equals(CLIENT_RESULT_TASK))
-				return ResultTask.getResult(request);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		logger.debug("processing request");
+		TDSResponse response = null;
+
+		if (request.getMethod().equals(CLIENT_QUEUE_TASK))
+			response = QueueTask.addTask(request);
+		else if (request.getMethod().equals(CLIENT_QUERY_TASK))
+			response = QueryTask.getTaskStatus(request);
+		else if (request.getMethod().equals(CLIENT_RESULT_TASK))
+			response = ResultTask.getResult(request);
+		else {
+			response = new TDSResponse();
+			response.setProtocolVersion(request.getProtocolVersion());
+			response.setProtocolFormat(request.getProtocolFormat());
+			response.setDestIp(request.getSourceIp());
+			response.setDestPort(request.getSourcePort());
+			response.setSourceIp(request.getDestIp());
+			response.setSourcePort(request.getDestPort());
+			response.setStatus(ERROR);
+			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
+			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());
 		}
-		return null;
+		return response;
 	}
 }
