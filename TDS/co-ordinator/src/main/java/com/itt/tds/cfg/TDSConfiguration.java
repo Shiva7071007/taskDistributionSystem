@@ -36,6 +36,7 @@ public class TDSConfiguration {
 	private static final String DB_USER_NAME = "db-user-name";
 	private static final String DB_USER_PASSWORD = "db-user-password";
 	private static final String DB_MAX_CONNECTION = "db-max-connection";
+	private static final String USE_SSL_FAlSE = "&useSSL=false";
 
 	/**
 	 * Default constructor
@@ -68,115 +69,74 @@ public class TDSConfiguration {
 		return TDSConfigurationInstance;
 	}
 
-	private NodeList getElementsByTagName(String tagName) {
-		NodeList tagNameList = null;
+	private String getElementsByTagName(String parentTag, String elementTag) {
 		String configFileName = CONFIG_FILE_NAME;
 		File configFile = new File(configFileName);
 		DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder documentBuilder;
+		String elementValue = null;
 		try {
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
 			Document configXML = documentBuilder.parse(configFile);
 			configXML.getDocumentElement().normalize();
-			tagNameList = configXML.getElementsByTagName(tagName);
+			NodeList tagNameList = configXML.getElementsByTagName(parentTag);
+			Node nNode = tagNameList.item(tagNameList.getLength() - 1);
+			if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+				Element element = (Element) nNode;
+				elementValue = element.getElementsByTagName(elementTag).item(0).getTextContent();
+			}
+
 		} catch (Exception e) {
 			throw new CoordinatorConfigurationException(TDSError.UNABLE_TO_FIND_CONFIG, e);
 		}
-		return tagNameList;
+		return elementValue;
 	}
-
+	
 	public String getDBConnectionString() {
 
 		String dbConnectionString = null;
 
-		NodeList databaseList = getElementsByTagName(DATABASE);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			String dbConnectionUrl = element.getElementsByTagName(DB_CONNECTION_STRING).item(0).getTextContent();
-			String userName = element.getElementsByTagName(DB_USER_NAME).item(0).getTextContent();
-			String userPassword = element.getElementsByTagName(DB_USER_PASSWORD).item(0).getTextContent();
-
-			dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword + "&useSSL=false";
-		}
+		String dbConnectionUrl = getElementsByTagName(DATABASE, DB_CONNECTION_STRING);
+		String userName = getElementsByTagName(DATABASE, DB_USER_NAME);
+		String userPassword = getElementsByTagName(DATABASE, DB_USER_PASSWORD);
+		dbConnectionString = dbConnectionUrl + "?user=" + userName + "&password=" + userPassword + USE_SSL_FAlSE;
 		return dbConnectionString;
 	}
 
 	public int getMaxDBConnectionNumber() {
 		int maxDBConnection = 0;
-		NodeList databaseList = getElementsByTagName(DATABASE);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			String maxDBConnectionConfig = element.getElementsByTagName(DB_MAX_CONNECTION).item(0).getTextContent();
-			maxDBConnection = Integer.parseInt(maxDBConnectionConfig);
-		}
+		String maxDBConnectionConfig = getElementsByTagName(DATABASE, DB_MAX_CONNECTION);
+		maxDBConnection = Integer.parseInt(maxDBConnectionConfig);
 		return maxDBConnection;
 	}
 
 	public String getCoordinatorIP() {
 		String coordinatorIP = "";
-		String tagName = "co-ordinator";
-		NodeList databaseList = getElementsByTagName(tagName);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			coordinatorIP = element.getElementsByTagName(CO_ORDINATOR_IP).item(0).getTextContent();
-		}
+		coordinatorIP = getElementsByTagName(CO_ORDINATOR, CO_ORDINATOR_IP);
 		return coordinatorIP;
 	}
 
 	public int getCoordinatorPort() {
 		int coordinatorPort = 0;
-		NodeList databaseList = getElementsByTagName(CO_ORDINATOR);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			coordinatorPort = Integer
-					.parseInt(element.getElementsByTagName(CO_ORDINATOR_PORT).item(0).getTextContent());
-		}
+		coordinatorPort = Integer.parseInt(getElementsByTagName(CO_ORDINATOR, CO_ORDINATOR_PORT));
 		return coordinatorPort;
 	}
 
 	public String getCoordinatorProtocolFormat() {
 		String coordinatorProtocolFormat = null;
-		NodeList databaseList = getElementsByTagName(CO_ORDINATOR);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			coordinatorProtocolFormat = element.getElementsByTagName(PROTOCOL_FORMAT).item(0).getTextContent();
-		}
+		coordinatorProtocolFormat = getElementsByTagName(CO_ORDINATOR, PROTOCOL_FORMAT);
 		return coordinatorProtocolFormat;
 	}
 
 	public String getCoordinatorProtocolVersion() {
 		String coordinatorProtocolVersion = null;
-		NodeList databaseList = getElementsByTagName(CO_ORDINATOR);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			coordinatorProtocolVersion = element.getElementsByTagName(PROTOCOL_VERSION).item(0).getTextContent();
-		}
+		coordinatorProtocolVersion = getElementsByTagName(CO_ORDINATOR, PROTOCOL_VERSION);
 		return coordinatorProtocolVersion;
 	}
 
 	public String getCoordinatorLogLevel() {
 		String coordinatorLogLevel = null;
-		NodeList databaseList = getElementsByTagName(CO_ORDINATOR);
-		Node nNode = databaseList.item(databaseList.getLength() - 1);
-		if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-			Element element = (Element) nNode;
-
-			coordinatorLogLevel = element.getElementsByTagName(LOG_LEVEL).item(0).getTextContent();
-		}
+		coordinatorLogLevel = getElementsByTagName(CO_ORDINATOR, LOG_LEVEL);
 		return coordinatorLogLevel;
 	}
-
 }

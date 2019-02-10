@@ -11,7 +11,9 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.itt.tds.cfg.TDSConfiguration;
+import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.Command;
 
@@ -38,22 +40,8 @@ public class Server implements Runnable{
 			serverPort = tdsCFG.getCoordinatorPort();
 
 		logger.info("Starting the Server on ip: " + serverIp + ":" + serverPort);
-		ServerSocket serverSocket = null;
-		SocketAddress socketAdresss = new InetSocketAddress(serverIp, serverPort);
-		try {
-			serverSocket = new ServerSocket();
-			serverSocket.bind(socketAdresss);
-		} catch (IOException e2) {
-			logger.error("failed to bind address " + serverIp + ":" + serverPort + " to the sever. Retrying again...");
-			try {
-				serverSocket.bind(socketAdresss);
-			} catch (IOException e) {
-				logger.fatal("failed to bind address", e);
-				logger.warn("Make sure adress is not in used. Check and start again.");
-				logger.info("closing co-ordinator.");
-				System.exit(0);
-			}
-		}
+		ServerSocket serverSocket = TDSServer.getServerSocket(serverIp, serverPort);
+	
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 
 		while (true) {

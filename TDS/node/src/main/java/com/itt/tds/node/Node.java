@@ -2,7 +2,7 @@ package com.itt.tds.node;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.comm.DestinationComManager;
+import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
@@ -48,7 +48,7 @@ public class Node implements Runnable {
 			if (remainningTime <= 0)
 				break;
 
-			response = DestinationComManager.getResponse(request);
+			response = TDSClient.sendRequest(request);
 		}
 
 		if (response == null) {

@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
 
 public class NodeServer {
@@ -24,22 +25,7 @@ public class NodeServer {
 		logger.info("Starting the Server on ip: " + nodeServerIp + ":" + nodeServerPort);
 
 		ServerSocket serverSocket = null;
-		SocketAddress socketAdresss = new InetSocketAddress(nodeServerIp, nodeServerPort);
-
-		try {
-			serverSocket = new ServerSocket();
-			serverSocket.bind(socketAdresss);
-		} catch (IOException e2) {
-			logger.error("failed to bind address " + nodeServerIp + ":" + nodeServerPort
-					+ " to the sever. Retrying again...");
-			try {
-				serverSocket.bind(socketAdresss);
-			} catch (IOException e) {
-				logger.fatal("failed to bind address", e);
-				logger.warn("Make sure adress is not in used. Check and start again.");
-				System.exit(0);
-			}
-		}
+		TDSServer.getServerSocket(nodeServerIp, nodeServerPort);
 
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 

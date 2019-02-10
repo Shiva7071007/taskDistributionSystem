@@ -4,7 +4,7 @@ import static picocli.CommandLine.*;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.comm.DestinationComManager;
+import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
@@ -45,7 +45,7 @@ public class Result implements Runnable {
 		request.setParameters(HOSTNAME, clientCfg.getHostName());
 		request.setParameters(USERNAME, clientCfg.getUserName());
 
-		TDSResponse response = DestinationComManager.getResponse(request);
+		TDSResponse response = TDSClient.sendRequest(request);
 
 		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 			String taskOutcome = response.getValue(TASK_OUTCOME);

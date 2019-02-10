@@ -10,10 +10,10 @@ import org.apache.log4j.Logger;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
-public class DestinationComManager {
+public class TDSClient {
 	static Logger logger = new TDSLogger().getLogger();
 
-	public static TDSResponse getResponse(TDSRequest request) {
+	public static TDSResponse sendRequest(TDSRequest request) {
 		TDSResponse response = null;
 		try (Socket socket = new Socket(request.getDestIp(), request.getDestPort())) {
 
