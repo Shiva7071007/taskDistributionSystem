@@ -1,11 +1,8 @@
 package com.itt.tds.coordinator;
 
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -13,8 +10,6 @@ import org.apache.log4j.Logger;
 import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
-import com.itt.tds.utility.Utility;
-
 import picocli.CommandLine.Command;
 
 @Command(name = "start", mixinStandardHelpOptions = true, header = "starts the server")

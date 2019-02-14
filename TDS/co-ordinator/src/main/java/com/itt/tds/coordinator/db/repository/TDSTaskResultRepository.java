@@ -5,14 +5,11 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.itt.tds.coordinator.db.TDSDatabaseManager;
-import com.itt.tds.core.TaskOutcome;
 import com.itt.tds.core.TaskResult;
-import com.mysql.cj.xdevapi.InsertStatement;
 
 public class TDSTaskResultRepository implements TaskResultRepository {
 
