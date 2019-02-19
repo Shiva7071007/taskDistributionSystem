@@ -10,9 +10,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class TDSResponse extends TDSProtocol {
 
 	private Hashtable<String, String> headerParameters = new Hashtable<String, String>();
-	private static String STATUS = "status";
-	private static String ERROR_CODE = "error-code";
-	private static String ERROR_MESSAGE = "error-message";
+	private static final String STATUS = "status";
+	private static final String ERROR_CODE = "error-code";
+	private static final String ERROR_MESSAGE = "error-message";
 	
 	/**
 	 * Default constructor

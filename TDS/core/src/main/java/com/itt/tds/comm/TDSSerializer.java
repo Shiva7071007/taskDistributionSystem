@@ -4,8 +4,8 @@ package com.itt.tds.comm;
  * 
  */
 public interface TDSSerializer {
-	final static String REQUEST = "request";
-	final static String RESPONSE = "response";
+	public static final String REQUEST = "request";
+	public static final String RESPONSE = "response";
 	// DeSerialize the String data into a TDSProtocol object
 	public TDSProtocol DeSerialize(String data);
 

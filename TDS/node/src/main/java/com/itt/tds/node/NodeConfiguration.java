@@ -1,4 +1,4 @@
-package com.itt.tds.client;
+package com.itt.tds.node;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -8,11 +8,10 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
-public class ClientConfiguration {
-	private static volatile ClientConfiguration ClientConfigurationInstance;
+public class NodeConfiguration {
+	private static volatile NodeConfiguration NodeConfigurationInstance;
 
 	private static final String PROTOCOL_VERSION = "protocol-version";
 	private static final String PROTOCOL_FORMAT = "protocol-format";
@@ -29,19 +28,19 @@ public class ClientConfiguration {
 
 	static Properties prop = new Properties();
 
-	private ClientConfiguration() {
-		if (ClientConfigurationInstance != null) {
+	private NodeConfiguration() {
+		if (NodeConfigurationInstance != null) {
 			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
 		}
 	}
 
-	public static ClientConfiguration getInstance() {
-		if (ClientConfigurationInstance == null) { // Check for the first time
+	public static NodeConfiguration getInstance() {
+		if (NodeConfigurationInstance == null) { // Check for the first time
 
-			synchronized (ClientConfiguration.class) { // Check for the second time.
+			synchronized (NodeConfiguration.class) { // Check for the second time.
 				// if there is no instance available... create new one
-				if (ClientConfigurationInstance == null)
-					ClientConfigurationInstance = new ClientConfiguration();
+				if (NodeConfigurationInstance == null)
+					NodeConfigurationInstance = new NodeConfiguration();
 			}
 		}
 
@@ -54,10 +53,9 @@ public class ClientConfiguration {
 			prop.list(new PrintWriter(writer));
 			logger.trace(writer.getBuffer().toString());
 		} catch (Exception e) {
-			logger.error(TDSError.UNABLE_TO_FIND_CONFIG.toString());
-			logger.trace(e);
+			logger.error("Unable to find config file. Run generate-config to generate one");
 		}
-		return ClientConfigurationInstance;
+		return NodeConfigurationInstance;
 	}
 
 	public String getProtocolVersion() {

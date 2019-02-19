@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class TDSRequest extends TDSProtocol {
 	
 	private Hashtable<String, String> headerParameters = new Hashtable<String, String>();
-	private static String METHOD = "method";
+	private static final String METHOD = "method";
 
 	/**
 	 * Default constructor

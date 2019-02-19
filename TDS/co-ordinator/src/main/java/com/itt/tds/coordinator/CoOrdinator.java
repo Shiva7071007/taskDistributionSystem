@@ -21,13 +21,6 @@ public class CoOrdinator {
 
 
     /**
-     * @param node
-     */
-    private void registerNode(Node node) {
-        // TODO implement here
-    }
-
-    /**
      * 
      */
     public void getNodes() {
@@ -38,20 +31,6 @@ public class CoOrdinator {
      * 
      */
     public void run() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    private void startClientController() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    private void startNodeController() {
         // TODO implement here
     }
 

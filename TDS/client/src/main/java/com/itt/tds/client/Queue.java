@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.logging.TDSLogger;
@@ -31,6 +32,9 @@ public class Queue implements Runnable {
 	private static final String PARAMETERS = "parameters";
 	private static final String TASK_STATUS = "taskStatus";
 	private static final String TASK_ID = "taskId";
+	private static final String ERROR_CODE = "Error-code";
+	private static final String SEPARATOR = " : ";
+	private static final String SUCCESS = "SUCCESS";
 
 	@Override
 	public void run() {
@@ -40,7 +44,7 @@ public class Queue implements Runnable {
 			logger.error("please provide a correct task file address");
 		} else {
 			if (parameters == null) {
-				logger.debug("no parameters");
+				logger.trace("no parameters");
 				parameters = Collections.emptyList();
 			}
 
@@ -58,18 +62,18 @@ public class Queue implements Runnable {
 			request.setParameters(PARAMETERS, parameters.toString());
 			request.setParameters(HOSTNAME, clientCfg.getHostName());
 			request.setParameters(USERNAME, clientCfg.getUserName());
-			request.setData(Utility.convertToByte(task));
+			request.setData(Utility.convertFileToByte(task));
 
-			TDSResponse response = Server.getResponse(request);
+			TDSResponse response = TDSClient.sendRequest(request);
 			
-			if(response.getStatus().equalsIgnoreCase("SUCCESS")) {
+			if(response.getStatus().equalsIgnoreCase(SUCCESS)) {
 				String status = response.getValue(TASK_STATUS);
 				String taskId = response.getValue(TASK_ID);
 				logger.info(status + ", task ID:" + taskId);
 			} else {
 				String errorCode = response.getErrorCode();
 				String errorMsg = response.getErrorMessage();
-				logger.error("Error-code : " + errorCode + " " + errorMsg);
+				logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
 			}
 		}
 

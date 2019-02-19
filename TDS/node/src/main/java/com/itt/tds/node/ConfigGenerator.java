@@ -1,19 +1,19 @@
-package com.itt.tds.client;
+package com.itt.tds.node;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
-import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
@@ -48,17 +48,17 @@ public class ConfigGenerator implements Runnable {
 			"--log-level" }, description = "log level for showing logs. Valid values: ${COMPLETION-CANDIDATES} (default: ${DEFAULT-VALUE})")
 	LogLevel logLevel = LogLevel.INFO;
 
-	@Option(names = "--source-ip", description = "IP of current machine. (default: ${DEFAULT-VALUE})")
-	String sourceIP = Utility.getSourceIp();
+	@Option(names = "--source-ip", description = "IP on which node will run. (default: ${DEFAULT-VALUE})")
+	String sourceIP = getSourceIp();
 
-	@Option(names = "--source-port", description = "Port of current machine. (default: ${DEFAULT-VALUE})")
-	Integer sourcePort = 5000;
+	@Option(names = "--source-port", description = "Port on which node will listen request. (default: ${DEFAULT-VALUE})")
+	Integer sourcePort = 5001;
 
 	@Option(names = "--hostname", description = "HostName of current machine. (default: ${DEFAULT-VALUE})")
-	String hostname = Utility.getHostName();
+	String hostname = getHostName();
 
 	@Option(names = "--user-name", description = "user name of current machine. (default: ${DEFAULT-VALUE})")
-	String userName = Utility.getUserName();
+	String userName = getUserName();
 
 	private static final String PROPERTIES_FILE = "config.properties";
 	private static final String CO_ORDINATOR_IP = "co-ordinator-ip";
@@ -66,6 +66,7 @@ public class ConfigGenerator implements Runnable {
 	private static final String PROTOCOL_FORMAT = "protocol-format";
 	private static final String PROTOCOL_VERSION = "protocol-version";
 	private static final String LOG_LEVEL = "log-level";
+	private static final String USER_NAME = "user.name";
 	private static final String SOURCE_PORT = "source-port";
 	private static final String SOURCE_IP = "source-ip";
 	private static final String HOSTNAME = "hostName";
@@ -99,12 +100,37 @@ public class ConfigGenerator implements Runnable {
 			prop.store(output, "properties file for connecting to TDS co-ordinator server");
 
 		} catch (IOException io) {
-			logger.error(TDSError.FAILED_TO_CREATE_CONFIG.toString());
-			logger.debug(io);
+			logger.error("Error: Failed to create config File.", io);
 		}
 	}
 
-	
+	private String getSourceIp() {
+		InetAddress inetAddress = null;
+		String ip = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+			ip = inetAddress.getHostAddress();
 
+		} catch (UnknownHostException e) {
+			logger.error("unable to read host ip.");
+		}
+		return ip;
+	}
 
+	private String getHostName() {
+		InetAddress inetAddress = null;
+		String hostName = null;
+		try {
+			inetAddress = InetAddress.getLocalHost();
+			hostName = inetAddress.getHostName();
+
+		} catch (UnknownHostException e) {
+			logger.error("error: unable to read host name.");
+		}
+		return hostName;
+	}
+
+	public String getUserName() {
+		return System.getProperty(USER_NAME);
+	}
 }

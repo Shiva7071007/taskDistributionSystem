@@ -25,5 +25,4 @@ public class NodeState {
      * 
      */
     public static int NOT_OPERATIONAL = 3;
-
 }

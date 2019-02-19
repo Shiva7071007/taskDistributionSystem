@@ -3,6 +3,7 @@ package com.itt.tds.coordinator.db.repository;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,6 @@ public class TDSTaskRepository implements TaskRepository {
 		String taskPath = taskInstance.getTaskExePath();
 		int taskState = taskInstance.getTaskState();
 		int userID = taskInstance.getUserId();
-		int assignedNodeId = taskInstance.getAssingedNodeId();
 
 		Connection conn = null;
 		PreparedStatement insertTaskStatement = null;
@@ -30,15 +30,14 @@ public class TDSTaskRepository implements TaskRepository {
 		try {
 			conn = tdsDatabaseManager.getConnection();
 
-			String insertTaskQuery = "INSERT INTO `tds`.`task` (`taskName`, `taskParameter`, `taskPath`, `taskState`, `userID`, `assignedNodeId`) VALUES (?, ?, ?, ?, ?, ?)";
+			String insertTaskQuery = "INSERT INTO `tds`.`task` (`taskName`, `taskParameter`, `taskPath`, `taskState`, `userID`) VALUES (?, ?, ?, ?, ?)";
 
-			insertTaskStatement = conn.prepareStatement(insertTaskQuery);
+			insertTaskStatement = conn.prepareStatement(insertTaskQuery, Statement.RETURN_GENERATED_KEYS);
 			insertTaskStatement.setString(1, taskName);
 			insertTaskStatement.setString(2, taskParameters);
 			insertTaskStatement.setString(3, taskPath);
 			insertTaskStatement.setInt(4, taskState);
 			insertTaskStatement.setInt(5, userID);
-			insertTaskStatement.setInt(6, assignedNodeId);
 
 			int rowsAffected = insertTaskStatement.executeUpdate();
 			if (rowsAffected == 1) {
@@ -197,9 +196,10 @@ public class TDSTaskRepository implements TaskRepository {
 		Connection conn = null;
 		PreparedStatement getTasksByTaskIdStatement = null;
 		ResultSet getTasksByTaskIdResult = null;
-		Task task = new Task();
+		Task task = null;
 
 		try {
+			task = new Task();
 			conn = tdsDatabaseManager.getConnection();
 
 			String GetTasksByTaskIdIdQuery = "SELECT taskId, taskName, taskParameter, taskPath, taskState+0, userID, assignedNodeId FROM tds.task where taskId = ?";

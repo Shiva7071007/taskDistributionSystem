@@ -3,16 +3,41 @@
  */
 package node;
 
-public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+import java.util.List;
 
-    public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
-        if (args.length > 0)
-        {
-        System.out.println("Your first argument is: "+args[0]);  
-        }
-    }
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
+import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.node.ConfigGenerator;
+import com.itt.tds.node.Node;
+import com.itt.tds.node.NodeConfiguration;
+
+import picocli.CommandLine;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.RunAll;
+
+@Command(description = "Act as a node for multi-node task executor", mixinStandardHelpOptions = true, subcommands = {
+		Node.class, ConfigGenerator.class })
+public class App implements Runnable {
+
+	static Logger logger = new TDSLogger().getLogger();
+
+	public static void main(String[] args) {
+		NodeConfiguration nodeCfg = NodeConfiguration.getInstance();
+		Level logLevel = Level.toLevel(nodeCfg.getLogLevel());
+		LogManager.getRootLogger().setLevel(logLevel);
+
+		App app = new App();
+		if (args.length == 0)
+			CommandLine.usage(app, System.out);
+
+		@SuppressWarnings("unused")
+		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
+	}
+
+	@Override
+	public void run() {
+	}
 }
