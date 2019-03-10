@@ -24,13 +24,7 @@ public class ResultTask {
 
 	public static TDSResponse getResult(TDSRequest request) {
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		TDSResponse response = new TDSResponse();
-		response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
-		response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
-		response.setSourceIp(tdsCFG.getCoordinatorIP());
-		response.setSourcePort(tdsCFG.getCoordinatorPort());
-		response.setDestIp(request.getSourceIp());
-		response.setDestPort(request.getDestPort());
+		TDSResponse response = Utility.prepareResponse(request);
 
 		try {
 			Client client = null;

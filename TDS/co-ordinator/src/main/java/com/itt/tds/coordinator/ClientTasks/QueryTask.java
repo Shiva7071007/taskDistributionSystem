@@ -10,6 +10,7 @@ import com.itt.tds.coordinator.db.repository.TDSClientRepository;
 import com.itt.tds.coordinator.db.repository.TDSTaskRepository;
 import com.itt.tds.core.Client;
 import com.itt.tds.core.Task;
+import com.itt.tds.utility.Utility;
 
 public class QueryTask {
 
@@ -21,13 +22,7 @@ public class QueryTask {
 	public static TDSResponse getTaskStatus(TDSRequest request) {
 		
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		TDSResponse response = new TDSResponse();
-		response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
-		response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
-		response.setSourceIp(tdsCFG.getCoordinatorIP());
-		response.setSourcePort(tdsCFG.getCoordinatorPort());
-		response.setDestIp(request.getSourceIp());
-		response.setDestPort(request.getSourcePort());
+		TDSResponse response = Utility.prepareResponse(request);
 		
 		Client client = null;
 		TDSClientRepository clientRepository = new TDSClientRepository();

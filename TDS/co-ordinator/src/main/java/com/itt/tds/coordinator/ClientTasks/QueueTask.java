@@ -18,6 +18,7 @@ import com.itt.tds.core.Client;
 import com.itt.tds.core.Task;
 import com.itt.tds.core.TaskState;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 public class QueueTask {
 	static Logger logger = new TDSLogger().getLogger();
@@ -33,7 +34,8 @@ public class QueueTask {
 		Client client = null;
 
 		TDSClientRepository clientRepository = new TDSClientRepository();
-		TDSResponse response = new TDSResponse();
+		TDSResponse response = Utility.prepareResponse(request);
+		
 		try {
 			List<Client> clientList = clientRepository.GetClients();
 
@@ -83,12 +85,6 @@ public class QueueTask {
 
 			TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 
-			response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
-			response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
-			response.setSourceIp(tdsCFG.getCoordinatorIP());
-			response.setSourcePort(tdsCFG.getCoordinatorPort());
-			response.setDestIp(request.getSourceIp());
-			response.setDestPort(request.getDestPort());
 			response.setStatus("SUCCESS");
 			response.setErrorCode("0");
 			response.setErrorMessage("");

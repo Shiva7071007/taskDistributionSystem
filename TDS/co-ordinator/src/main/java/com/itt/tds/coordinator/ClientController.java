@@ -9,6 +9,7 @@ import com.itt.tds.coordinator.ClientTasks.QueueTask;
 import com.itt.tds.coordinator.ClientTasks.ResultTask;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 public class ClientController implements TDSController {
 	static Logger logger = new TDSLogger().getLogger();
@@ -35,13 +36,7 @@ public class ClientController implements TDSController {
 		else if (request.getMethod().equals(CLIENT_RESULT_TASK))
 			response = ResultTask.getResult(request);
 		else {
-			response = new TDSResponse();
-			response.setProtocolVersion(request.getProtocolVersion());
-			response.setProtocolFormat(request.getProtocolFormat());
-			response.setDestIp(request.getSourceIp());
-			response.setDestPort(request.getSourcePort());
-			response.setSourceIp(request.getDestIp());
-			response.setSourcePort(request.getDestPort());
+			response = Utility.prepareResponse(request);
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());

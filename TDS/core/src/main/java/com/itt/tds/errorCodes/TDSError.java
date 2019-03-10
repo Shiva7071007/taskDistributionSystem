@@ -19,6 +19,7 @@ public enum TDSError {
 	UNABLE_TO_SERIALIZE(9, "Unable to serialize the object"),
 	UNABLE_TO_FIND_CONFIG(10, "Unable to find configuration file. Run generate-config command"),
 	INVALID_REQUEST_METHOD(11, "Requested method is invalid"),
+	FAILED_SERVER_CREATION(12, "Failed to create serever socket and bind the adress"),
 	
 	CLIENT_NOT_REGISTERED(401, "Client did not registered any task"),
 	INVALID_TASK_ID(402, "Invalid Task ID");

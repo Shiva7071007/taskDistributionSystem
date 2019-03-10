@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.exceptions.CoordinatorConfigurationException;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 import org.w3c.dom.Node;

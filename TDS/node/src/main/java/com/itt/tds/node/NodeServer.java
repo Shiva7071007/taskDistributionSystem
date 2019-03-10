@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.CoreException.CommException.FailedServerCreationException;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
 
@@ -25,7 +26,12 @@ public class NodeServer {
 		logger.info("Starting the Server on ip: " + nodeServerIp + ":" + nodeServerPort);
 
 		ServerSocket serverSocket = null;
-		TDSServer.getServerSocket(nodeServerIp, nodeServerPort);
+		try {
+			serverSocket = TDSServer.getServerSocket(nodeServerIp, nodeServerPort);
+		} catch (FailedServerCreationException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 

@@ -10,6 +10,7 @@ import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.core.Node;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 import com.itt.tds.coordinator.db.repository.TDSNodeRepository;
 
 public class NodeAdd {
@@ -20,7 +21,7 @@ public class NodeAdd {
 	public static TDSResponse addNode(TDSRequest request) {
 		Node node = null;
 		TDSNodeRepository nodeRepo = new TDSNodeRepository();
-		TDSResponse response = new TDSResponse();
+		TDSResponse response = Utility.prepareResponse(request);
 
 		try {
 			List<Node> nodeList = nodeRepo.GetAllNodes();
@@ -46,12 +47,6 @@ public class NodeAdd {
 
 			TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 
-			response.setProtocolVersion(tdsCFG.getCoordinatorProtocolVersion());
-			response.setProtocolFormat(tdsCFG.getCoordinatorProtocolFormat());
-			response.setSourceIp(tdsCFG.getCoordinatorIP());
-			response.setSourcePort(tdsCFG.getCoordinatorPort());
-			response.setDestIp(request.getSourceIp());
-			response.setDestPort(request.getDestPort());
 			response.setStatus("SUCCESS");
 			response.setErrorCode("0");
 			response.setErrorMessage("");

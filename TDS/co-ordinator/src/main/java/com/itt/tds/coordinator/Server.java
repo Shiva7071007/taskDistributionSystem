@@ -7,6 +7,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.CoreException.CommException.FailedServerCreationException;
 import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
@@ -35,7 +36,13 @@ public class Server implements Runnable{
 			serverPort = tdsCFG.getCoordinatorPort();
 
 		logger.info("Starting the Server on ip: " + serverIp + ":" + serverPort);
-		ServerSocket serverSocket = TDSServer.getServerSocket(serverIp, serverPort);
+		ServerSocket serverSocket = null;
+		try {
+			serverSocket = TDSServer.getServerSocket(serverIp, serverPort);
+		} catch (FailedServerCreationException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 	
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 

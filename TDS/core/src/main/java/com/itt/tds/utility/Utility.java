@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.itt.tds.comm.TDSRequest;
+import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
@@ -63,7 +65,6 @@ public class Utility {
 		try {
 			inetAddress = InetAddress.getLocalHost();
 			ip = inetAddress.getHostAddress();
-
 		} catch (UnknownHostException e) {
 			logger.error(TDSError.UNKNOWN_IP.toString());
 			logger.trace(e);
@@ -77,7 +78,6 @@ public class Utility {
 		try {
 			inetAddress = InetAddress.getLocalHost();
 			hostName = inetAddress.getHostName();
-
 		} catch (UnknownHostException e) {
 			logger.error(TDSError.UNKNOWN_HOST.toString());
 			logger.trace(e);
@@ -87,5 +87,18 @@ public class Utility {
 
 	public static String getUserName() {
 		return System.getProperty(USER_NAME);
+	}
+
+	public static TDSResponse prepareResponse(TDSRequest request) {
+		TDSResponse response = new TDSResponse();
+
+		response.setProtocolVersion(request.getProtocolVersion());
+		response.setProtocolFormat(request.getProtocolFormat());
+		response.setSourceIp(request.getDestIp());
+		response.setSourcePort(request.getDestPort());
+		response.setDestIp(request.getSourceIp());
+		response.setDestPort(request.getSourcePort());
+
+		return response;
 	}
 }
