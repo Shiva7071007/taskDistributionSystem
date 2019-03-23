@@ -26,13 +26,9 @@ public class Taskmgr implements Runnable {
 	static Logger logger = new TDSLogger().getLogger();
 
 	public static void main(String[] args) {
-		ClientConfiguration clientCfg = ClientConfiguration.getInstance();
-		Level logLevel = Level.toLevel(clientCfg.getLogLevel());
-		LogManager.getRootLogger().setLevel(logLevel);
 
 		Taskmgr app = new Taskmgr();
-		if (args.length == 0)
-			CommandLine.usage(app, System.out);
+		if (args.length == 0) CommandLine.usage(app, System.out);
 
 		@SuppressWarnings("unused")
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);

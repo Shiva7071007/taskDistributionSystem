@@ -1,6 +1,5 @@
-package com.itt.tds.TDSExceptions.CoreException.CommException;
+package com.itt.tds.TDSExceptions;
 
-import com.itt.tds.TDSExceptions.TDSExceptions;
 import com.itt.tds.errorCodes.TDSError;
 
 public class FailedServerCreationException extends TDSExceptions {

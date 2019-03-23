@@ -9,11 +9,20 @@ public class TDSExceptions extends Exception {
 
 	private static final long serialVersionUID = 985186607856375650L;
 	static Logger logger = new TDSLogger().getLogger();
-	private static final String THROWN_BY = "Thrown by : ";
 	
-	public TDSExceptions (TDSError error, Throwable cause) {
-		logger.error(error.toString());
-		logger.debug(THROWN_BY + cause.getClass().getSimpleName());
-		logger.trace(cause.getMessage());
-	}
+	public TDSExceptions(String message) {
+        logger.error(message);
+    }
+	
+	public TDSExceptions(TDSError errorCode) {
+        logger.error(errorCode.toString());
+    }
+
+    public TDSExceptions(String message, Throwable cause) {
+    	logger.error(message, cause);
+    }
+
+    public TDSExceptions(TDSError errorCode, Throwable cause) {
+    	logger.error(errorCode.toString(), cause);
+    }
 }

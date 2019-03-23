@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.CoreException.CommException.FailedServerCreationException;
+import com.itt.tds.TDSExceptions.FailedServerCreationException;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
 

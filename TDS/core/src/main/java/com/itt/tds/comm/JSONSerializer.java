@@ -4,8 +4,8 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itt.tds.TDSExceptions.CoreException.CommException.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.CoreException.CommException.InvalidTDSProtocolObjectException;
+import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
+import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
 import com.itt.tds.comm.TDSProtocol;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;

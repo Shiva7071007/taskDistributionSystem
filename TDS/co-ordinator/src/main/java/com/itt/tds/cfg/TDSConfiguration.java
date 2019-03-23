@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-import com.itt.tds.exceptions.CoordinatorConfigurationException;
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
@@ -87,7 +87,7 @@ public class TDSConfiguration {
 			}
 
 		} catch (Exception e) {
-			throw new CoordinatorConfigurationException(TDSError.UNABLE_TO_FIND_CONFIG, e);
+			throw new FatalException(TDSError.UNABLE_TO_FIND_CONFIG, e);
 		}
 		return elementValue;
 	}

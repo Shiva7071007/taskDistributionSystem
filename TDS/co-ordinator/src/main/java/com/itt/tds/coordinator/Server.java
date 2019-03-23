@@ -7,7 +7,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.CoreException.CommException.FailedServerCreationException;
+import com.itt.tds.TDSExceptions.FailedServerCreationException;
 import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
@@ -19,6 +19,7 @@ public class Server implements Runnable{
 
 	@Override
 	public void run() {
+		
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 		Level logLevel = Level.INFO;
 		try {

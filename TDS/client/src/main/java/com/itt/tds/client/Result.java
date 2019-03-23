@@ -17,8 +17,6 @@ public class Result implements Runnable {
 
 	private static final String CLIENT_RESULT_TASK = "client-resultTask";
 	private static final String TASK_ID = "taskId";
-	private static final String HOSTNAME = "hostname";
-	private static final String USERNAME = "userName";
 	private static final String TASK_RESULT = "taskResult";
 	private static final String ERROR_CODE = "Error-code";
 	private static final String SEPARATOR = " : ";
@@ -31,19 +29,11 @@ public class Result implements Runnable {
 
 	@Override
 	public void run() {
-		ClientConfiguration clientCfg = ClientConfiguration.getInstance();
+		Client.setClientLogLevel();
 
-		TDSRequest request = new TDSRequest();
-		request.setProtocolVersion(clientCfg.getProtocolVersion());
-		request.setProtocolFormat(clientCfg.getProtocolFormat());
-		request.setSourceIp(clientCfg.getSourceIp());
-		request.setSourcePort(clientCfg.getSourcePort());
-		request.setDestIp(clientCfg.getDestinationIp());
-		request.setDestPort(clientCfg.getDestinationPort());
+		TDSRequest request = Client.prepareClientRequest();
 		request.setMethod(CLIENT_RESULT_TASK);
 		request.setParameters(TASK_ID, Integer.toString(taskId));
-		request.setParameters(HOSTNAME, clientCfg.getHostName());
-		request.setParameters(USERNAME, clientCfg.getUserName());
 
 		TDSResponse response = TDSClient.sendRequest(request);
 

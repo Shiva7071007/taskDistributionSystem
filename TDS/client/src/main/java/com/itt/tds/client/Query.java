@@ -17,8 +17,6 @@ public class Query implements Runnable {
 
 	private static final String CLIENT_QUERY_TASK = "client-queryTask";
 	private static final String TASK_ID = "taskId";
-	private static final String HOSTNAME = "hostname";
-	private static final String USERNAME = "userName";
 	private static final String TASK_STATUS = "taskStatus";
 	private static final String SEPARATOR = " : ";
 	private static final String STATUS = "Status";
@@ -33,19 +31,11 @@ public class Query implements Runnable {
 
 	@Override
 	public void run() {
-		ClientConfiguration clientCfg = ClientConfiguration.getInstance();
+		Client.setClientLogLevel();
 
-		TDSRequest request = new TDSRequest();
-		request.setProtocolVersion(clientCfg.getProtocolVersion());
-		request.setProtocolFormat(clientCfg.getProtocolFormat());
-		request.setSourceIp(clientCfg.getSourceIp());
-		request.setSourcePort(clientCfg.getSourcePort());
-		request.setDestIp(clientCfg.getDestinationIp());
-		request.setDestPort(clientCfg.getDestinationPort());
+		TDSRequest request = Client.prepareClientRequest();
 		request.setMethod(CLIENT_QUERY_TASK);
 		request.setParameters(TASK_ID, Integer.toString(taskId));
-		request.setParameters(HOSTNAME, clientCfg.getHostName());
-		request.setParameters(USERNAME, clientCfg.getUserName());
 
 		TDSResponse response = TDSClient.sendRequest(request);
 

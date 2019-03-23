@@ -7,7 +7,7 @@ import java.net.SocketAddress;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.CoreException.CommException.FailedServerCreationException;
+import com.itt.tds.TDSExceptions.FailedServerCreationException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 import org.apache.log4j.Logger;
 
@@ -19,6 +20,8 @@ public class TDSClient {
 
 			logger.debug("Socket opened : " + socket);
 
+			socket.setSoTimeout(60 * 1000);
+
 			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer(request.getProtocolFormat());
 			String requestData = dataSerializer.Serialize(request);
 			logger.trace("Serialised request : " + requestData);
@@ -32,7 +35,11 @@ public class TDSClient {
 
 			response = (TDSResponse) dataSerializer.DeSerialize(responseData);
 
-		} catch (Exception e) {
+		} catch (SocketTimeoutException e) 
+		{
+			e.printStackTrace();
+		}
+		catch (Exception e) {
 			logger.error(TDSError.DESTINATION_SERVER_NOT_FOUND.toString());
 			logger.trace(e);
 		}

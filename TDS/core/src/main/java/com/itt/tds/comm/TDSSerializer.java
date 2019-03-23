@@ -1,7 +1,7 @@
 package com.itt.tds.comm;
 
-import com.itt.tds.TDSExceptions.CoreException.CommException.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.CoreException.CommException.InvalidTDSProtocolObjectException;
+import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
+import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
 
 /**
  * 
