@@ -4,9 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.itt.tds.TDSExceptions.UnableToReadFileException;
 import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.*;
@@ -39,7 +41,12 @@ public class Queue extends Client implements Runnable {
 		request.setMethod(CLIENT_QUEUE_TASK);
 		request.setParameters(TASK_NAME, task.getName());
 		request.setParameters(PARAMETERS, parameters.toString());
-		request.setData(Utility.convertFileToByte(task));
+		
+		try {
+			request.setData(Utility.convertFileToByte(task));
+		} catch (UnableToReadFileException e) {
+			throw new FatalException(TDSError.FAILED_TO_READ_FILE, e);
+		}
 
 		TDSResponse response = Client.getResponse(request, TIMEOUT);
 

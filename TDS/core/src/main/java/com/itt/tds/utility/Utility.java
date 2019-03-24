@@ -2,6 +2,7 @@ package com.itt.tds.utility;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -11,6 +12,8 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.itt.tds.TDSExceptions.UnableToReadFileException;
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.errorCodes.TDSError;
@@ -34,17 +37,16 @@ public class Utility {
 		return arrList;
 	}
 
-	public static byte[] convertFileToByte(File task) {
-		byte[] bytesArray = new byte[(int) task.length()];
+	public static byte[] convertFileToByte(File file) throws UnableToReadFileException {
+		byte[] bytesArray = new byte[(int) file.length()];
 
 		FileInputStream fis;
 		try {
-			fis = new FileInputStream(task);
+			fis = new FileInputStream(file);
 			fis.read(bytesArray); // read file into bytes[]
 			fis.close();
-		} catch (Exception e) {
-			logger.error(TDSError.FAILED_TO_READ_FILE.toString());
-			logger.trace(e);
+		} catch (IOException e) {
+			throw new UnableToReadFileException(TDSError.FAILED_TO_READ_FILE, e);
 		}
 
 		return bytesArray;
@@ -66,8 +68,7 @@ public class Utility {
 			inetAddress = InetAddress.getLocalHost();
 			ip = inetAddress.getHostAddress();
 		} catch (UnknownHostException e) {
-			logger.error(TDSError.UNKNOWN_IP.toString());
-			logger.trace(e);
+			throw new FatalException(TDSError.UNKNOWN_IP, e);
 		}
 		return ip;
 	}
@@ -79,8 +80,7 @@ public class Utility {
 			inetAddress = InetAddress.getLocalHost();
 			hostName = inetAddress.getHostName();
 		} catch (UnknownHostException e) {
-			logger.error(TDSError.UNKNOWN_HOST.toString());
-			logger.trace(e);
+			throw new FatalException(TDSError.UNKNOWN_HOST, e);
 		}
 		return hostName;
 	}
@@ -89,7 +89,7 @@ public class Utility {
 		return System.getProperty(USER_NAME);
 	}
 
-	public static TDSResponse prepareResponse(TDSRequest request) {
+	public static TDSResponse prepareResponseFromrequest(TDSRequest request) {
 		TDSResponse response = new TDSResponse();
 
 		response.setProtocolVersion(request.getProtocolVersion());

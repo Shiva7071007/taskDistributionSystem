@@ -1,6 +1,5 @@
 package com.itt.tds.TDSExceptions.RuntimeExceptions;
 
-import com.itt.tds.TDSExceptions.TDSExceptions;
 import com.itt.tds.errorCodes.TDSError;
 
 public class ServerCreationFailedException extends FatalException {
