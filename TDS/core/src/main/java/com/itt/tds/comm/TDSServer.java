@@ -7,14 +7,14 @@ import java.net.SocketAddress;
 
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.FailedServerCreationException;
+import com.itt.tds.TDSExceptions.RuntimeExceptions.ServerCreationFailedException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
-public class TDSServer implements AutoCloseable {
+public class TDSServer {
 	static Logger logger = new TDSLogger().getLogger();
 
-	public static ServerSocket getServerSocket(String ip, int port) throws FailedServerCreationException {
+	public static ServerSocket getServerSocket(String ip, int port) {
 		ServerSocket serverSocket = null;
 		SocketAddress socketAdresss = new InetSocketAddress(ip, port);
 
@@ -22,15 +22,9 @@ public class TDSServer implements AutoCloseable {
 			serverSocket = new ServerSocket();
 			serverSocket.bind(socketAdresss);
 		} catch (IOException e) {
-			throw new FailedServerCreationException(TDSError.FAILED_SERVER_CREATION, e.getCause());
+			throw new ServerCreationFailedException(TDSError.FAILED_SERVER_CREATION, e);
 		}
 		
 		return serverSocket;
-	}
-
-	@Override
-	public void close() throws Exception {
-		// TODO Auto-generated method stub
-		
 	}
 }

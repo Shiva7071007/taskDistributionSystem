@@ -3,11 +3,14 @@ package com.itt.tds.coordinator;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.FailedServerCreationException;
+import com.itt.tds.TDSExceptions.RuntimeExceptions.ServerCreationFailedException;
 import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSServer;
 import com.itt.tds.logging.TDSLogger;
@@ -40,7 +43,7 @@ public class Server implements Runnable{
 		ServerSocket serverSocket = null;
 		try {
 			serverSocket = TDSServer.getServerSocket(serverIp, serverPort);
-		} catch (FailedServerCreationException e2) {
+		} catch (ServerCreationFailedException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
@@ -55,6 +58,7 @@ public class Server implements Runnable{
 				logger.info("A new client is connected : " + sock);
 
 				// Assigning new thread for this client
+				ExecutorService executor = Executors.newFixedThreadPool(20);
 				Thread socketThread = new Thread(new SocketHandler(sock));
 				socketThread.start();
 			} catch (Exception e) {

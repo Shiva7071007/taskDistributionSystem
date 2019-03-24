@@ -1,16 +1,18 @@
 package com.itt.tds.comm;
 
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
+
 public class TDSSerializerFactory {
 	private static final String JSON = "json";
 	private static final String XML = "xml";
 	
-	public static TDSSerializer getSerializer(String protocolFormat) throws Exception {
+	public static TDSSerializer getSerializer(String protocolFormat) {
 		if (protocolFormat.equalsIgnoreCase(JSON)) {
 			return new JSONSerializer();
 		} else if (protocolFormat.equalsIgnoreCase(XML)) {
 			return new XMLSerializer();
 		} else {
-			throw new Exception("Invalid TDSSerializser Format : " + protocolFormat);
+			throw new FatalException("Invalid TDSSerializser Format : " + protocolFormat);
 		}
 	}
 }

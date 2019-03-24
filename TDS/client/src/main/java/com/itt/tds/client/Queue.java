@@ -4,36 +4,27 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
-import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.*;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "queue", mixinStandardHelpOptions = true, header = "add a program in queue for execution")
-public class Queue implements Runnable {
+public class Queue extends Client implements Runnable {
+
 	@Parameters(index = "0", description = "Executables files that needs to be sent to server")
 	File task;
 
 	@Parameters(index = "1..*", description = "parameters need to be passed with task")
 	List<String> parameters = new ArrayList<String>();
 
-	static Logger logger = new TDSLogger().getLogger();
-
 	private static final String CLIENT_QUEUE_TASK = "client-queueTask";
 	private static final String TASK_NAME = "taskName";
 	private static final String PARAMETERS = "parameters";
 	private static final String TASK_STATUS = "taskStatus";
-	private static final String TASK_ID = "taskId";
-	private static final String ERROR_CODE = "Error-code";
-	private static final String SEPARATOR = " : ";
-	private static final String SUCCESS = "SUCCESS";
 
 	@Override
 	public void run() {
@@ -50,7 +41,7 @@ public class Queue implements Runnable {
 		request.setParameters(PARAMETERS, parameters.toString());
 		request.setData(Utility.convertFileToByte(task));
 
-		TDSResponse response = TDSClient.sendRequest(request);
+		TDSResponse response = Client.getResponse(request, TIMEOUT);
 
 		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 			String status = response.getValue(TASK_STATUS);

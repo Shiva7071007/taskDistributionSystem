@@ -5,12 +5,9 @@ package client;
 
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.itt.tds.logging.TDSLogger;
-import com.itt.tds.client.ClientConfiguration;
 import com.itt.tds.client.ConfigGenerator;
 import com.itt.tds.client.Query;
 import com.itt.tds.client.Queue;

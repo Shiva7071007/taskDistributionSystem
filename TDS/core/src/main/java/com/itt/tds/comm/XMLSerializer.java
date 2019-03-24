@@ -29,12 +29,14 @@ public class XMLSerializer implements TDSSerializer {
 				TDSRequest reqObject = null;
 				reqObject = xmlMapper.readValue(data, TDSRequest.class);
 				tdsProtocolObj = reqObject;
+
 			} else if (protocolType.equalsIgnoreCase(RESPONSE)) {
 				TDSResponse resObject = null;
 				resObject = xmlMapper.readValue(data, TDSResponse.class);
 				tdsProtocolObj = resObject;
+
 			} else {
-				throw new Exception("Invalid TDSPProtocol Serialized xml String: " + data);
+				throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING);
 			}
 		} catch (Exception e) {
 			throw new InvalidSerializedStringException(TDSError.INVALID_XML_STRING, e.getCause());
@@ -46,10 +48,11 @@ public class XMLSerializer implements TDSSerializer {
 	public String Serialize(TDSProtocol protocol) throws InvalidTDSProtocolObjectException {
 		XmlMapper xmlMapper = new XmlMapper();
 		String objString = "";
+
 		try {
 			objString = xmlMapper.writeValueAsString(protocol);
 		} catch (JsonProcessingException e) {
-			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e.getCause());
+			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e);
 		}
 		return objString;
 	}

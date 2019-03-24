@@ -1,7 +1,7 @@
 package com.itt.tds.comm;
 
+import java.io.IOException;
 import org.apache.log4j.Logger;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
@@ -22,6 +22,7 @@ public class JSONSerializer implements TDSSerializer {
 
 		try {
 			tdsProtocolObj = mapper.readValue(data, TDSProtocol.class);
+
 			String protocolType = tdsProtocolObj.getProtocolType();
 
 			if (protocolType.equalsIgnoreCase(REQUEST)) {
@@ -35,11 +36,10 @@ public class JSONSerializer implements TDSSerializer {
 				tdsProtocolObj = resObject;
 
 			} else {
-				throw new Exception("Invalid TDSPProtocol Serialized json String : " + data);
+				throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING);
 			}
-			
-		} catch (Exception e) {
-			throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING, e.getCause());
+		} catch (IOException e) {
+			throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING, e);
 		}
 
 		return tdsProtocolObj;
@@ -52,11 +52,10 @@ public class JSONSerializer implements TDSSerializer {
 
 		try {
 			objectString = mapper.writeValueAsString(protocol);
-			
 		} catch (JsonProcessingException e) {
-			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e.getCause());
+			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e);
 		}
-		
+
 		return objectString;
 	}
 

@@ -2,30 +2,20 @@ package com.itt.tds.client;
 
 import static picocli.CommandLine.*;
 
-import org.apache.log4j.Logger;
-
-import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.logging.TDSLogger;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "result", mixinStandardHelpOptions = true, header = "get the result for passed task ID")
-public class Result implements Runnable {
+public class Result extends Client implements Runnable {
 	@Parameters(index = "0", description = "task-id of the task got from server while queuing")
 	int taskId;
 
 	private static final String CLIENT_RESULT_TASK = "client-resultTask";
-	private static final String TASK_ID = "taskId";
 	private static final String TASK_RESULT = "taskResult";
-	private static final String ERROR_CODE = "Error-code";
-	private static final String SEPARATOR = " : ";
-	private static final String SUCCESS = "SUCCESS";
 	private static final String TASK_OUTCOME = "taskOutcome";
 	private static final String TASK_ERROR_CODE = "taskErrorCode";
 	private static final String TASK_ERROR_MESSAGE = "taskErrorMessage";
-
-	static Logger logger = new TDSLogger().getLogger();
 
 	@Override
 	public void run() {
@@ -35,7 +25,7 @@ public class Result implements Runnable {
 		request.setMethod(CLIENT_RESULT_TASK);
 		request.setParameters(TASK_ID, Integer.toString(taskId));
 
-		TDSResponse response = TDSClient.sendRequest(request);
+		TDSResponse response = Client.getResponse(request, TIMEOUT);
 
 		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 			String taskOutcome = response.getValue(TASK_OUTCOME);
