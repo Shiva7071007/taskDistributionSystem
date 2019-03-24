@@ -21,7 +21,7 @@ public class NodeAdd {
 	public static TDSResponse addNode(TDSRequest request) {
 		Node node = null;
 		TDSNodeRepository nodeRepo = new TDSNodeRepository();
-		TDSResponse response = Utility.prepareResponse(request);
+		TDSResponse response = Utility.prepareResponseFromrequest(request);
 
 		try {
 			List<Node> nodeList = nodeRepo.GetAllNodes();

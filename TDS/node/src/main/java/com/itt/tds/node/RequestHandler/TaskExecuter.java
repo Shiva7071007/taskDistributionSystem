@@ -23,7 +23,7 @@ public class TaskExecuter {
 
 	public static TDSResponse executeTask(TDSRequest request) {
 		LocalNodeState.currentNodeState = NodeState.BUSY;
-		TDSResponse response = Utility.prepareResponse(request);
+		TDSResponse response = Utility.prepareResponseFromrequest(request);
 		try {
 			Task task = new Task();
 			task.setTaskName(request.getParameters(TASK_NAME));

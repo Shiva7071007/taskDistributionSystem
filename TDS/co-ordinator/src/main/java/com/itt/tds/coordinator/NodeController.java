@@ -34,7 +34,7 @@ public class NodeController implements TDSController {
 		else if (request.getMethod().equals(NODE_SAVE_RESULT))
 			response = SaveResult.addTaskResult(request);
 		else {
-			response = Utility.prepareResponse(request);
+			response = Utility.prepareResponseFromrequest(request);
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());

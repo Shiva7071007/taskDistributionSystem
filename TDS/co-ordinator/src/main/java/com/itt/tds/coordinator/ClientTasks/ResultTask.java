@@ -24,7 +24,7 @@ public class ResultTask {
 
 	public static TDSResponse getResult(TDSRequest request) {
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		TDSResponse response = Utility.prepareResponse(request);
+		TDSResponse response = Utility.prepareResponseFromrequest(request);
 
 		try {
 			Client client = null;

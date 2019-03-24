@@ -9,7 +9,7 @@ import com.itt.tds.utility.Utility;
 public class NodeStatus {
 
 	public static TDSResponse getNodeStatus(TDSRequest request) {
-		TDSResponse response = Utility.prepareResponse(request);
+		TDSResponse response = Utility.prepareResponseFromrequest(request);
 		
 		response.setStatus("SUCCESS");
 		response.setValue("nodeState", String.valueOf(LocalNodeState.currentNodeState));

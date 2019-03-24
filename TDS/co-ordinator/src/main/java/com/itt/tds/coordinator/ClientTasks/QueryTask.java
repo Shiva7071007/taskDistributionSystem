@@ -22,7 +22,7 @@ public class QueryTask {
 	public static TDSResponse getTaskStatus(TDSRequest request) {
 
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		TDSResponse response = Utility.prepareResponse(request);
+		TDSResponse response = Utility.prepareResponseFromrequest(request);
 
 		Client client = null;
 		TDSClientRepository clientRepository = new TDSClientRepository();
