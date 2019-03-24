@@ -4,8 +4,7 @@ import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
-import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
+import com.itt.tds.TDSExceptions.TDSProtocolSerializationException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
@@ -14,7 +13,7 @@ public class XMLSerializer implements TDSSerializer {
 	static Logger logger = new TDSLogger().getLogger();
 
 	@Override
-	public TDSProtocol DeSerialize(String data) throws InvalidSerializedStringException {
+	public TDSProtocol DeSerialize(String data) throws TDSProtocolSerializationException {
 
 		logger.debug("Serialized data ==> " + data);
 
@@ -36,23 +35,23 @@ public class XMLSerializer implements TDSSerializer {
 				tdsProtocolObj = resObject;
 
 			} else {
-				throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING);
+				throw new TDSProtocolSerializationException(TDSError.INVALID_XML_STRING);
 			}
 		} catch (Exception e) {
-			throw new InvalidSerializedStringException(TDSError.INVALID_XML_STRING, e.getCause());
+			throw new TDSProtocolSerializationException(TDSError.INVALID_XML_STRING, e.getCause());
 		}
 		return tdsProtocolObj;
 	}
 
 	@Override
-	public String Serialize(TDSProtocol protocol) throws InvalidTDSProtocolObjectException {
+	public String Serialize(TDSProtocol protocol) throws TDSProtocolSerializationException {
 		XmlMapper xmlMapper = new XmlMapper();
 		String objString = "";
 
 		try {
 			objString = xmlMapper.writeValueAsString(protocol);
 		} catch (JsonProcessingException e) {
-			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e);
+			throw new TDSProtocolSerializationException(TDSError.UNABLE_TO_SERIALIZE, e);
 		}
 		return objString;
 	}

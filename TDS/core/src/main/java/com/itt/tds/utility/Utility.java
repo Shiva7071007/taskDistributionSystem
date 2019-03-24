@@ -21,7 +21,10 @@ import com.itt.tds.logging.TDSLogger;
 
 public class Utility {
 	static Logger logger = new TDSLogger().getLogger();
+	
 	private static final String USER_NAME = "user.name";
+	protected static final String SEPARATOR = " : ";
+	protected static final String ERROR_CODE = "Error-code";
 
 	public static String stringArrayListToJSONArray(ArrayList<String> arrList) {
 		Gson converter = new Gson();
@@ -100,5 +103,11 @@ public class Utility {
 		response.setDestPort(request.getSourcePort());
 
 		return response;
+	}
+	
+	public static void displayErrorMsg(TDSResponse response) {
+		String errorCode = response.getErrorCode();
+		String errorMsg = response.getErrorMessage();
+		logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
 	}
 }

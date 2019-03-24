@@ -4,8 +4,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
 import com.itt.tds.TDSExceptions.ServerCommunicationException;
 import com.itt.tds.TDSExceptions.RuntimeExceptions.CommunicationException;
 import com.itt.tds.comm.TDSClient;
@@ -25,7 +23,6 @@ public class Client {
 	protected static final String SUCCESS = "SUCCESS";
 	protected static final String TASK_ID = "taskId";
 	protected static final String SEPARATOR = " : ";
-	protected static final String ERROR_CODE = "Error-code";
 	
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -56,8 +53,7 @@ public class Client {
 
 		try {
 			response = TDSClient.getResponse(request, timeout);
-		} catch (ServerCommunicationException | InvalidSerializedStringException
-				| InvalidTDSProtocolObjectException e) {
+		} catch (ServerCommunicationException e) {
 			throw new CommunicationException("Something went wrong while communicating with server. Please refer logs for more details", e);
 		}
 		return response;

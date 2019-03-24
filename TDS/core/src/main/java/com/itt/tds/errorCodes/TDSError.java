@@ -21,10 +21,12 @@ public enum TDSError {
 	UNABLE_TO_FIND_CONFIG(11, "Unable to find configuration file. Run generate-config command"),
 	INVALID_REQUEST_METHOD(12, "Requested method is invalid"),
 	FAILED_SERVER_CREATION(13, "Failed to create serever socket and bind the adress"),
-	RESPONSE_TIMEOOUT(14, "Server not responsding. Timelimit reached"),
+	RESPONSE_TIMEOOUT(14, "Server not responsding"),
 	
 	CLIENT_NOT_REGISTERED(401, "Client did not registered any task"),
-	INVALID_TASK_ID(402, "Invalid Task ID");
+	INVALID_TASK_ID(402, "Invalid Task ID"),
+	
+	NODE_REGISTER_REQUEST_REJECTED(601, "Server rejected the node register request");
 
 
 	private final int code;

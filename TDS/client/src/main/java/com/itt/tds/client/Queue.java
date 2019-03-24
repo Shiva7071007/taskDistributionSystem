@@ -55,9 +55,7 @@ public class Queue extends Client implements Runnable {
 			String taskId = response.getValue(TASK_ID);
 			logger.info(status + ", task ID:" + taskId);
 		} else {
-			String errorCode = response.getErrorCode();
-			String errorMsg = response.getErrorMessage();
-			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
+			Utility.displayErrorMsg(response);
 		}
 	}
 }

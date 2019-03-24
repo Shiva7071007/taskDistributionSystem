@@ -2,6 +2,8 @@ package com.itt.tds.client;
 
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
+import com.itt.tds.utility.Utility;
+
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -29,9 +31,7 @@ public class Query extends Client implements Runnable {
 			String statusCode = response.getValue(TASK_STATUS);
 			logger.info(STATUS + SEPARATOR + getStatusValueFromCode(statusCode));
 		} else {
-			String errorCode = response.getErrorCode();
-			String errorMsg = response.getErrorMessage();
-			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
+			Utility.displayErrorMsg(response);
 		}
 	}
 }

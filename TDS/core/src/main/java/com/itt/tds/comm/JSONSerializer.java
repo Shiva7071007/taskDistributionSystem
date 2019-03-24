@@ -4,8 +4,7 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
+import com.itt.tds.TDSExceptions.TDSProtocolSerializationException;
 import com.itt.tds.comm.TDSProtocol;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
@@ -15,7 +14,7 @@ public class JSONSerializer implements TDSSerializer {
 	static Logger logger = new TDSLogger().getLogger();
 
 	@Override
-	public TDSProtocol DeSerialize(String data) throws InvalidSerializedStringException {
+	public TDSProtocol DeSerialize(String data) throws TDSProtocolSerializationException {
 		TDSProtocol tdsProtocolObj = null;
 		logger.debug("Serialized data ==> " + data);
 		ObjectMapper mapper = new ObjectMapper();
@@ -36,24 +35,24 @@ public class JSONSerializer implements TDSSerializer {
 				tdsProtocolObj = resObject;
 
 			} else {
-				throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING);
+				throw new TDSProtocolSerializationException(TDSError.INVALID_JSON_STRING);
 			}
 		} catch (IOException e) {
-			throw new InvalidSerializedStringException(TDSError.INVALID_JSON_STRING, e);
+			throw new TDSProtocolSerializationException(TDSError.INVALID_JSON_STRING, e);
 		}
 
 		return tdsProtocolObj;
 	}
 
 	@Override
-	public String Serialize(TDSProtocol protocol) throws InvalidTDSProtocolObjectException {
+	public String Serialize(TDSProtocol protocol) throws TDSProtocolSerializationException {
 		String objectString = "";
 		ObjectMapper mapper = new ObjectMapper();
 
 		try {
 			objectString = mapper.writeValueAsString(protocol);
 		} catch (JsonProcessingException e) {
-			throw new InvalidTDSProtocolObjectException(TDSError.UNABLE_TO_SERIALIZE, e);
+			throw new TDSProtocolSerializationException(TDSError.UNABLE_TO_SERIALIZE, e);
 		}
 
 		return objectString;

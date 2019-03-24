@@ -4,6 +4,8 @@ import static picocli.CommandLine.*;
 
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
+import com.itt.tds.utility.Utility;
+
 import picocli.CommandLine.Parameters;
 
 @Command(name = "result", mixinStandardHelpOptions = true, header = "get the result for passed task ID")
@@ -39,9 +41,7 @@ public class Result extends Client implements Runnable {
 			logger.info("Task Result" + SEPARATOR + taskResult);
 			
 		} else {
-			String errorCode = response.getErrorCode();
-			String errorMsg = response.getErrorMessage();
-			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
+			Utility.displayErrorMsg(response);
 		}
 	}
 }

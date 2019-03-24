@@ -5,19 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.SocketException;
 import org.apache.log4j.Logger;
 
-import com.itt.tds.TDSExceptions.InvalidSerializedStringException;
-import com.itt.tds.TDSExceptions.InvalidTDSProtocolObjectException;
 import com.itt.tds.TDSExceptions.ServerCommunicationException;
+import com.itt.tds.TDSExceptions.TDSProtocolSerializationException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 public class TDSClient {
 	static Logger logger = new TDSLogger().getLogger();
 
-	public static TDSResponse getResponse (TDSRequest request, int timeout) throws ServerCommunicationException, InvalidSerializedStringException, InvalidTDSProtocolObjectException {
+	public static TDSResponse getResponse (TDSRequest request, int timeout) throws ServerCommunicationException {
 		TDSResponse response = null;
 		try (Socket socket = new Socket(request.getDestIp(), request.getDestPort())) {
 
@@ -37,10 +35,8 @@ public class TDSClient {
 			logger.trace("serialised response got : " + responseData);
 
 			response = (TDSResponse) dataSerializer.DeSerialize(responseData);
-		} catch (SocketException e) {
+		} catch (IOException | TDSProtocolSerializationException e) {
 			throw new ServerCommunicationException(TDSError.RESPONSE_TIMEOOUT, e);
-		} catch (IOException io) {
-			throw new ServerCommunicationException(TDSError.DESTINATION_SERVER_NOT_FOUND, io);
 		}
 
 		return response;
