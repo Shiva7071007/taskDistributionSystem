@@ -13,14 +13,12 @@ import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.node.ConfigGenerator;
 import com.itt.tds.node.InitializeNode;
 import com.itt.tds.node.NodeConfiguration;
-import com.itt.tds.node.Test;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.RunAll;
 
 @Command(description = "Act as a node for multi-node task executor", mixinStandardHelpOptions = true, subcommands = {
-		InitializeNode.class, ConfigGenerator.class, Test.class })
+		InitializeNode.class, ConfigGenerator.class})
 public class App implements Runnable {
 
 	static Logger logger = new TDSLogger().getLogger();
