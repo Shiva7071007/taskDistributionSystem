@@ -24,6 +24,7 @@ public enum TDSError {
 	RESPONSE_TIMEOOUT(14, "Server not responsding"),
 	FAILED_TO_WRITE_TO_SOCKET(15, "failed to write data to the socket"),
 	FAILED_TO_READ_FROM_SOCKET(16, "failed to read from socket"),
+	FAILED_TO_PROCESS_TASK(17, "Unable to process the task"),
 	
 	CLIENT_NOT_REGISTERED(401, "Client did not registered any task"),
 	INVALID_TASK_ID(402, "Invalid Task ID"),

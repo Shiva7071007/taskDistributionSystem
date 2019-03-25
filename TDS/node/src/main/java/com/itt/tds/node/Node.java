@@ -8,8 +8,10 @@ import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.core.NodeState;
+import com.itt.tds.core.TaskResult;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 public class Node {
 	
@@ -18,6 +20,12 @@ public class Node {
 	protected static final String SUCCESS = "SUCCESS";
 	private static final String NODE_ADD = "node-add";
 	private static final String NODE_STATE = "nodeState";
+
+	private static final String NODE_POST_RESULT = "node-postResult";
+	private static final String TASK_ERROR_MSG = "taskErrMsg";
+	private static final String TASK_ERROR_CODE = "taskErrorCode";
+	private static final String TASK_OUTCOME = "taskOutcome";
+	private static final String TASK_ID = "taskId";
 	
 	public TDSRequest prepareNodeRequest() {
 		NodeConfiguration nodeCfg = NodeConfiguration.getInstance();
@@ -59,6 +67,38 @@ public class Node {
 		}
 		
 		return response;
+	}
+
+	public void postResult(TaskResult taskResult) {
+		
+		TDSRequest request = prepareNodeRequest();
+		request.setMethod(NODE_POST_RESULT);
+		request.setParameters(TASK_ID, String.valueOf(taskResult.getTaskId()));
+		request.setParameters(TASK_OUTCOME, String.valueOf(taskResult.getTaskOutcome()));
+		request.setParameters(TASK_ERROR_CODE, String.valueOf(taskResult.getErrorCode()));
+		request.setParameters(TASK_ERROR_MSG, taskResult.getErrorMessage());
+		
+		TDSResponse response = null;
+		while (response == null) {
+			try {
+				response = TDSClient.getResponse(request, 0);
+			} catch (ServerCommunicationException e) {
+				throw new CommunicationException("Something went wrong while communicating with server. Please refer logs for more details", e);
+			}
+			try {
+				Thread.sleep(5 * 100);
+			} catch (InterruptedException e) {
+				logger.error("no response from server. Retrying in 5 second");
+			}
+		}
+		
+		if (response.getStatus().equals(SUCCESS)) {
+			logger.info("successfuly posted the result.");
+		} else {
+			Utility.displayErrorMsg(response);
+		}
+		
+		LocalNodeState.currentNodeState = NodeState.AVAILABLE;
 	}
 	
 }

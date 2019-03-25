@@ -1,46 +1,36 @@
 package com.itt.tds.node.RequestHandler;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 
-import com.itt.tds.comm.TDSRequest;
-import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.core.NodeState;
+import org.apache.log4j.Logger;
+
 import com.itt.tds.core.Task;
-import com.itt.tds.node.LocalNodeState;
+import com.itt.tds.core.TaskOutcome;
+import com.itt.tds.core.TaskResult;
+import com.itt.tds.errorCodes.TDSError;
+import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.node.Node;
 import com.itt.tds.utility.Utility;
 
-public class TaskExecuter {
-	private static final String TASK_NAME = "taskName";
-	private static final String PARAMETERS = "parameters";
-	private static final String TASK_FOLDER = "tasks\\";
+public class TaskExecuter implements Runnable {
 	private static final String SPACE = " ";
 
-	public static TDSResponse executeTask(TDSRequest request) {
-		LocalNodeState.currentNodeState = NodeState.BUSY;
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+	static Logger logger = new TDSLogger().getLogger();
+
+	Task task;
+
+	public TaskExecuter(Task task) {
+		this.task = task;
+	}
+
+	@Override
+	public void run() {
+		TaskResult taskResult = new TaskResult();
+		taskResult.setTaskId(task.getId());
 		try {
-			Task task = new Task();
-			task.setTaskName(request.getParameters(TASK_NAME));
-			String taskParameters = request.getParameters(PARAMETERS).substring(1,
-					request.getParameters(PARAMETERS).length() - 1);
-			task.setTaskParameters(new ArrayList<>(Arrays.asList(taskParameters.split(","))));
-
-			File dir = new File(TASK_FOLDER);
-			dir.mkdirs();
-
-			String taskAddress = dir.getAbsolutePath() + "\\" + task.getTaskName();
-
-			FileOutputStream fileStream = new FileOutputStream(taskAddress);
-			fileStream.write(request.getData());
-			fileStream.close();
-			task.setTaskExePath(taskAddress);
-
 			String executableCommand = task.getTaskExePath();
 
 			Iterator<String> taskParametersIterator = task.getTaskParameters().iterator();
@@ -51,39 +41,40 @@ public class TaskExecuter {
 
 			Process proc = Runtime.getRuntime().exec(executableCommand);
 
-			BufferedReader bri = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			BufferedReader bre = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+			BufferedReader inputStream = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			BufferedReader errorStream = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 			String line = null;
-			int taskOutcome = 0;
-			String taskResult = null;
+			String result = null;
 			String taskErrMsg = null;
 			int taskErrCode = 1;
 
-			while ((line = bri.readLine()) != null) {
-				taskResult += line;
+			while ((line = inputStream.readLine()) != null) {
+				result = line;
 			}
-			bri.close();
+			inputStream.close();
 
-			while ((line = bre.readLine()) != null) {
+			while ((line = errorStream.readLine()) != null) {
 				taskErrMsg += line;
 			}
-			bre.close();
+			errorStream.close();
 
 			taskErrCode = proc.waitFor();
-			taskOutcome = (taskErrCode) == 0 ? 1 : 2;
 
-			response.setStatus("SUCCESS");
-			response.setValue("taskOutcome", String.valueOf(taskOutcome));
-			response.setValue("taskErrCode", String.valueOf(taskErrCode));
-			response.setValue("taskErrMsg", taskErrMsg);
-			response.setData(Utility.stringToByteArray(taskResult));
-		} catch (Exception e) {
-			response.setStatus("FAILURE");
-		} finally {
-			LocalNodeState.currentNodeState = NodeState.AVAILABLE;
+			taskResult.setTaskOutcome((taskErrCode) == 0 ? 1 : 2);
+			taskResult.setErrorCode(taskErrCode);
+			taskResult.setErrorMessage(taskErrMsg);
+			taskResult.setResultBuffer(Utility.stringToByteArray(result));
+
+		} catch (IOException | InterruptedException io) {
+
+			logger.error("error while executing task", io);
+
+			taskResult.setTaskOutcome(TaskOutcome.FAILED);
+			taskResult.setErrorCode(TDSError.FAILED_TO_PROCESS_TASK.getCode());
+			taskResult.setErrorMessage(TDSError.FAILED_TO_PROCESS_TASK.getDescription());
 		}
-		return response;
+		
+		new Node().postResult(taskResult);
 	}
-
 }

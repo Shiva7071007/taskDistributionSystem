@@ -4,7 +4,7 @@ import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.node.RequestHandler.NodeStatus;
-import com.itt.tds.node.RequestHandler.TaskExecuter;
+import com.itt.tds.node.RequestHandler.TaskReciever;
 import com.itt.tds.utility.Utility;
 
 public class Controller {
@@ -15,7 +15,7 @@ public class Controller {
 
 	public static TDSResponse processRequest(TDSRequest request) {
 		if (request.getMethod().equalsIgnoreCase(EXECUTE_TASK))
-			return TaskExecuter.executeTask(request);
+			return TaskReciever.recieveTask(request);
 		if (request.getMethod().equalsIgnoreCase(GET_STATUS))
 			return NodeStatus.getNodeStatus(request);
 		
