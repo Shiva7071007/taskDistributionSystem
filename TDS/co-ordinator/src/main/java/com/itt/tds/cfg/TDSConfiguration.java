@@ -1,12 +1,16 @@
 package com.itt.tds.cfg;
 
 import java.io.File;
+import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.DocumentBuilder;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.errorCodes.TDSError;
@@ -42,9 +46,6 @@ public class TDSConfiguration {
 	 * Default constructor
 	 */
 	private TDSConfiguration() {
-		if (TDSConfigurationInstance != null) {
-			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-		}
 	}
 
 	/**
@@ -86,12 +87,12 @@ public class TDSConfiguration {
 				elementValue = element.getElementsByTagName(elementTag).item(0).getTextContent();
 			}
 
-		} catch (Exception e) {
+		} catch (ParserConfigurationException | SAXException | IOException e) {
 			throw new FatalException(TDSError.UNABLE_TO_FIND_CONFIG, e);
 		}
 		return elementValue;
 	}
-	
+
 	public String getDBConnectionString() {
 
 		String dbConnectionString = null;

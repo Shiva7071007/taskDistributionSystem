@@ -3,7 +3,9 @@ package com.itt.tds.cfg;
 import java.io.File;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
@@ -14,6 +16,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
@@ -127,15 +130,15 @@ public class ConfigGenerator implements Runnable {
 			Element coOrdinatorPort = document.createElement(CO_ORDINATOR_PORT);
 			coOrdinatorPort.appendChild(document.createTextNode(port.toString()));
 			coOrdinator.appendChild(coOrdinatorPort);
-			
+
 			Element coOrdinatorProtocolFormat = document.createElement(PROTOCOL_FORMAT);
 			coOrdinatorProtocolFormat.appendChild(document.createTextNode(protocolFormat.toString()));
 			coOrdinator.appendChild(coOrdinatorProtocolFormat);
-			
+
 			Element coOrdinatorProtocolversion = document.createElement(PROTOCOL_VERSION);
 			coOrdinatorProtocolversion.appendChild(document.createTextNode(protocolVersion));
 			coOrdinator.appendChild(coOrdinatorProtocolversion);
-			
+
 			Element coOrdinatorLogLevel = document.createElement(LOG_LEVEL);
 			coOrdinatorLogLevel.appendChild(document.createTextNode(logLevel.toString()));
 			coOrdinator.appendChild(coOrdinatorLogLevel);
@@ -148,9 +151,8 @@ public class ConfigGenerator implements Runnable {
 			StreamResult streamResult = new StreamResult(new File(XML_FILE_PATH));
 
 			transformer.transform(domSource, streamResult);
-		} catch (Exception e) {
-			logger.error(TDSError.FAILED_TO_CREATE_CONFIG.toString());
-			throw new RuntimeException(TDSError.FAILED_TO_CREATE_CONFIG.toString(), e);
+		} catch (TransformerException | ParserConfigurationException e) {
+			throw new FatalException(TDSError.FAILED_TO_CREATE_CONFIG, e);
 		}
 	}
 }
