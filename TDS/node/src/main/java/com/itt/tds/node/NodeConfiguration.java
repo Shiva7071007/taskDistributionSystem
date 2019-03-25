@@ -1,6 +1,7 @@
 package com.itt.tds.node;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -8,6 +9,8 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
 public class NodeConfiguration {
@@ -29,9 +32,6 @@ public class NodeConfiguration {
 	static Properties prop = new Properties();
 
 	private NodeConfiguration() {
-		if (NodeConfigurationInstance != null) {
-			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-		}
 	}
 
 	public static NodeConfiguration getInstance() {
@@ -52,8 +52,8 @@ public class NodeConfiguration {
 			StringWriter writer = new StringWriter();
 			prop.list(new PrintWriter(writer));
 			logger.trace(writer.getBuffer().toString());
-		} catch (Exception e) {
-			logger.error("Unable to find config file. Run generate-config to generate one");
+		} catch (IOException e) {
+			throw new FatalException(TDSError.UNABLE_TO_FIND_CONFIG, e);
 		}
 		return NodeConfigurationInstance;
 	}
