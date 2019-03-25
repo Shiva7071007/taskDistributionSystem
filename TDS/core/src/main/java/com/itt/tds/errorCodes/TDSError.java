@@ -22,6 +22,8 @@ public enum TDSError {
 	INVALID_REQUEST_METHOD(12, "Requested method is invalid"),
 	FAILED_SERVER_CREATION(13, "Failed to create serever socket and bind the adress"),
 	RESPONSE_TIMEOOUT(14, "Server not responsding"),
+	FAILED_TO_WRITE_TO_SOCKET(15, "failed to write data to the socket"),
+	FAILED_TO_READ_FROM_SOCKET(16, "failed to read from socket"),
 	
 	CLIENT_NOT_REGISTERED(401, "Client did not registered any task"),
 	INVALID_TASK_ID(402, "Invalid Task ID"),

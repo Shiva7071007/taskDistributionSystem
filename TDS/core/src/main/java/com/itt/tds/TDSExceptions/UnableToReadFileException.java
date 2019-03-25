@@ -2,7 +2,7 @@ package com.itt.tds.TDSExceptions;
 
 import com.itt.tds.errorCodes.TDSError;
 
-public class UnableToReadFileException extends TDSExceptions {
+public class UnableToReadFileException extends TDSException {
 
 	private static final long serialVersionUID = 5921620873778601046L;
 

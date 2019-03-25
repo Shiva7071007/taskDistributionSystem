@@ -1,10 +1,14 @@
 package com.itt.tds.utility;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.lang.reflect.Type;
 import java.net.InetAddress;
+import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
@@ -12,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.itt.tds.TDSExceptions.SocketReadWriteException;
 import com.itt.tds.TDSExceptions.UnableToReadFileException;
 import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.comm.TDSRequest;
@@ -21,7 +26,7 @@ import com.itt.tds.logging.TDSLogger;
 
 public class Utility {
 	static Logger logger = new TDSLogger().getLogger();
-	
+
 	private static final String USER_NAME = "user.name";
 	protected static final String SEPARATOR = " : ";
 	protected static final String ERROR_CODE = "Error-code";
@@ -104,10 +109,44 @@ public class Utility {
 
 		return response;
 	}
-	
+
 	public static void displayErrorMsg(TDSResponse response) {
 		String errorCode = response.getErrorCode();
 		String errorMsg = response.getErrorMessage();
 		logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
+	}
+
+	public static String getRequest(Socket sock) throws SocketReadWriteException {
+		BufferedReader socketReader = null;
+		String request = "";
+		try {
+			socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+			request = socketReader.readLine();
+		} catch (IOException e) {
+			throw new SocketReadWriteException(TDSError.FAILED_TO_READ_FROM_SOCKET, e);
+		}
+		return request;
+	}
+
+	public static void writeResponse(Socket sock, String responseData) throws SocketReadWriteException {
+		PrintWriter socketWriter = null;
+		try {
+			socketWriter = new PrintWriter(sock.getOutputStream(), true);
+			socketWriter.println(responseData);
+		} catch (IOException e) {
+			throw new SocketReadWriteException(TDSError.FAILED_TO_READ_FROM_SOCKET, e);
+		}
+	}
+
+	public static void closeSocket(Socket sock) {
+		try {
+			sock.close();
+		} catch (IOException e) {
+			try {
+				sock.close();
+			} catch (IOException e1) {
+				logger.error("Not able to close sock " + sock, e1);
+			}
+		}
 	}
 }
