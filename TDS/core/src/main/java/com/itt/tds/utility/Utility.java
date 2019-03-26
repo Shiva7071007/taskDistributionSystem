@@ -149,4 +149,12 @@ public class Utility {
 			}
 		}
 	}
+
+	public static void sleep(int seconds) {
+		try {
+			Thread.sleep(seconds * 1000);
+		} catch (InterruptedException e1) {
+			logger.error("Exception happen while sleep.", e1);
+		}
+	}
 }

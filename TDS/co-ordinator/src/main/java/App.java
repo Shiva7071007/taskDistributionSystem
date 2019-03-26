@@ -21,7 +21,6 @@ public class App implements Runnable {
 
 		@SuppressWarnings("unused")
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
-
 	}
 
 	@Override
