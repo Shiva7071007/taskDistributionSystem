@@ -24,12 +24,14 @@ public enum TDSError {
 	RESPONSE_TIMEOOUT(14, "Server not responsding"),
 	FAILED_TO_WRITE_TO_SOCKET(15, "failed to write data to the socket"),
 	FAILED_TO_READ_FROM_SOCKET(16, "failed to read from socket"),
-	FAILED_TO_PROCESS_TASK(17, "Unable to process the task"),
 	
 	CLIENT_NOT_REGISTERED(401, "Client did not registered any task"),
 	INVALID_TASK_ID(402, "Invalid Task ID"),
+	UNABLE_TO_PROCESS_REQUEST(403, "Serverv was unable to process your request. Try again Later"),
+	TASK_NOT_EXECUTED(404, "task has not executed yet"),
 	
-	NODE_REGISTER_REQUEST_REJECTED(601, "Server rejected the node register request");
+	FAILED_TO_PROCESS_TASK(601, "Unable to process the task"),
+	NODE_REGISTER_REQUEST_REJECTED(602, "Server rejected the node register request");
 
 
 	private final int code;

@@ -1,75 +1,49 @@
 package com.itt.tds.coordinator.ClientTasks;
 
-import java.util.List;
-import java.util.ListIterator;
+import org.apache.log4j.Logger;
 
-import com.itt.tds.cfg.TDSConfiguration;
+import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.coordinator.db.repository.TDSClientRepository;
-import com.itt.tds.coordinator.db.repository.TDSTaskRepository;
+import com.itt.tds.coordinator.CoOrdinator;
 import com.itt.tds.core.Client;
 import com.itt.tds.core.Task;
+import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
 
 public class QueryTask {
+	
+	static Logger logger = new TDSLogger().getLogger();
 
-	private static final String HOSTNAME = "hostname";
-	private static final String USERNAME = "userName";
 	private static final String TASK_ID = "taskId";
 	private static final String TASK_STATUS = "taskStatus";
+	private static final String SUCCESS = "SUCCESS";
 
 	public static TDSResponse getTaskStatus(TDSRequest request) {
 
-		TDSResponse response = Utility.prepareResponseFromRequest(request);
+		TDSResponse response = null;
+		CoOrdinator coOrdinator = new CoOrdinator();
 
-		Client client = null;
-		TDSClientRepository clientRepository = new TDSClientRepository();
-		List<Client> clientList;
 		try {
-			clientList = clientRepository.GetClients();
+			Client client = coOrdinator.getClientFromRequest(request);
 
-			ListIterator<Client> clientListIterator = clientList.listIterator();
-			while (clientListIterator.hasNext()) {
-				Client tempClient = clientListIterator.next();
-				if (tempClient.getHostName().equalsIgnoreCase(request.getParameters(HOSTNAME))) {
-					if (tempClient.getUserName().equalsIgnoreCase(request.getParameters(USERNAME))) {
-						client = tempClient;
-						break;
-					}
-				}
-			}
+			if (client == null)
+				return coOrdinator.getInvalidClientResponse(request);
+			
+			int taskId = Integer.parseInt(request.getParameters(TASK_ID));
+			Task task = coOrdinator.getTaskForClient(client.getId(), taskId);
 
-			if (client == null) {
-				response.setStatus("ERROR");
-				response.setErrorCode("404");
-				response.setErrorMessage("no such client is found");
-			} else {
-				Task task = null;
-				List<Task> clientTaskList = new TDSTaskRepository().GetTasksByClientId(client.getId());
+			if (task == null)
+				return coOrdinator.getNoSuchTaskResponse(request);
 
-				ListIterator<Task> clientTaskListIterator = clientTaskList.listIterator();
-				while (clientTaskListIterator.hasNext()) {
-					Task tempTask = clientTaskListIterator.next();
-					if (tempTask.getId() == Integer.parseInt(request.getParameters(TASK_ID))) {
-						task = tempTask;
-					}
-				}
-				if (task == null) {
-					response.setStatus("ERROR");
-					response.setErrorCode("405");
-					response.setErrorMessage("no such task is found for client");
-				} else {
-					response.setStatus("SUCCESS");
-					response.setValue(TASK_STATUS, String.valueOf(task.getTaskState()));
-				}
+			response = Utility.prepareResponseFromRequest(request);
+			response.setStatus(SUCCESS);
+			response.setValue(TASK_STATUS, String.valueOf(task.getTaskState()));
 
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (DatabaseTransactionException e) {
+			logger.error("Error while processing query request for client", e);
+			response = coOrdinator.getUnableToPerformResponse(request);
 		}
 		return response;
 	}
-
 }
