@@ -11,7 +11,7 @@ public class SaveResult {
 	public static TDSResponse addTaskResult(TDSRequest request) {
 		Node node = null;
 		TDSNodeRepository nodeRepo = new TDSNodeRepository();
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 		return null;
 	}
 

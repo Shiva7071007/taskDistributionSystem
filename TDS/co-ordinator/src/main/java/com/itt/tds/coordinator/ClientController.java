@@ -36,7 +36,7 @@ public class ClientController implements TDSController {
 			response = ResultTask.getResult(request);
 		
 		if(response == null) {
-			response = Utility.prepareResponseFromrequest(request);
+			response = Utility.prepareResponseFromRequest(request);
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());

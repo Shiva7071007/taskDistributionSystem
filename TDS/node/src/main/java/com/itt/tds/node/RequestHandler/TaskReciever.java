@@ -28,7 +28,7 @@ public class TaskReciever {
 
 	public static TDSResponse recieveTask(TDSRequest request) {
 		LocalNodeState.currentNodeState = NodeState.BUSY;
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 		Task task = new Task();
 
 		task.setId(Integer.valueOf(request.getParameters(TASK_ID)));

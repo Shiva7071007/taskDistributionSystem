@@ -11,7 +11,7 @@ public class NodeStatus {
 	private static final String NODE_STATE = "nodeState";
 
 	public static TDSResponse getNodeStatus(TDSRequest request) {
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 		
 		response.setStatus(SUCCESS);
 		response.setValue(NODE_STATE, String.valueOf(LocalNodeState.currentNodeState));

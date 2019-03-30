@@ -23,7 +23,7 @@ public class Controller {
 	}
 
 	private static TDSResponse invalidMethod(TDSRequest request) {
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 		response.setStatus(ERROR);
 		response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 		response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());

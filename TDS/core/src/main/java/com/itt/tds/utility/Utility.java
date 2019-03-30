@@ -97,7 +97,7 @@ public class Utility {
 		return System.getProperty(USER_NAME);
 	}
 
-	public static TDSResponse prepareResponseFromrequest(TDSRequest request) {
+	public static TDSResponse prepareResponseFromRequest(TDSRequest request) {
 		TDSResponse response = new TDSResponse();
 
 		response.setProtocolVersion(request.getProtocolVersion());

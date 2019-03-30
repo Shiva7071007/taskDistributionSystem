@@ -34,7 +34,7 @@ public class QueueTask {
 		Client client = null;
 
 		TDSClientRepository clientRepository = new TDSClientRepository();
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 		
 		try {
 			List<Client> clientList = clientRepository.GetClients();

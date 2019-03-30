@@ -21,8 +21,7 @@ public class QueryTask {
 
 	public static TDSResponse getTaskStatus(TDSRequest request) {
 
-		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
-		TDSResponse response = Utility.prepareResponseFromrequest(request);
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
 
 		Client client = null;
 		TDSClientRepository clientRepository = new TDSClientRepository();
