@@ -1,22 +1,20 @@
 package com.itt.tds.coordinator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import org.apache.log4j.Logger;
 
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.comm.TDSSerializer;
 import com.itt.tds.comm.TDSSerializerFactory;
+import com.itt.tds.TDSExceptions.SocketReadWriteException;
+import com.itt.tds.TDSExceptions.TDSProtocolSerializationException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 public class SocketHandler implements Runnable {
 
 	static Logger logger = new TDSLogger().getLogger();
-
 	Socket sock;
 
 	public SocketHandler(Socket sock) {
@@ -28,7 +26,7 @@ public class SocketHandler implements Runnable {
 		logger.info(" processing request for client : " + sock);
 
 		try {
-			String requestData = getRequest(sock);
+			String requestData = Utility.getRequest(sock);
 
 			// Convert the request to TDSRequest
 			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer("json");
@@ -40,48 +38,12 @@ public class SocketHandler implements Runnable {
 			// Serialize the response data;
 			String responseData = dataSerializer.Serialize(response);
 			logger.trace("writing response for socket : " + sock + "==> \n " + responseData);
-			writeResponse(sock, responseData);
+			Utility.writeResponse(sock, responseData);
 
-		} catch (Exception e) {
-			logger.error("something bad happened for socket : " + sock, e);
-			logger.trace("Socket : " + sock + " will be closed");
-			try {
-				sock.close();
-			} catch (IOException e1) {
-				logger.error("failed to close Socket : " + sock, e1);
-			}
+		} catch (SocketReadWriteException | TDSProtocolSerializationException e) {
+			logger.error("Exception occurred. Closing Socket : " + sock, e);
 		} finally {
-			try {
-				logger.trace("Socket : " + sock + " will be closed");
-				sock.close();
-			} catch (IOException e1) {
-				logger.error("failed to close Socket : " + sock, e1);
-			}
+			Utility.closeSocket(sock);
 		}
 	}
-
-	private String getRequest(Socket sock) {
-		BufferedReader socketReader = null;
-		String request = "";
-
-		try {
-			socketReader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-			request = socketReader.readLine();
-		} catch (IOException e) {
-			logger.error("Reading from socket failed for client : " + sock, e);
-		} 
-		// logger.trace("request got from sock : " + sock + " ==> \n " + request);
-		return request;
-	}
-
-	private void writeResponse(Socket sock, String responseData) {
-		PrintWriter socketWriter = null;
-		try {
-			socketWriter = new PrintWriter(sock.getOutputStream(), true);
-			socketWriter.println(responseData);
-		} catch (IOException e) {
-			logger.error("failed to write response for socket : " + sock, e);
-		} 
-	}
-
 }

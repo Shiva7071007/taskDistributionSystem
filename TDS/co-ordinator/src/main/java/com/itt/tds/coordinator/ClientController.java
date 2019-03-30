@@ -26,21 +26,22 @@ public class ClientController implements TDSController {
 
 	@Override
 	public TDSResponse processRequest(TDSRequest request) {
-		logger.debug("processing request");
 		TDSResponse response = null;
 
 		if (request.getMethod().equals(CLIENT_QUEUE_TASK))
 			response = QueueTask.addTask(request);
-		else if (request.getMethod().equals(CLIENT_QUERY_TASK))
+		if (request.getMethod().equals(CLIENT_QUERY_TASK))
 			response = QueryTask.getTaskStatus(request);
-		else if (request.getMethod().equals(CLIENT_RESULT_TASK))
+		if (request.getMethod().equals(CLIENT_RESULT_TASK))
 			response = ResultTask.getResult(request);
-		else {
+		
+		if(response == null) {
 			response = Utility.prepareResponseFromrequest(request);
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());
 		}
+		
 		return response;
 	}
 }

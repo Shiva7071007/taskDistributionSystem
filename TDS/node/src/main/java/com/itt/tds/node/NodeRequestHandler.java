@@ -37,6 +37,7 @@ public class NodeRequestHandler implements Runnable {
 			Utility.writeResponse(sock, responseData);
 		} catch (SocketReadWriteException | TDSProtocolSerializationException e) {
 			logger.error("Exception occurred. Closing Socket : " + sock, e);
+		} finally {
 			Utility.closeSocket(sock);
 		}
 	}
