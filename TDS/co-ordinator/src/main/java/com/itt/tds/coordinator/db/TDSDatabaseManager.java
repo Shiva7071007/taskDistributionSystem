@@ -2,6 +2,8 @@ package com.itt.tds.coordinator.db;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.apache.log4j.Logger;
@@ -58,10 +60,10 @@ public class TDSDatabaseManager implements DBManager {
 		int reTryCount = 0;
 		while (reTryCount++ < MAXIMUM_ATTEMPT) {
 			try {
-				
+
 				dbConnection = DriverManager.getConnection(dbConnectionString);
 				reTryCount = MAXIMUM_ATTEMPT;
-				
+
 			} catch (SQLException e) {
 				if (reTryCount - 1 < MAXIMUM_ATTEMPT) {
 					logger.error("failed to get database connection. retrying in " + SLEEP_DURATION + " seconds");
@@ -81,15 +83,51 @@ public class TDSDatabaseManager implements DBManager {
 		int reTryCount = 0;
 		while (reTryCount++ < MAXIMUM_ATTEMPT) {
 			try {
-				
+
 				conn.close();
 				reTryCount = MAXIMUM_ATTEMPT;
-				
+
 			} catch (SQLException e) {
 				if (reTryCount - 1 < MAXIMUM_ATTEMPT)
 					logger.error("failed to close database connection. retrying in " + SLEEP_DURATION + " seconds");
 				else
 					logger.error("Failed to close database connection.", e);
+				Utility.sleep(SLEEP_DURATION);
+			}
+		}
+	}
+
+	public void closePreparedStatement(PreparedStatement pStmt) {
+		int reTryCount = 0;
+		while (reTryCount++ < MAXIMUM_ATTEMPT) {
+			try {
+
+				pStmt.close();
+				reTryCount = MAXIMUM_ATTEMPT;
+
+			} catch (SQLException e) {
+				if (reTryCount - 1 < MAXIMUM_ATTEMPT)
+					logger.error("failed to close Prepared statement. retrying in " + SLEEP_DURATION + " seconds");
+				else
+					logger.error("Failed to close Prepared Statement.", e);
+				Utility.sleep(SLEEP_DURATION);
+			}
+		}
+	}
+
+	public void closeResultSet(ResultSet rs) {
+		int reTryCount = 0;
+		while (reTryCount++ < MAXIMUM_ATTEMPT) {
+			try {
+
+				rs.close();
+				reTryCount = MAXIMUM_ATTEMPT;
+
+			} catch (SQLException e) {
+				if (reTryCount - 1 < MAXIMUM_ATTEMPT)
+					logger.error("failed to close Result set. retrying in " + SLEEP_DURATION + " seconds");
+				else
+					logger.error("Failed to close Result set.", e);
 				Utility.sleep(SLEEP_DURATION);
 			}
 		}

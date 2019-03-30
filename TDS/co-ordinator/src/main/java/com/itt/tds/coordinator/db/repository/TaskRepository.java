@@ -2,6 +2,7 @@ package com.itt.tds.coordinator.db.repository;
 
 import java.util.*;
 
+import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.core.Task;
 
 /**
@@ -9,65 +10,21 @@ import com.itt.tds.core.Task;
  */
 public interface TaskRepository {
 
-    /**
-     * @param taskInstance 
-     * @return
-     * @throws Exception 
-     */
-    public int Add(Task taskInstance) throws Exception;
+    public int Add(Task taskInstance) throws DatabaseTransactionException;
 
-    /**
-     * @param taskId
-     * @throws Exception 
-     */
-    public void Delete(int taskId) throws Exception;
+    public void Delete(int taskId) throws DatabaseTransactionException;
 
-    /**
-     * @param taskInstance
-     * @throws Exception 
-     */
-    public void Modify(Task taskInstance) throws Exception;
+    public void Modify(Task taskInstance) throws DatabaseTransactionException;
 
-    /**
-     * @param taskId 
-     * @param status
-     * @throws Exception 
-     */
-    public void SetTaskStatus(int taskId, int status) throws Exception;
+    public void SetTaskStatus(int taskId, int status) throws DatabaseTransactionException;
 
-    /**
-     * @param clientId 
-     * @return
-     * @throws Exception 
-     */
-    public List<Task> GetTasksByClientId(int clientId) throws Exception;
+    public List<Task> GetTasksByClientId(int clientId) throws DatabaseTransactionException;
 
-    /**
-     * @param taskId 
-     * @return
-     * @throws Exception 
-     */
-    public Task GetTaskById(int taskId) throws Exception;
+    public Task GetTaskById(int taskId) throws DatabaseTransactionException;
 
-    /**
-     * @param status 
-     * @return
-     * @throws Exception 
-     */
-    public List<Task> GetTasksByStatus(int status) throws Exception;
+    public List<Task> GetTasksByStatus(int status) throws DatabaseTransactionException;
 
-    /**
-     * @param nodeId 
-     * @return
-     * @throws Exception 
-     */
-    public List<Task> GetTasksByNodeId(int nodeId) throws Exception;
+    public List<Task> GetTasksByNodeId(int nodeId) throws DatabaseTransactionException;
 
-    /**
-     * @param node 
-     * @param taskId
-     * @throws Exception 
-     */
-    public void AssignNode(int nodeID, int taskId) throws Exception;
-
+    public void AssignNode(int nodeID, int taskId) throws DatabaseTransactionException;
 }

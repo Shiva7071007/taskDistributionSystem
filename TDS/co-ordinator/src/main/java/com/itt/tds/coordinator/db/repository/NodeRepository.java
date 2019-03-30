@@ -1,8 +1,8 @@
 package com.itt.tds.coordinator.db.repository;
 
-import java.sql.SQLException;
 import java.util.*;
 
+import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.core.Node;
 
 /**
@@ -10,38 +10,13 @@ import com.itt.tds.core.Node;
  */
 public interface NodeRepository {
 
-    /**
-     * @param node 
-     * @return
-     * @throws Exception 
-     */
-    public int Add(Node node) throws SQLException, Exception;
+    public int Add(Node node) throws DatabaseTransactionException;
 
-    /**
-     * @param node
-     * @throws Exception 
-     */
-    public void Modify(Node node) throws Exception;
+    public void Modify(Node node) throws DatabaseTransactionException;
 
-    /**
-     * @param nodeId
-     * @throws Exception 
-     */
-    public void Delete(int nodeId) throws Exception;
+    public void Delete(int nodeId) throws DatabaseTransactionException;
 
-    /**
-     * Returns a List of available Nodes 
-     * @return
-     * @throws Exception 
-     */
-    public List<Node> GetAailableNodes() throws Exception;
+    public List<Node> GetAailableNodes() throws DatabaseTransactionException;
 
-    /**
-	 * Returns all nodes registered in the system.
-	 * 
-	 * @return
-     * @throws Exception 
-	 */
-    public List<Node> GetAllNodes() throws Exception;
-
+    public List<Node> GetAllNodes() throws DatabaseTransactionException;
 }
