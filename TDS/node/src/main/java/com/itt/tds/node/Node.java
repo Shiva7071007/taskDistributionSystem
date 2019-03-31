@@ -77,18 +77,23 @@ public class Node {
 		request.setParameters(TASK_OUTCOME, String.valueOf(taskResult.getTaskOutcome()));
 		request.setParameters(TASK_ERROR_CODE, String.valueOf(taskResult.getErrorCode()));
 		request.setParameters(TASK_ERROR_MSG, taskResult.getErrorMessage());
+		request.setData(taskResult.getResultBuffer());
 		
 		TDSResponse response = null;
-		while (response == null) {
+		int max_attempt = 10;
+		int retry = 0;
+		
+		while (retry < max_attempt) {
 			try {
 				response = TDSClient.getResponse(request, 0);
+				break;
 			} catch (ServerCommunicationException e) {
+				if(retry++ < max_attempt) {
+					logger.error("didnt get response. Will retry in 5 second", e);
+					Utility.sleep(5);
+					continue;
+				}
 				throw new CommunicationException("Something went wrong while communicating with server. Please refer logs for more details", e);
-			}
-			try {
-				Thread.sleep(5 * 100);
-			} catch (InterruptedException e) {
-				logger.error("no response from server. Retrying in 5 second");
 			}
 		}
 		

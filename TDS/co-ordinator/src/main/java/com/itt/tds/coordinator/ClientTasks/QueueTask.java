@@ -5,13 +5,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.ListIterator;
-
 import org.apache.log4j.Logger;
 
 import com.itt.tds.TDSExceptions.DatabaseTransactionException;
-import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.CoOrdinator;

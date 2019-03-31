@@ -29,6 +29,7 @@ public enum TDSError {
 	INVALID_TASK_ID(402, "Invalid Task ID"),
 	UNABLE_TO_PROCESS_REQUEST(403, "Serverv was unable to process your request. Try again Later"),
 	TASK_NOT_EXECUTED(404, "task has not executed yet"),
+	NODE_NOT_REGISTERED(405, "This node is not registered for this task"),
 	
 	FAILED_TO_PROCESS_TASK(601, "Unable to process the task"),
 	NODE_REGISTER_REQUEST_REJECTED(602, "Server rejected the node register request");

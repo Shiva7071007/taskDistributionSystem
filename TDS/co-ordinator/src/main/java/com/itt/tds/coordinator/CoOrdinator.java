@@ -6,8 +6,10 @@ import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.db.repository.TDSClientRepository;
+import com.itt.tds.coordinator.db.repository.TDSNodeRepository;
 import com.itt.tds.coordinator.db.repository.TDSTaskRepository;
 import com.itt.tds.core.Client;
+import com.itt.tds.core.Node;
 import com.itt.tds.core.Task;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.utility.Utility;
@@ -54,6 +56,25 @@ public class CoOrdinator {
 		return task;
 	}
 	
+	public Node getNodeFromRequest(TDSRequest request) throws DatabaseTransactionException {
+		Node node = null;
+		TDSNodeRepository nodeRepo = new TDSNodeRepository();
+
+		List<Node> nodeList = nodeRepo.GetAllNodes();
+		ListIterator<Node> nodeListIterator = nodeList.listIterator();
+
+		while (nodeListIterator.hasNext()) {
+			Node tempNode = nodeListIterator.next();
+			if (tempNode.getiP().equalsIgnoreCase(request.getSourceIp())
+					&& tempNode.getPort() == request.getSourcePort()) {
+				node = tempNode;
+				break;
+			}
+		}
+		
+		return node;
+	}
+	
 
 	public TDSResponse getInvalidClientResponse(TDSRequest request) {
 		TDSResponse response = Utility.prepareResponseFromRequest(request);
@@ -84,6 +105,14 @@ public class CoOrdinator {
 		response.setStatus(ERROR);
 		response.setErrorCode(String.valueOf(TDSError.TASK_NOT_EXECUTED.getCode()));
 		response.setErrorMessage(TDSError.TASK_NOT_EXECUTED.getDescription());
+		return response;
+	}
+
+	public TDSResponse getInvalidNodetResponse(TDSRequest request) {
+		TDSResponse response = Utility.prepareResponseFromRequest(request);
+		response.setStatus(ERROR);
+		response.setErrorCode(String.valueOf(TDSError.NODE_NOT_REGISTERED.getCode()));
+		response.setErrorMessage(TDSError.NODE_NOT_REGISTERED.getDescription());
 		return response;
 	}
 }
