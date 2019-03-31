@@ -2,50 +2,32 @@ package com.itt.tds.client;
 
 import static picocli.CommandLine.*;
 
-import org.apache.log4j.Logger;
-
-import com.itt.tds.comm.TDSClient;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
+
 import picocli.CommandLine.Parameters;
 
 @Command(name = "result", mixinStandardHelpOptions = true, header = "get the result for passed task ID")
-public class Result implements Runnable {
+public class Result extends Client implements Runnable {
 	@Parameters(index = "0", description = "task-id of the task got from server while queuing")
 	int taskId;
 
 	private static final String CLIENT_RESULT_TASK = "client-resultTask";
-	private static final String TASK_ID = "taskId";
-	private static final String HOSTNAME = "hostname";
-	private static final String USERNAME = "userName";
 	private static final String TASK_RESULT = "taskResult";
-	private static final String ERROR_CODE = "Error-code";
-	private static final String SEPARATOR = " : ";
-	private static final String SUCCESS = "SUCCESS";
 	private static final String TASK_OUTCOME = "taskOutcome";
 	private static final String TASK_ERROR_CODE = "taskErrorCode";
 	private static final String TASK_ERROR_MESSAGE = "taskErrorMessage";
 
-	static Logger logger = new TDSLogger().getLogger();
-
 	@Override
 	public void run() {
-		ClientConfiguration clientCfg = ClientConfiguration.getInstance();
+		Client.setClientLogLevel();
 
-		TDSRequest request = new TDSRequest();
-		request.setProtocolVersion(clientCfg.getProtocolVersion());
-		request.setProtocolFormat(clientCfg.getProtocolFormat());
-		request.setSourceIp(clientCfg.getSourceIp());
-		request.setSourcePort(clientCfg.getSourcePort());
-		request.setDestIp(clientCfg.getDestinationIp());
-		request.setDestPort(clientCfg.getDestinationPort());
+		TDSRequest request = Client.prepareClientRequest();
 		request.setMethod(CLIENT_RESULT_TASK);
 		request.setParameters(TASK_ID, Integer.toString(taskId));
-		request.setParameters(HOSTNAME, clientCfg.getHostName());
-		request.setParameters(USERNAME, clientCfg.getUserName());
 
-		TDSResponse response = TDSClient.sendRequest(request);
+		TDSResponse response = Client.getResponse(request, TIMEOUT);
 
 		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 			String taskOutcome = response.getValue(TASK_OUTCOME);
@@ -59,9 +41,7 @@ public class Result implements Runnable {
 			logger.info("Task Result" + SEPARATOR + taskResult);
 			
 		} else {
-			String errorCode = response.getErrorCode();
-			String errorMsg = response.getErrorMessage();
-			logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
+			Utility.displayErrorMsg(response);
 		}
 	}
 }

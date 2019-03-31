@@ -1,82 +1,61 @@
 package com.itt.tds.client;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
-import com.itt.tds.comm.TDSClient;
+import com.itt.tds.TDSExceptions.UnableToReadFileException;
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
-import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.utility.Utility;
 
 import picocli.CommandLine.*;
 import picocli.CommandLine.Parameters;
 
 @Command(name = "queue", mixinStandardHelpOptions = true, header = "add a program in queue for execution")
-public class Queue implements Runnable {
+public class Queue extends Client implements Runnable {
+
 	@Parameters(index = "0", description = "Executables files that needs to be sent to server")
 	File task;
 
 	@Parameters(index = "1..*", description = "parameters need to be passed with task")
-	List<String> parameters;
+	List<String> parameters = new ArrayList<String>();
 
-	static Logger logger = new TDSLogger().getLogger();
-
-	private static final String HOSTNAME = "hostname";
-	private static final String USERNAME = "userName";
 	private static final String CLIENT_QUEUE_TASK = "client-queueTask";
 	private static final String TASK_NAME = "taskName";
 	private static final String PARAMETERS = "parameters";
 	private static final String TASK_STATUS = "taskStatus";
-	private static final String TASK_ID = "taskId";
-	private static final String ERROR_CODE = "Error-code";
-	private static final String SEPARATOR = " : ";
-	private static final String SUCCESS = "SUCCESS";
 
 	@Override
 	public void run() {
 
+		Client.setClientLogLevel();
+
 		if (!task.exists()) {
-			logger.error("passed task: " + task.getName() + "doesn't exist");
-			logger.error("please provide a correct task file address");
-		} else {
-			if (parameters == null) {
-				logger.trace("no parameters");
-				parameters = Collections.emptyList();
-			}
-
-			ClientConfiguration clientCfg = ClientConfiguration.getInstance();
-
-			TDSRequest request = new TDSRequest();
-			request.setProtocolVersion(clientCfg.getProtocolVersion());
-			request.setProtocolFormat(clientCfg.getProtocolFormat());
-			request.setSourceIp(clientCfg.getSourceIp());
-			request.setSourcePort(clientCfg.getSourcePort());
-			request.setDestIp(clientCfg.getDestinationIp());
-			request.setDestPort(clientCfg.getDestinationPort());
-			request.setMethod(CLIENT_QUEUE_TASK);
-			request.setParameters(TASK_NAME, task.getName());
-			request.setParameters(PARAMETERS, parameters.toString());
-			request.setParameters(HOSTNAME, clientCfg.getHostName());
-			request.setParameters(USERNAME, clientCfg.getUserName());
-			request.setData(Utility.convertFileToByte(task));
-
-			TDSResponse response = TDSClient.sendRequest(request);
-			
-			if(response.getStatus().equalsIgnoreCase(SUCCESS)) {
-				String status = response.getValue(TASK_STATUS);
-				String taskId = response.getValue(TASK_ID);
-				logger.info(status + ", task ID:" + taskId);
-			} else {
-				String errorCode = response.getErrorCode();
-				String errorMsg = response.getErrorMessage();
-				logger.error(ERROR_CODE + SEPARATOR + errorCode + " " + errorMsg);
-			}
+			throw new FatalException("passed task: " + task.getName() + " not found");
 		}
 
-	}
+		TDSRequest request = Client.prepareClientRequest();
+		request.setMethod(CLIENT_QUEUE_TASK);
+		request.setParameters(TASK_NAME, task.getName());
+		request.setParameters(PARAMETERS, parameters.toString());
+		
+		try {
+			request.setData(Utility.convertFileToByte(task));
+		} catch (UnableToReadFileException e) {
+			throw new FatalException(TDSError.FAILED_TO_READ_FILE, e);
+		}
 
+		TDSResponse response = Client.getResponse(request, TIMEOUT);
+
+		if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
+			String status = response.getValue(TASK_STATUS);
+			String taskId = response.getValue(TASK_ID);
+			logger.info(status + ", task ID:" + taskId);
+		} else {
+			Utility.displayErrorMsg(response);
+		}
+	}
 }

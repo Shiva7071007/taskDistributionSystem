@@ -1,6 +1,7 @@
 package com.itt.tds.client;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -8,6 +9,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 
@@ -30,14 +32,10 @@ public class ClientConfiguration {
 	static Properties prop = new Properties();
 
 	private ClientConfiguration() {
-		if (ClientConfigurationInstance != null) {
-			throw new RuntimeException("Use getInstance() method to get the single instance of this class.");
-		}
 	}
 
 	public static ClientConfiguration getInstance() {
 		if (ClientConfigurationInstance == null) { // Check for the first time
-
 			synchronized (ClientConfiguration.class) { // Check for the second time.
 				// if there is no instance available... create new one
 				if (ClientConfigurationInstance == null)
@@ -46,16 +44,16 @@ public class ClientConfiguration {
 		}
 
 		try {
-			InputStream input = new FileInputStream(PROPERTIES_FILE);
+			InputStream configFile = new FileInputStream(PROPERTIES_FILE);
+			
 			// load a properties file
-			prop.load(input);
+			prop.load(configFile);
 
 			StringWriter writer = new StringWriter();
 			prop.list(new PrintWriter(writer));
 			logger.trace(writer.getBuffer().toString());
-		} catch (Exception e) {
-			logger.error(TDSError.UNABLE_TO_FIND_CONFIG.toString());
-			logger.trace(e);
+		} catch (IOException e) {
+			throw new FatalException(TDSError.UNABLE_TO_FIND_CONFIG, e);
 		}
 		return ClientConfigurationInstance;
 	}

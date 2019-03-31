@@ -5,12 +5,9 @@ package client;
 
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import com.itt.tds.logging.TDSLogger;
-import com.itt.tds.client.ClientConfiguration;
 import com.itt.tds.client.ConfigGenerator;
 import com.itt.tds.client.Query;
 import com.itt.tds.client.Queue;
@@ -26,13 +23,9 @@ public class Taskmgr implements Runnable {
 	static Logger logger = new TDSLogger().getLogger();
 
 	public static void main(String[] args) {
-		ClientConfiguration clientCfg = ClientConfiguration.getInstance();
-		Level logLevel = Level.toLevel(clientCfg.getLogLevel());
-		LogManager.getRootLogger().setLevel(logLevel);
 
 		Taskmgr app = new Taskmgr();
-		if (args.length == 0)
-			CommandLine.usage(app, System.out);
+		if (args.length == 0) CommandLine.usage(app, System.out);
 
 		@SuppressWarnings("unused")
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);

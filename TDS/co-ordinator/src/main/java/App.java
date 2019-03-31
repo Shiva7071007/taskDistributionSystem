@@ -1,10 +1,7 @@
 import java.util.List;
 
-import org.apache.log4j.Logger;
-
 import com.itt.tds.cfg.ConfigGenerator;
 import com.itt.tds.coordinator.Server;
-import com.itt.tds.logging.TDSLogger;
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.*;
@@ -17,8 +14,6 @@ import picocli.CommandLine.*;
 		subcommands = { Server.class, ConfigGenerator.class })
 public class App implements Runnable {
 	
-	static Logger logger = new TDSLogger().getLogger();
-
 	public static void main(String[] args) throws Exception {
 		App app = new App();
 		if (args.length == 0)
@@ -26,7 +21,6 @@ public class App implements Runnable {
 
 		@SuppressWarnings("unused")
 		List<Object> result = new CommandLine(app).parseWithHandler(new RunAll(), args);
-
 	}
 
 	@Override

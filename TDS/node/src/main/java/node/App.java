@@ -11,15 +11,14 @@ import org.apache.log4j.Logger;
 
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.node.ConfigGenerator;
-import com.itt.tds.node.Node;
+import com.itt.tds.node.InitializeNode;
 import com.itt.tds.node.NodeConfiguration;
-
 import picocli.CommandLine;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.RunAll;
 
 @Command(description = "Act as a node for multi-node task executor", mixinStandardHelpOptions = true, subcommands = {
-		Node.class, ConfigGenerator.class })
+		InitializeNode.class, ConfigGenerator.class})
 public class App implements Runnable {
 
 	static Logger logger = new TDSLogger().getLogger();

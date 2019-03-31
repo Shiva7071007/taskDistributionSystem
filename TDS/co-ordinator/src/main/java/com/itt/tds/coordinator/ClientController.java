@@ -9,6 +9,7 @@ import com.itt.tds.coordinator.ClientTasks.QueueTask;
 import com.itt.tds.coordinator.ClientTasks.ResultTask;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.utility.Utility;
 
 public class ClientController implements TDSController {
 	static Logger logger = new TDSLogger().getLogger();
@@ -25,27 +26,22 @@ public class ClientController implements TDSController {
 
 	@Override
 	public TDSResponse processRequest(TDSRequest request) {
-		logger.debug("processing request");
 		TDSResponse response = null;
 
 		if (request.getMethod().equals(CLIENT_QUEUE_TASK))
 			response = QueueTask.addTask(request);
-		else if (request.getMethod().equals(CLIENT_QUERY_TASK))
+		if (request.getMethod().equals(CLIENT_QUERY_TASK))
 			response = QueryTask.getTaskStatus(request);
-		else if (request.getMethod().equals(CLIENT_RESULT_TASK))
+		if (request.getMethod().equals(CLIENT_RESULT_TASK))
 			response = ResultTask.getResult(request);
-		else {
-			response = new TDSResponse();
-			response.setProtocolVersion(request.getProtocolVersion());
-			response.setProtocolFormat(request.getProtocolFormat());
-			response.setDestIp(request.getSourceIp());
-			response.setDestPort(request.getSourcePort());
-			response.setSourceIp(request.getDestIp());
-			response.setSourcePort(request.getDestPort());
+		
+		if(response == null) {
+			response = Utility.prepareResponseFromRequest(request);
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.INVALID_REQUEST_METHOD.getCode()));
 			response.setErrorMessage(TDSError.INVALID_REQUEST_METHOD.getDescription());
 		}
+		
 		return response;
 	}
 }

@@ -5,16 +5,23 @@ import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
+import com.itt.tds.TDSExceptions.DatabaseConnectionException;
+import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.coordinator.db.TDSDatabaseManager;
 import com.itt.tds.core.TaskResult;
+import com.itt.tds.logging.TDSLogger;
 
 public class TDSTaskResultRepository implements TaskResultRepository {
+	static Logger logger = new TDSLogger().getLogger();
 
 	@Override
-	public void Add(TaskResult taskresultInstance) throws Exception {
+	public void Add(TaskResult taskresultInstance) throws DatabaseTransactionException {
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 		int taskId = taskresultInstance.getTaskId();
 		int taskOutcome = taskresultInstance.getTaskOutcome();
@@ -22,12 +29,12 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 		String errMsg = taskresultInstance.getErrorMessage();
 		byte[] resultBuffer = taskresultInstance.getResultBuffer();
 
+		String insertTaskResultQuery = "INSERT INTO `tds`.`taskresult` (`taskId`, `taskOutcome`, `taskErrorCode`, `taskErrorMsg`, `taskResultBuffer`) VALUES (?, ?, ?, ?, ?)";
 		Connection conn = null;
 		PreparedStatement insertTaskResultement = null;
+
 		try {
 			conn = tdsDatabaseManager.getConnection();
-
-			String insertTaskResultQuery = "INSERT INTO `tds`.`taskresult` (`taskId`, `taskOutcome`, `taskErrorCode`, `taskErrorMsg`, `taskResultBuffer`) VALUES (?, ?, ?, ?, ?)";
 
 			insertTaskResultement = conn.prepareStatement(insertTaskResultQuery);
 			insertTaskResultement.setInt(1, taskId);
@@ -37,39 +44,43 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 			insertTaskResultement.setBinaryStream(5, new ByteArrayInputStream(resultBuffer), resultBuffer.length);
 
 			int rowsAffected = insertTaskResultement.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			insertTaskResultement.close();
-			conn.close();
-		}
+			logger.debug("rows affected after inserting taskResult into the database :" + rowsAffected);
 
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DatabaseTransactionException("failed to add taskResult into the table", e);
+		} finally {
+			tdsDatabaseManager.closePreparedStatement(insertTaskResultement);
+			tdsDatabaseManager.closeConnection(conn);
+		}
 	}
 
 	@Override
-	public void Delete(int taskId) throws Exception {
+	public void Delete(int taskId) throws DatabaseTransactionException {
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 
+		String deleteTaskResultQuery = "DELETE FROM `tds`.`taskresult` WHERE (`taskId` = ?)";
 		Connection conn = null;
 		PreparedStatement deleteTaskResultStatement = null;
 
 		try {
 			conn = tdsDatabaseManager.getConnection();
 
-			String deleteTaskResultQuery = "DELETE FROM `tds`.`taskresult` WHERE (`taskId` = ?)";
 			deleteTaskResultStatement = conn.prepareStatement(deleteTaskResultQuery);
 			deleteTaskResultStatement.setInt(1, taskId);
-			deleteTaskResultStatement.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			int rowsAffected = deleteTaskResultStatement.executeUpdate();
+			logger.debug("rows affected after deleteing taskResult from the database :" + rowsAffected);
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DatabaseTransactionException("failed to delete taskResult by task id from the table", e);
 		} finally {
-			deleteTaskResultStatement.clearBatch();
-			conn.close();
+			tdsDatabaseManager.closePreparedStatement(deleteTaskResultStatement);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
 	@Override
-	public void Modify(TaskResult taskresultInstance) throws Exception {
+	public void Modify(TaskResult taskresultInstance) throws DatabaseTransactionException {
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
 
 		int taskId = taskresultInstance.getTaskId();
@@ -78,13 +89,13 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 		String newErrMsg = taskresultInstance.getErrorMessage();
 		byte[] newResultBuffer = taskresultInstance.getResultBuffer();
 
+		String modifyTaskResultQuery = "UPDATE `tds`.`taskresult` SET `taskOutcome` = ?, `taskErrorCode` = ?, `taskErrorMsg` = ?, `taskResultBuffer` = ? WHERE (`taskId` = ?)";
 		Connection conn = null;
 		PreparedStatement modifyTaskResultStatement = null;
 
 		try {
 			conn = tdsDatabaseManager.getConnection();
 
-			String modifyTaskResultQuery = "UPDATE `tds`.`taskresult` SET `taskOutcome` = ?, `taskErrorCode` = ?, `taskErrorMsg` = ?, `taskResultBuffer` = ? WHERE (`taskId` = ?)";
 			modifyTaskResultStatement = conn.prepareStatement(modifyTaskResultQuery);
 			modifyTaskResultStatement.setInt(1, newTaskOutcome);
 			modifyTaskResultStatement.setInt(2, newErrCode);
@@ -92,18 +103,23 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 			modifyTaskResultStatement.setBinaryStream(4, new ByteArrayInputStream(newResultBuffer),
 					newResultBuffer.length);
 			modifyTaskResultStatement.setInt(5, taskId);
-			modifyTaskResultStatement.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			int rowsAffected = modifyTaskResultStatement.executeUpdate();
+			logger.debug("rows affected after deleteing taskResult from the database :" + rowsAffected);
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DatabaseTransactionException("failed to modify taskResult in the table", e);
 		} finally {
-			modifyTaskResultStatement.clearBatch();
-			conn.close();
+			tdsDatabaseManager.closePreparedStatement(modifyTaskResultStatement);
+			tdsDatabaseManager.closeConnection(conn);
 		}
 	}
 
 	@Override
-	public TaskResult getTaskResultByTaskId(int taskId) throws Exception {
+	public TaskResult getTaskResultByTaskId(int taskId) throws DatabaseTransactionException {
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
+
+		String getTaskResultByTaskIdQuery = "SELECT taskId, taskOutcome+0, taskErrorCode, taskErrorMsg, taskResultBuffer FROM tds.taskresult where taskId = ?";
 		Connection conn = null;
 		PreparedStatement getTaskResultByTaskIdStatement = null;
 		ResultSet getTaskResultByTaskIdResult = null;
@@ -111,7 +127,6 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 
 		try {
 			conn = tdsDatabaseManager.getConnection();
-			String getTaskResultByTaskIdQuery = "SELECT taskId, taskOutcome+0, taskErrorCode, taskErrorMsg, taskResultBuffer FROM tds.taskresult where taskId = ?";
 
 			getTaskResultByTaskIdStatement = conn.prepareStatement(getTaskResultByTaskIdQuery);
 			getTaskResultByTaskIdStatement.setInt(1, taskId);
@@ -126,20 +141,24 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 				Blob taskResultBlob = getTaskResultByTaskIdResult.getBlob("taskResultBuffer");
 				taskResult.setResultBuffer(taskResultBlob.getBytes(1L, (int) taskResultBlob.length()));
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+
+			return taskResult;
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DatabaseTransactionException("failed to get taskResult by task id from the table", e);
 		} finally {
-			getTaskResultByTaskIdResult.close();
-			getTaskResultByTaskIdStatement.close();
+			tdsDatabaseManager.closeResultSet(getTaskResultByTaskIdResult);
+			tdsDatabaseManager.closePreparedStatement(getTaskResultByTaskIdStatement);
 			tdsDatabaseManager.closeConnection(conn);
 		}
-		return taskResult;
 	}
 
 	@Override
-	public List<TaskResult> getTaskResultByErrCode(int errorCode) throws Exception {
+	public List<TaskResult> getTaskResultByErrCode(int errorCode) throws DatabaseTransactionException {
 		List<TaskResult> taskResultByErrCodeList = new ArrayList<TaskResult>();
 		TDSDatabaseManager tdsDatabaseManager = TDSDatabaseManager.getInstance();
+
+		String getTaskResultByTaskIdQuery = "SELECT taskId, taskOutcome+0, taskErrorCode, taskErrorMsg, taskResultBuffer FROM tds.taskresult where taskErrorCode = ?";
 		Connection conn = null;
 		PreparedStatement getTaskResultByErrCodeStatement = null;
 		ResultSet getTaskResultByErrCodeResult = null;
@@ -147,13 +166,11 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 		try {
 			conn = tdsDatabaseManager.getConnection();
 
-			String getTaskResultByTaskIdQuery = "SELECT taskId, taskOutcome+0, taskErrorCode, taskErrorMsg, taskResultBuffer FROM tds.taskresult where taskErrorCode = ?";
-
 			getTaskResultByErrCodeStatement = conn.prepareStatement(getTaskResultByTaskIdQuery);
 			getTaskResultByErrCodeStatement.setInt(1, errorCode);
 			getTaskResultByErrCodeResult = getTaskResultByErrCodeStatement.executeQuery();
-			
-			while(getTaskResultByErrCodeResult.next()) {
+
+			while (getTaskResultByErrCodeResult.next()) {
 				TaskResult taskResult = new TaskResult();
 				taskResult.setTaskId(getTaskResultByErrCodeResult.getInt("taskId"));
 				taskResult.setTaskOutcome(getTaskResultByErrCodeResult.getInt("taskOutcome"));
@@ -161,18 +178,18 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 				taskResult.setErrorMessage(getTaskResultByErrCodeResult.getString("taskErrorMsg"));
 				Blob taskResultBlob = getTaskResultByErrCodeResult.getBlob("taskResultBuffer");
 				taskResult.setResultBuffer(taskResultBlob.getBytes(1L, (int) taskResultBlob.length()));
-				
+
 				taskResultByErrCodeList.add(taskResult);
 			}
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			return taskResultByErrCodeList;
+
+		} catch (SQLException | DatabaseConnectionException e) {
+			throw new DatabaseTransactionException("failed to get taskResult by error code from the table", e);
 		} finally {
-			getTaskResultByErrCodeResult.close();
-			getTaskResultByErrCodeStatement.close();
+			tdsDatabaseManager.closeResultSet(getTaskResultByErrCodeResult);
+			tdsDatabaseManager.closePreparedStatement(getTaskResultByErrCodeStatement);
 			tdsDatabaseManager.closeConnection(conn);
 		}
-		return taskResultByErrCodeList;
 	}
-
 }

@@ -1,26 +1,80 @@
 package com.itt.tds.node.RequestHandler;
 
-import com.itt.tds.comm.TDSRequest;
-import com.itt.tds.comm.TDSResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Iterator;
+
+import org.apache.log4j.Logger;
+
 import com.itt.tds.core.Task;
-import com.itt.tds.node.NodeConfiguration;
+import com.itt.tds.core.TaskOutcome;
+import com.itt.tds.core.TaskResult;
+import com.itt.tds.errorCodes.TDSError;
+import com.itt.tds.logging.TDSLogger;
+import com.itt.tds.node.Node;
+import com.itt.tds.utility.Utility;
 
-public class TaskExecuter {
+public class TaskExecuter implements Runnable {
+	private static final String SPACE = " ";
 
-	public static TDSResponse executeTask(TDSRequest request) {
-		NodeConfiguration nodeCFG = NodeConfiguration.getInstance();
-		TDSResponse response = new TDSResponse();
-		response.setProtocolVersion(request.getProtocolVersion());
-		response.setProtocolFormat(request.getProtocolFormat());
-		response.setSourceIp(request.getDestIp());
-		response.setSourcePort(request.getDestPort());
-		response.setDestIp(request.getSourceIp());
-		response.setDestPort(request.getSourcePort());
-		
-		Task task = new Task();
-//		task.setTaskName(request.getParameters(TASK_NAME));
-//		task.setTaskParameters(taskParameters);
-		return null;
+	static Logger logger = new TDSLogger().getLogger();
+
+	Task task;
+
+	public TaskExecuter(Task task) {
+		this.task = task;
 	}
 
+	@Override
+	public void run() {
+		TaskResult taskResult = new TaskResult();
+		taskResult.setTaskId(task.getId());
+		try {
+			String executableCommand = task.getTaskExePath();
+
+			Iterator<String> taskParametersIterator = task.getTaskParameters().iterator();
+			while (taskParametersIterator.hasNext()) {
+				executableCommand += SPACE;
+				executableCommand += taskParametersIterator.next();
+			}
+
+			Process proc = Runtime.getRuntime().exec(executableCommand);
+
+			BufferedReader inputStream = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			BufferedReader errorStream = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+
+			String line = null;
+			String result = null;
+			String taskErrMsg = null;
+			int taskErrCode = 1;
+
+			while ((line = inputStream.readLine()) != null) {
+				result = line;
+			}
+			inputStream.close();
+
+			while ((line = errorStream.readLine()) != null) {
+				taskErrMsg += line;
+			}
+			errorStream.close();
+
+			taskErrCode = proc.waitFor();
+
+			taskResult.setTaskOutcome((taskErrCode) == 0 ? 1 : 2);
+			taskResult.setErrorCode(taskErrCode);
+			taskResult.setErrorMessage(taskErrMsg);
+			taskResult.setResultBuffer(Utility.stringToByteArray(result));
+
+		} catch (IOException | InterruptedException io) {
+
+			logger.error("error while executing task", io);
+
+			taskResult.setTaskOutcome(TaskOutcome.FAILED);
+			taskResult.setErrorCode(TDSError.FAILED_TO_PROCESS_TASK.getCode());
+			taskResult.setErrorMessage(TDSError.FAILED_TO_PROCESS_TASK.getDescription());
+		}
+		
+		new Node().postResult(taskResult);
+	}
 }

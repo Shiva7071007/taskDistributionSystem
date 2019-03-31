@@ -11,6 +11,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import com.itt.tds.TDSExceptions.RuntimeExceptions.FatalException;
 import com.itt.tds.errorCodes.TDSError;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
@@ -70,6 +71,7 @@ public class ConfigGenerator implements Runnable {
 	private static final String SOURCE_IP = "source-ip";
 	private static final String HOSTNAME = "hostName";
 	private static final String USERNAME = "userName";
+	private static final String PROPERTIES_MESSAGE = "properties file for connecting to co-ordinator server";
 
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -96,11 +98,10 @@ public class ConfigGenerator implements Runnable {
 			StringWriter writer = new StringWriter();
 			prop.list(new PrintWriter(writer));
 			logger.info(writer.getBuffer().toString());
-			prop.store(output, "properties file for connecting to TDS co-ordinator server");
+			prop.store(output, PROPERTIES_MESSAGE);
 
 		} catch (IOException io) {
-			logger.error(TDSError.FAILED_TO_CREATE_CONFIG.toString());
-			logger.debug(io);
+			throw new FatalException(TDSError.FAILED_TO_CREATE_CONFIG, io);
 		}
 	}
 
