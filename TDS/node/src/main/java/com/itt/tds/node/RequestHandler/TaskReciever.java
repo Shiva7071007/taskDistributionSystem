@@ -27,8 +27,16 @@ public class TaskReciever {
 	static Logger logger = new TDSLogger().getLogger();
 
 	public static TDSResponse recieveTask(TDSRequest request) {
-		LocalNodeState.currentNodeState = NodeState.BUSY;
 		TDSResponse response = Utility.prepareResponseFromRequest(request);
+		// return status as ERROR if node is busy
+		if(LocalNodeState.currentNodeState == NodeState.BUSY) {
+			response.setStatus(ERROR);
+			response.setErrorCode(String.valueOf(TDSError.NODE_BUSY.getCode()));
+			response.setErrorMessage(TDSError.NODE_BUSY.getDescription());
+			return response;
+		}
+		
+		LocalNodeState.currentNodeState = NodeState.BUSY;
 		Task task = new Task();
 
 		task.setId(Integer.valueOf(request.getParameters(TASK_ID)));
@@ -53,7 +61,7 @@ public class TaskReciever {
 			taskExecuterThread.start();
 			
 		} catch (IOException io) {
-			logger.error("error while executing task", io);
+			logger.error("error while recieving task", io);
 			
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.FAILED_TO_PROCESS_TASK.getCode()));

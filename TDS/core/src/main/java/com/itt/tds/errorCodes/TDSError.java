@@ -32,7 +32,8 @@ public enum TDSError {
 	NODE_NOT_REGISTERED(405, "This node is not registered for this task"),
 	
 	FAILED_TO_PROCESS_TASK(601, "Unable to process the task"),
-	NODE_REGISTER_REQUEST_REJECTED(602, "Server rejected the node register request");
+	NODE_REGISTER_REQUEST_REJECTED(602, "Server rejected the node register request"),
+	NODE_BUSY(603, "Node is currently busy processing other request");
 
 
 	private final int code;

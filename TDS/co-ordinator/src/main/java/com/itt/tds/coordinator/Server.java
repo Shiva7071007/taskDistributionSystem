@@ -36,6 +36,7 @@ public class Server implements Runnable {
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 
 		ExecutorService executor = Executors.newFixedThreadPool(25);
+		executor.execute(new NodeHealthMonitor());
 
 		while (true) {
 			try {
