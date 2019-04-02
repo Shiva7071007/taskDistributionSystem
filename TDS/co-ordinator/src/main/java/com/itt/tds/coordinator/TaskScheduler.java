@@ -84,6 +84,7 @@ public class TaskScheduler implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
+			Utility.sleep(60);
 			try {
 				List <Task> tasklist = fetchUnscheduledTask();
 				List <Node> nodeList = fetchAvailableNodes();
@@ -91,8 +92,6 @@ public class TaskScheduler implements Runnable {
 			} catch (DatabaseTransactionException e) {
 				logger.error("Exception happened while running task scheduler", e);
 			}
-			Utility.sleep(300);
 		}
-		
 	}
 }

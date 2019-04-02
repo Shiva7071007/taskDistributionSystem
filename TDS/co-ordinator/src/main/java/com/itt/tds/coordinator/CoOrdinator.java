@@ -80,7 +80,7 @@ public class CoOrdinator {
 		TDSConfiguration tdsConfiguration = TDSConfiguration.getInstance();
 		TDSRequest request = new TDSRequest();
 		request.setProtocolVersion(tdsConfiguration.getCoordinatorProtocolVersion());
-		request.setProtocolFormat(tdsConfiguration.getCoordinatorProtocolVersion());
+		request.setProtocolFormat(tdsConfiguration.getCoordinatorProtocolFormat());
 		request.setSourceIp(tdsConfiguration.getCoordinatorIP());
 		request.setSourcePort(tdsConfiguration.getCoordinatorPort());
 		return request;

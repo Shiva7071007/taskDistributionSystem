@@ -32,7 +32,7 @@ public class NodeHealthMonitor implements Runnable {
 		request.setDestPort(node.getPort());
 		request.setMethod(GET_STATUS);
 
-		int nodeStatus = 0;
+		int nodeStatus = NodeState.NOT_OPERATIONAL;
 		try {
 			TDSResponse response = TDSClient.getResponse(request, 10);
 			if (response.getStatus() == SUCCESS) {
@@ -55,8 +55,12 @@ public class NodeHealthMonitor implements Runnable {
 				
 				while (allNodeListIterator.hasNext()) {
 					Node node = allNodeListIterator.next();
-					node.setStatus(checkNodeStatus(node));
-					nodeRepo.Modify(node);
+					int newNodeStatus = checkNodeStatus(node);
+					
+					if(newNodeStatus != node.getStatus()) {
+						node.setStatus(newNodeStatus);
+						nodeRepo.Modify(node);						
+					}
 				}
 			} catch (DatabaseTransactionException e) {
 				logger.error("exception happened while getting node status", e);

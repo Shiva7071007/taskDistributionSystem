@@ -6,6 +6,7 @@ import com.itt.tds.TDSExceptions.DatabaseTransactionException;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.core.Node;
+import com.itt.tds.core.NodeState;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
 import com.itt.tds.coordinator.CoOrdinator;
@@ -33,6 +34,9 @@ public class NodeAdd {
 				node.setStatus(Integer.parseInt(request.getParameters(NODE_STATE)));
 				node.setId(nodeRepo.Add(node));
 			}
+			
+			node.setStatus(NodeState.AVAILABLE);
+			nodeRepo.Modify(node);
 
 			response = Utility.prepareResponseFromRequest(request);
 			response.setStatus(SUCCESS);

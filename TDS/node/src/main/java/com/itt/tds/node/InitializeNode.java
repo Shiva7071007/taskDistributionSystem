@@ -1,5 +1,8 @@
 package com.itt.tds.node;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
+
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.utility.Utility;
 import picocli.CommandLine.Command;
@@ -19,6 +22,9 @@ public class InitializeNode extends Node implements Runnable {
 
 	@Override
 	public void run() {
+		NodeConfiguration nodeCfg = NodeConfiguration.getInstance();
+		Level logLevel = Level.toLevel(nodeCfg.getLogLevel());
+		LogManager.getRootLogger().setLevel(logLevel);
 
 		TDSResponse response = registerNode(timeout);
 

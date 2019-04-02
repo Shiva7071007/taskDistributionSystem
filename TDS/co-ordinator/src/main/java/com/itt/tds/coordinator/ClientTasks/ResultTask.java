@@ -9,8 +9,8 @@ import com.itt.tds.coordinator.CoOrdinator;
 import com.itt.tds.coordinator.db.repository.TDSTaskResultRepository;
 import com.itt.tds.core.Client;
 import com.itt.tds.core.Task;
-import com.itt.tds.core.TaskOutcome;
 import com.itt.tds.core.TaskResult;
+import com.itt.tds.core.TaskState;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
 
@@ -41,7 +41,7 @@ public class ResultTask {
 			if (task == null)
 				return coOrdinator.getNoSuchTaskResponse(request);
 
-			if (task.getTaskState() != TaskOutcome.SUCCESS)
+			if (task.getTaskState() != TaskState.COMPLETED)
 				return coOrdinator.getTaskNotExecutedResponse(request);
 
 			TDSTaskResultRepository tdsTaskResultRepo = new TDSTaskResultRepository();
