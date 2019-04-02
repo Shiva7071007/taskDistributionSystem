@@ -16,9 +16,6 @@ import com.itt.tds.core.NodeState;
 import com.itt.tds.logging.TDSLogger;
 import com.itt.tds.utility.Utility;
 
-/**
- * 
- */
 public class NodeHealthMonitor implements Runnable {
 	private static final String GET_STATUS = "getStatus";
 	private static final String SUCCESS = "SUCCESS";

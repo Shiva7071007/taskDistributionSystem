@@ -37,6 +37,7 @@ public class Server implements Runnable {
 
 		ExecutorService executor = Executors.newFixedThreadPool(25);
 		executor.execute(new NodeHealthMonitor());
+		executor.execute(new TaskScheduler());
 
 		while (true) {
 			try {
