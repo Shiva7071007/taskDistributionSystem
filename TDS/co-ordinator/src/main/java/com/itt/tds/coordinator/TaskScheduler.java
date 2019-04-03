@@ -57,16 +57,19 @@ public class TaskScheduler implements Runnable {
         	
         	try {
         		TDSResponse response = sendTask(task, node);
-        		if(response.getStatus() == SUCCESS) changeTaskStatusAsExecuting(task);
+        		if(response.getStatus().equalsIgnoreCase(SUCCESS)) changeTaskStatusAsExecuting(task, node);
         	} catch (UnableToReadFileException | ServerCommunicationException | DatabaseTransactionException e) {
         		logger.error("Exception occured while sending task to node for execution", e);
         	}
         }
     }
 
-	private void changeTaskStatusAsExecuting(Task task) throws DatabaseTransactionException {
+	private void changeTaskStatusAsExecuting(Task task, Node node) throws DatabaseTransactionException {
+		logger.info("updating task " + task.getId() + " as in_progress and assigned node ID as " + node.getId());
 		TDSTaskRepository taskRepo = new TDSTaskRepository();
-		taskRepo.SetTaskStatus(task.getId(), TaskState.IN_PROGRESS);
+		task.setTaskState(TaskState.IN_PROGRESS);
+		task.setAssignedNodeId(node.getId());
+		taskRepo.Modify(task);
 	}
 
 	private List<Task> fetchUnscheduledTask() throws DatabaseTransactionException {
@@ -85,6 +88,7 @@ public class TaskScheduler implements Runnable {
 	public void run() {
 		while (true) {
 			Utility.sleep(60);
+			logger.info("Scheduling tasks....");
 			try {
 				List <Task> tasklist = fetchUnscheduledTask();
 				List <Node> nodeList = fetchAvailableNodes();

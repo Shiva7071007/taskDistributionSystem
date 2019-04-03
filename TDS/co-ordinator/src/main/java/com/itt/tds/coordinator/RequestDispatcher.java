@@ -13,12 +13,12 @@ class RequestDispatcher {
 
 	public static TDSController getController(TDSRequest request) throws TDSProtocolSerializationException {
 		if (request.getMethod().startsWith(NODE)) {
-			logger.debug("returning a node controller");
+			logger.info("returning a node controller");
 			return new NodeController();
 		}
 		
 		if (request.getMethod().startsWith(CLIENT)) {
-			logger.debug("returning a client controller");
+			logger.info("returning a client controller");
 			return new ClientController();
 		}
 		

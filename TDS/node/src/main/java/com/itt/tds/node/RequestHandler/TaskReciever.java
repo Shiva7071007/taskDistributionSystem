@@ -23,13 +23,18 @@ public class TaskReciever {
 	private static final String TASK_FOLDER = "tasks\\";
 	private static final String TASK_ID = "taskId";
 	private static final String ERROR = "ERROR";
+	private static final String SUCCESS = "SUCCESS";
 	
 	static Logger logger = new TDSLogger().getLogger();
 
 	public static TDSResponse recieveTask(TDSRequest request) {
 		TDSResponse response = Utility.prepareResponseFromRequest(request);
+		logger.info("Request got for receiving the task");
+		
 		// return status as ERROR if node is busy
 		if(LocalNodeState.currentNodeState == NodeState.BUSY) {
+			logger.info("sending busy status as node is busy");
+			
 			response.setStatus(ERROR);
 			response.setErrorCode(String.valueOf(TDSError.NODE_BUSY.getCode()));
 			response.setErrorMessage(TDSError.NODE_BUSY.getDescription());
@@ -37,6 +42,7 @@ public class TaskReciever {
 		}
 		
 		LocalNodeState.currentNodeState = NodeState.BUSY;
+		logger.info("changed current node state as : " + LocalNodeState.currentNodeState);
 		Task task = new Task();
 
 		task.setId(Integer.valueOf(request.getParameters(TASK_ID)));
@@ -56,6 +62,7 @@ public class TaskReciever {
 			fileStream.write(request.getData());
 			fileStream.close();
 			task.setTaskExePath(taskAddress);
+			response.setStatus(SUCCESS);
 			
 			Thread taskExecuterThread = new Thread(new TaskExecuter(task));
 			taskExecuterThread.start();

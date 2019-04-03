@@ -19,20 +19,20 @@ public class TDSClient {
 		TDSResponse response = null;
 		try (Socket socket = new Socket(request.getDestIp(), request.getDestPort())) {
 
-			logger.debug("Socket opened : " + socket);
+			logger.info("Socket opened : " + socket);
 
 			socket.setSoTimeout(timeout * 60 * 1000);
 
 			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer(request.getProtocolFormat());
 			String requestData = dataSerializer.Serialize(request);
-			logger.trace("Serialised request : " + requestData);
+			logger.info("Serialised request : " + requestData.split("\"data\":")[0]);
 
 			BufferedReader serverReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			PrintWriter serverWriter = new PrintWriter(socket.getOutputStream(), true);
 
 			serverWriter.println(requestData);
 			String responseData = serverReader.readLine();
-			logger.trace("serialised response got : " + responseData);
+			logger.info("serialised response got : " + responseData.split("\"data\":")[0]);
 
 			response = (TDSResponse) dataSerializer.DeSerialize(responseData);
 		} catch (IOException | TDSProtocolSerializationException e) {

@@ -22,7 +22,7 @@ public class Server implements Runnable {
 
 	@Override
 	public void run() {
-		logger.debug("load server configuration...");
+		logger.info("load server configuration...");
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 
 		Level logLevel = Level.toLevel(tdsCFG.getCoordinatorLogLevel());

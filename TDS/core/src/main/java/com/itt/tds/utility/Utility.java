@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.itt.tds.TDSExceptions.SocketReadWriteException;
@@ -125,12 +127,14 @@ public class Utility {
 		} catch (IOException e) {
 			throw new SocketReadWriteException(TDSError.FAILED_TO_READ_FROM_SOCKET, e);
 		}
+		logger.info("request got from socket " + sock + " => " + request.split("\"data\":")[0]);
 		return request;
 	}
 
 	public static void writeResponse(Socket sock, String responseData) throws SocketReadWriteException {
 		PrintWriter socketWriter = null;
 		try {
+			logger.info("response sending to socket " + sock + " => " + responseData.split("\"data\":")[0]);
 			socketWriter = new PrintWriter(sock.getOutputStream(), true);
 			socketWriter.println(responseData);
 		} catch (IOException e) {
@@ -156,5 +160,16 @@ public class Utility {
 		} catch (InterruptedException e1) {
 			logger.error("Exception happen while sleep.", e1);
 		}
+	}
+	
+	public static String objectToString(Object obj) {
+		String objectString = "";
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			objectString = mapper.writeValueAsString(obj);
+		} catch (JsonProcessingException e) {
+			logger.error("error occurred during converting object to string",e);
+		}
+		return objectString;
 	}
 }

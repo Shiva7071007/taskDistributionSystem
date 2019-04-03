@@ -44,9 +44,9 @@ public class TaskExecuter implements Runnable {
 			BufferedReader inputStream = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 			BufferedReader errorStream = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
-			String line = null;
-			String result = null;
-			String taskErrMsg = null;
+			String line = "";
+			String result = "";
+			String taskErrMsg = "";
 			int taskErrCode = 1;
 
 			while ((line = inputStream.readLine()) != null) {
@@ -60,6 +60,11 @@ public class TaskExecuter implements Runnable {
 			errorStream.close();
 
 			taskErrCode = proc.waitFor();
+			
+			logger.info("task result error code ==>" + taskErrCode);
+			logger.info("task result error msg ==>" + taskErrMsg);
+			logger.info("task result output ==>" + result);
+			
 
 			taskResult.setTaskOutcome((taskErrCode) == 0 ? 1 : 2);
 			taskResult.setErrorCode(taskErrCode);

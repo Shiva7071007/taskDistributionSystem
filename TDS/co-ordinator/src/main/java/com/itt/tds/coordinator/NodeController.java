@@ -12,7 +12,7 @@ import com.itt.tds.utility.Utility;
 
 public class NodeController implements TDSController {
 	private static final Object NODE_ADD = "node-add";
-	private static final Object NODE_SAVE_RESULT = "node-saveResult";
+	private static final String NODE_POST_RESULT = "node-postResult";
 	private static final String ERROR = "ERROR";
 	static Logger logger = new TDSLogger().getLogger();
 
@@ -28,7 +28,7 @@ public class NodeController implements TDSController {
 		
 		if (request.getMethod().equals(NODE_ADD))
 			response = NodeAdd.addNode(request);
-		if (request.getMethod().equals(NODE_SAVE_RESULT))
+		if (request.getMethod().equals(NODE_POST_RESULT))
 			response = SaveResult.addTaskResult(request);
 		
 		if(response == null) {

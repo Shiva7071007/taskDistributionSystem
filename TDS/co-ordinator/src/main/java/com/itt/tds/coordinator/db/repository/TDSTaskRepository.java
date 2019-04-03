@@ -46,7 +46,7 @@ public class TDSTaskRepository implements TaskRepository {
 			insertTaskStatement.setInt(5, userID);
 
 			int rowsAffected = insertTaskStatement.executeUpdate();
-			logger.debug("rows affected after inserting task into the database :" + rowsAffected);
+			logger.info("rows affected after inserting task into the database :" + rowsAffected);
 
 			taskIdSet = insertTaskStatement.getGeneratedKeys();
 			taskIdSet.next();
@@ -77,7 +77,7 @@ public class TDSTaskRepository implements TaskRepository {
 			deleteTaskStatement = conn.prepareStatement(deleteTaskQuery);
 			deleteTaskStatement.setInt(1, taskId);
 			int rowsAffected = deleteTaskStatement.executeUpdate();
-			logger.debug("rows affected after deleting task :" + rowsAffected);
+			logger.info("rows affected after deleting task :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to delete task from the table", e);
@@ -115,7 +115,7 @@ public class TDSTaskRepository implements TaskRepository {
 			modifyTaskStatement.setInt(7, taskId);
 
 			int rowsAffected = modifyTaskStatement.executeUpdate();
-			logger.debug("rows affected after modifying task :" + rowsAffected);
+			logger.info("rows affected after modifying task :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to modify task into the table", e);
@@ -141,7 +141,7 @@ public class TDSTaskRepository implements TaskRepository {
 			updateTaskStatusQueryStatement.setInt(2, taskId);
 
 			int rowsAffected = updateTaskStatusQueryStatement.executeUpdate();
-			logger.debug("rows affected after updating task status :" + rowsAffected);
+			logger.info("rows affected after updating task status :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to set status of the task in the table", e);
@@ -325,7 +325,7 @@ public class TDSTaskRepository implements TaskRepository {
 			assignNodeStatement.setInt(2, taskId);
 
 			int rowsAffected = assignNodeStatement.executeUpdate();
-			logger.debug("rows affected after assigning node to task :" + rowsAffected);
+			logger.info("rows affected after assigning node to task :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to assign node to task in the table", e);

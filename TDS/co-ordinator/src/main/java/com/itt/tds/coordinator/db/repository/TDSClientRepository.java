@@ -39,7 +39,7 @@ public class TDSClientRepository implements ClientRepository {
 			insertClientStatement.setString(1, hostName);
 			insertClientStatement.setString(2, userName);
 			int rowsAffected = insertClientStatement.executeUpdate();
-			logger.debug("no of rows affected after inserting the client into the database : " + rowsAffected);
+			logger.info("no of rows affected after inserting the client into the database : " + rowsAffected);
 
 			clientIdSet = insertClientStatement.getGeneratedKeys();
 			clientIdSet.next();
@@ -75,7 +75,7 @@ public class TDSClientRepository implements ClientRepository {
 			modifyClientStatement.setString(2, newClientName);
 			modifyClientStatement.setInt(3, id);
 			int rowsAffected = modifyClientStatement.executeUpdate();
-			logger.debug("no of rows affected after performing modification on client table is " + rowsAffected);
+			logger.info("no of rows affected after performing modification on client table is " + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to modify client into the table", e);
@@ -98,7 +98,7 @@ public class TDSClientRepository implements ClientRepository {
 			deleteClientStatement = conn.prepareStatement(deleteClientQuery);
 			deleteClientStatement.setInt(1, clientId);
 			int rowsAffected = deleteClientStatement.executeUpdate();
-			logger.debug("rows affected after performing delete operation on client table : " + rowsAffected);
+			logger.info("rows affected after performing delete operation on client table : " + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to delete client from the table", e);

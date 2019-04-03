@@ -35,7 +35,7 @@ public class NodeHealthMonitor implements Runnable {
 		int nodeStatus = NodeState.NOT_OPERATIONAL;
 		try {
 			TDSResponse response = TDSClient.getResponse(request, 10);
-			if (response.getStatus() == SUCCESS) {
+			if (response.getStatus().equalsIgnoreCase(SUCCESS)) {
 				nodeStatus = Integer.parseInt(response.getValue(NODE_STATE));
 			}
 		} catch (ServerCommunicationException e) {
@@ -48,6 +48,8 @@ public class NodeHealthMonitor implements Runnable {
 	@Override
 	public void run() {
 		while (true) {
+			logger.info("checking health status for all nodes");
+			
 			TDSNodeRepository nodeRepo = new TDSNodeRepository();
 			try {
 				List<Node> allNodeList = nodeRepo.GetAllNodes();

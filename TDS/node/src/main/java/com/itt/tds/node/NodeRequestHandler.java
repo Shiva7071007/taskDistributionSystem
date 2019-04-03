@@ -25,8 +25,8 @@ public class NodeRequestHandler implements Runnable {
 	public void run() {
 		NodeConfiguration nodeCFG = NodeConfiguration.getInstance();
 		try {
-			String requestData = Utility.getRequest(sock);
 			logger.info(" processing request on " + sock);
+			String requestData = Utility.getRequest(sock);
 
 			TDSSerializer dataSerializer = TDSSerializerFactory.getSerializer(nodeCFG.getProtocolFormat());
 			TDSRequest request = (TDSRequest) dataSerializer.DeSerialize(requestData);
