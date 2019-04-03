@@ -44,7 +44,7 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 			insertTaskResultement.setBinaryStream(5, new ByteArrayInputStream(resultBuffer), resultBuffer.length);
 
 			int rowsAffected = insertTaskResultement.executeUpdate();
-			logger.debug("rows affected after inserting taskResult into the database :" + rowsAffected);
+			logger.info("rows affected after inserting taskResult into the database :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to add taskResult into the table", e);
@@ -69,7 +69,7 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 			deleteTaskResultStatement.setInt(1, taskId);
 
 			int rowsAffected = deleteTaskResultStatement.executeUpdate();
-			logger.debug("rows affected after deleteing taskResult from the database :" + rowsAffected);
+			logger.info("rows affected after deleteing taskResult from the database :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to delete taskResult by task id from the table", e);
@@ -105,7 +105,7 @@ public class TDSTaskResultRepository implements TaskResultRepository {
 			modifyTaskResultStatement.setInt(5, taskId);
 
 			int rowsAffected = modifyTaskResultStatement.executeUpdate();
-			logger.debug("rows affected after deleteing taskResult from the database :" + rowsAffected);
+			logger.info("rows affected after deleteing taskResult from the database :" + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to modify taskResult in the table", e);

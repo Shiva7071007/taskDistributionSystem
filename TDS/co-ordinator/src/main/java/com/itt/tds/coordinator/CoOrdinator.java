@@ -3,6 +3,7 @@ package com.itt.tds.coordinator;
 import java.util.*;
 
 import com.itt.tds.TDSExceptions.DatabaseTransactionException;
+import com.itt.tds.cfg.TDSConfiguration;
 import com.itt.tds.comm.TDSRequest;
 import com.itt.tds.comm.TDSResponse;
 import com.itt.tds.coordinator.db.repository.TDSClientRepository;
@@ -73,6 +74,16 @@ public class CoOrdinator {
 		}
 		
 		return node;
+	}
+	
+	public TDSRequest prepareRequest() {
+		TDSConfiguration tdsConfiguration = TDSConfiguration.getInstance();
+		TDSRequest request = new TDSRequest();
+		request.setProtocolVersion(tdsConfiguration.getCoordinatorProtocolVersion());
+		request.setProtocolFormat(tdsConfiguration.getCoordinatorProtocolFormat());
+		request.setSourceIp(tdsConfiguration.getCoordinatorIP());
+		request.setSourcePort(tdsConfiguration.getCoordinatorPort());
+		return request;
 	}
 	
 

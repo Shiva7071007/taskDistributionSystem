@@ -22,7 +22,7 @@ public class Server implements Runnable {
 
 	@Override
 	public void run() {
-		logger.debug("load server configuration...");
+		logger.info("load server configuration...");
 		TDSConfiguration tdsCFG = TDSConfiguration.getInstance();
 
 		Level logLevel = Level.toLevel(tdsCFG.getCoordinatorLogLevel());
@@ -36,6 +36,8 @@ public class Server implements Runnable {
 		logger.info("listening requests on : " + serverSocket.getLocalSocketAddress());
 
 		ExecutorService executor = Executors.newFixedThreadPool(25);
+		executor.execute(new NodeHealthMonitor());
+		executor.execute(new TaskScheduler());
 
 		while (true) {
 			try {

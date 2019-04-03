@@ -86,7 +86,16 @@ public class Node {
 		while (retry < max_attempt) {
 			try {
 				response = TDSClient.getResponse(request, 0);
-				break;
+				if (response.getStatus().equals(SUCCESS)) {
+					logger.info("successfuly posted the result.");
+					break;
+				} else {
+					Utility.displayErrorMsg(response);
+					if(retry++ < max_attempt) {
+						logger.error("Will retry in 5 second");
+						Utility.sleep(30);
+					}
+				}
 			} catch (ServerCommunicationException e) {
 				if(retry++ < max_attempt) {
 					logger.error("didnt get response. Will retry in 5 second", e);
@@ -97,12 +106,7 @@ public class Node {
 			}
 		}
 		
-		if (response.getStatus().equals(SUCCESS)) {
-			logger.info("successfuly posted the result.");
-		} else {
-			Utility.displayErrorMsg(response);
-		}
-		
+		logger.info("setting node state as ==> " + LocalNodeState.currentNodeState);
 		LocalNodeState.currentNodeState = NodeState.AVAILABLE;
 	}
 	

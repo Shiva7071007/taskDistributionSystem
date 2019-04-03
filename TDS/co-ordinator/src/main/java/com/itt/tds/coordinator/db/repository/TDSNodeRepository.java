@@ -42,7 +42,7 @@ public class TDSNodeRepository implements NodeRepository {
 			insertNodeStatement.setInt(2, nodePort);
 			insertNodeStatement.setInt(3, nodeStatus);
 			int rowsAffected = insertNodeStatement.executeUpdate();
-			logger.debug("rows affected after inserting node into the database : " + rowsAffected);
+			logger.info("rows affected after inserting node into the database : " + rowsAffected);
 
 			nodeIdSet = insertNodeStatement.getGeneratedKeys();
 			nodeIdSet.next();
@@ -80,7 +80,7 @@ public class TDSNodeRepository implements NodeRepository {
 			modifyNodeStatement.setInt(3, newNodeStatus);
 			modifyNodeStatement.setInt(4, nodeId);
 			int rowsAffected = modifyNodeStatement.executeUpdate();
-			logger.debug("rows affected after modifying node into the database : " + rowsAffected);
+			logger.info("rows affected after modifying node into the database : " + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to modify node into the table", e);
@@ -104,7 +104,7 @@ public class TDSNodeRepository implements NodeRepository {
 			deleteNodeStatement = conn.prepareStatement(deleteNodeQuery);
 			deleteNodeStatement.setInt(1, nodeId);
 			int rowsAffected = deleteNodeStatement.executeUpdate();
-			logger.debug("rows affected after deleting node from the database : " + rowsAffected);
+			logger.info("rows affected after deleting node from the database : " + rowsAffected);
 
 		} catch (SQLException | DatabaseConnectionException e) {
 			throw new DatabaseTransactionException("failed to delete node from the table", e);
