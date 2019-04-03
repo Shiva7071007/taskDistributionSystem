@@ -92,7 +92,7 @@ public class Node {
 				} else {
 					Utility.displayErrorMsg(response);
 					if(retry++ < max_attempt) {
-						logger.error("Will retry in 5 second");
+						logger.error("Will retry in 30 second");
 						Utility.sleep(30);
 					}
 				}
@@ -106,8 +106,8 @@ public class Node {
 			}
 		}
 		
-		logger.info("setting node state as ==> " + LocalNodeState.currentNodeState);
 		LocalNodeState.currentNodeState = NodeState.AVAILABLE;
+		logger.info("setting node state as ==> " + LocalNodeState.currentNodeState);
 	}
 	
 }

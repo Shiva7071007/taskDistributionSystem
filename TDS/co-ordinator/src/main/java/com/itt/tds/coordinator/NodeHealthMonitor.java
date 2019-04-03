@@ -39,7 +39,7 @@ public class NodeHealthMonitor implements Runnable {
 				nodeStatus = Integer.parseInt(response.getValue(NODE_STATE));
 			}
 		} catch (ServerCommunicationException e) {
-			nodeStatus = NodeState.NOT_OPERATIONAL;
+			logger.info("marking node " + node.getId() + " as not_operational as coordinator was not able to reach it");;
 		}
 
 		return nodeStatus;
