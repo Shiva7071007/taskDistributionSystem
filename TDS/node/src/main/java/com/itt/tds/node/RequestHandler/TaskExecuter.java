@@ -70,6 +70,8 @@ public class TaskExecuter implements Runnable {
 			taskResult.setErrorCode(taskErrCode);
 			taskResult.setErrorMessage(taskErrMsg);
 			taskResult.setResultBuffer(Utility.stringToByteArray(result));
+			
+			Utility.deleteFile(task.getTaskExePath());	
 
 		} catch (IOException | InterruptedException io) {
 

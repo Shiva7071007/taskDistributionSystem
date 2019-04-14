@@ -172,4 +172,15 @@ public class Utility {
 		}
 		return objectString;
 	}
+
+	public static void deleteFile(String taskExePath) {
+		File file = new File(taskExePath);
+		if(file.delete())
+		{
+			logger.info("deleted file : " + taskExePath);
+		} else {
+			logger.error("Unable to delete file : " + taskExePath);
+		}
+		
+	}
 }
